@@ -1,7 +1,6 @@
 # Clissinger. Grupo B
 
 Clissinger game development
-[Click + Henry Kissinger]
 
 ## Descripción
 
