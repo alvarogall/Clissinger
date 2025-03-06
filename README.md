@@ -12,12 +12,12 @@ Además, Clissinger ofrece modos de juego dinámicos como preguntas relámpago y
 ## Participantes y roles
 
 - **Máximo Prados Meléndez**: CEO  
-  - [correo electrónico]
+  - correo
 - **Pedro Scarpati Sundblad**: CTO  
-  - [pedroscarpati@uma.es]
+  - pedroscarpati@uma.es
 - **Alejandro Cueto Díaz**: CXO
-  - [cuetouniversidad@uma.es]
+  - cuetouniversidad@uma.es
 - **Jesús Repiso Río**: COO
-  - [jesusrepisouma@gmail.es]
+  - jesusrepisouma@gmail.es
 - **Álvaro Gallardo Rubio**: CIO
-  - [gallardo@gmail.es]
+  - gallardo@gmail.es
