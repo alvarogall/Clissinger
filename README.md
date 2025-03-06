@@ -15,7 +15,7 @@ Con una amplia variedad de temas y desafíos, Clissinger es una experiencia emoc
 ## Participantes y roles
 
 - **Máximo Prados Meléndez**: CEO  
-  - correo
+  - maxipm04@gmail.com
 - **Pedro Scarpati Sundblad**: CTO  
   - pedroscarpati@uma.es
 - **Alejandro Cueto Díaz**: CXO
