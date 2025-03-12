@@ -23,4 +23,4 @@ Con una amplia variedad de temas y desafíos, Clissinger es una experiencia emoc
 - **Jesús Repiso Río**: COO
   - jesusrepisouma@gmail.es
 - **Álvaro Gallardo Rubio**: CIO
-  - gallardo@gmail.es
+  - gallardo@uma.es
