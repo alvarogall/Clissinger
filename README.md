@@ -9,7 +9,9 @@
 ### 🕹️ Características principales
 
 ✅ **Juegos visuales**: Adivina palabras o conceptos a partir de varias imágenes relacionadas. 
+
 ✅ **Preguntas de cultura general**: Responde preguntas sobre diferentes temas con pistas progresivas. Si las pistas se agotan, puedes gastar puntos para continuar. 
+
 ✅ **Desafíos dinámicos**: Incluye preguntas relámpago y contrarreloj, donde la velocidad y la precisión son clave para avanzar.
 
 Con una amplia variedad de temas y desafíos, **Clissinger** es una experiencia emocionante y educativa para todos los jugadores.
