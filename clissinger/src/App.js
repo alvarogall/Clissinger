@@ -5,6 +5,7 @@ import Game from './pages/game';
 import SobreNosotros from './components/SobreNosotros';
 import Contactanos from './components/Contactanos';
 import LoginForm from './pages/login';
+import Themes from './pages/themes';
 
 
 function App() {
@@ -15,7 +16,8 @@ function App() {
       <Route path="/juego" element={<Game />} />
       <Route path="/sobrenosotros" element={<SobreNosotros />} />
       <Route path="/contactanos" element={<Contactanos />} />
-      <Route path="/login" element={<LoginForm />} />
+      <Route path="/login" element={<LoginForm />} />+
+      <Route path="/tematicas" element={<Themes />} />
     </Routes>
   );
 }

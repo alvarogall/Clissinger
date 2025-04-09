@@ -19,6 +19,9 @@ const Inicio = () => {
         Clissinger es un juego en el que debes adivinar una palabra a partir de cuatro imágenes. Cada una te dará pistas visuales para encontrar la palabra correcta usando las letras disponibles. ¡Desafía tu mente y diviértete! Pulsa abajo para jugar.
       </p>
       <Link to="/login" className="mt-12 px-12 py-6 text-5xl font-bold bg-yellow-400 text-white rounded-full shadow-lg relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-white/20 before:to-transparent before:w-full before:h-full before:scale-150 before:-translate-x-full before:transition-transform before:duration-700 hover:before:translate-x-0">JUGAR</Link>
+      
+      {/*BORRAR TEMÁTICAS | APAÑO TEMPORAL*/}
+      <Link to="/tematicas" className="absolute left-0 bottom-0 p-2 text-xs bg-blue-900">Temáticas *Borrar Linea Inicio.js*</Link>
 
       {/*<BotonAjustes />*/}
     </div>
