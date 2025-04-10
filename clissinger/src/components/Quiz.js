@@ -1,10 +1,8 @@
 import React from "react";
-import { TimerIcon } from "lucide-react";
 
 const Quiz = ({
-  question = "PREGUNTA A INSERTAR",
+  question = "Pregunta a insertar",
   level = 1,
-  timeLeft = 0,
   hintCost = 0,
   image1 = "",
   image2 = "",
@@ -17,7 +15,7 @@ const Quiz = ({
   onBackClick = () => {},
 }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-950 to-blue-500 text-white flex flex-col items-center p-4 pt-20 pb-10">
+    <div className="min-h-screen bg-gradient-to-b from-[#172852] to-[#2a5298] text-white flex flex-col items-center p-4 pt-16 pb-10">
       {/* Header section */}
       <div className="absolute top-4 left-4 flex items-center gap-4">
         <button
@@ -26,14 +24,10 @@ const Quiz = ({
         >
           ❌
         </button>
-        <div className="text-green-400 font-semibold text-lg">{level} / 20</div>
+        <div className="text-green-400 font-semibold text-lg">Aciertos: {level}/20</div>
       </div>
 
-      <div className="absolute top-4 right-4 flex items-center gap-4">
-        <div className="flex items-center gap-2">
-          <TimerIcon className="w-5 h-5" />
-          <span>{timeLeft}</span>
-        </div>
+      <div className="absolute top-4 right-4">
         <button
           onClick={onHintClick}
           className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-3 py-1 rounded text-sm"
@@ -47,7 +41,7 @@ const Quiz = ({
         {/* Question */}
         <h1 className="text-2xl font-bold mb-4 text-center px-4">{question}</h1>
         
-        {/* Image grid - made more compact */}
+        {/* Image grid */}
         <div className="grid grid-cols-2 gap-3 mb-4 w-full max-w-xs">
           <div className="aspect-square bg-gray-700 rounded-lg overflow-hidden">
             <img src={image1} alt="Imagen 1" className="object-cover w-full h-full" />
@@ -75,7 +69,7 @@ const Quiz = ({
           ))}
         </div>
         
-        {/* Keyboard - made more compact */}
+        {/* Keyboard */}
         <div className="grid grid-cols-6 gap-2 w-full max-w-md">
           {letterOptions.map((letter, i) => (
             <button
