@@ -1,0 +1,119 @@
+import { useState } from "react";
+
+export default function CrearNivel() {
+  const [imagenes, setImagenes] = useState([null, null, null, null]);
+  const [word, setWord] = useState("");
+  const [hint, setHint] = useState("");
+
+  const handleImageChange = (index, file) => {
+    const nuevasImagenes = [...imagenes];
+    nuevasImagenes[index] = file;
+    setImagenes(nuevasImagenes);
+  };
+
+  const uploadImageToCloudinary = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "niveles"); // reemplaza con tu preset
+
+    const res = await fetch("https://api.cloudinary.com/v1_1/ds7vt7dl9/image/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json();
+    return data.secure_url;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const urls = await Promise.all(
+        imagenes.map((img) => (img ? uploadImageToCloudinary(img) : null))
+      );
+
+      const nivel = {
+        word,
+        image1: urls[0],
+        image2: urls[1],
+        image3: urls[2],
+        image4: urls[3],
+      };
+
+      const res = await fetch("https://backend-scrpti-scrpts-projects.vercel.app/api/levels", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(nivel),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      console.log("Nivel guardado en backend:", data);
+      alert("¡Nivel creado con éxito!");
+    } catch (error) {
+      console.error("Error creando el nivel:", error);
+      alert("Error al crear el nivel: " + error.message);
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-950 to-blue-500 text-white px-6">
+      <h2 className="text-5xl font-extrabold mb-8 drop-shadow-[3px_3px_0px_black] text-center">
+        Crear Nivel
+      </h2>
+
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white/10 backdrop-blur-md p-8 rounded-3xl shadow-lg w-full max-w-md"
+      >
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          {imagenes.map((img, i) => (
+            <div key={i} className="flex flex-col items-center">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleImageChange(i, e.target.files[0])}
+                className="w-full text-sm text-white"
+              />
+              {img && (
+                <img
+                  src={URL.createObjectURL(img)}
+                  alt={`Preview ${i + 1}`}
+                  className="w-24 h-24 mt-2 object-cover rounded border-2 border-white"
+                />
+              )}
+            </div>
+          ))}
+        </div>
+
+        <input
+          type="text"
+          placeholder="Palabra clave"
+          className="w-full p-3 mb-4 text-lg rounded bg-white/80 text-black placeholder-gray-600 focus:outline-none"
+          value={word}
+          onChange={(e) => setWord(e.target.value)}
+          required
+        />
+
+        <input
+          type="text"
+          placeholder="Pista (opcional)"
+          className="w-full p-3 mb-6 text-lg rounded bg-white/80 text-black placeholder-gray-600 focus:outline-none"
+          value={hint}
+          onChange={(e) => setHint(e.target.value)}
+        />
+
+        <button
+          type="submit"
+          className="w-full bg-yellow-400 text-white text-xl font-bold py-3 rounded-full shadow hover:bg-yellow-300 transition"
+        >
+          Crear Nivel
+        </button>
+      </form>
+    </div>
+  );
+}

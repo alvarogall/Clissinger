@@ -9,7 +9,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const res = await fetch("http://localhost:5005/login", {
+      const res = await fetch("https://backend-49jz9ahwr-scrpts-projects.vercel.app/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user, password }),
@@ -26,7 +26,7 @@ const Login = () => {
 
   const handleRegister = async () => {
     try {
-      const res = await fetch("http://localhost:5005/register", {
+      const res = await fetch("https://backend-49jz9ahwr-scrpts-projects.vercel.app/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user, password }),

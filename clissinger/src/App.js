@@ -6,6 +6,7 @@ import SobreNosotros from './components/SobreNosotros';
 import Contactanos from './components/Contactanos';
 import LoginForm from './pages/login';
 import Themes from './pages/themes';
+import LevelBirth from './pages/levelbirth';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Route path="/contactanos" element={<Contactanos />} />
       <Route path="/login" element={<LoginForm />} />+
       <Route path="/tematicas" element={<Themes />} />
+      <Route path="/crear" element={<LevelBirth />} />
     </Routes>
   );
 }
