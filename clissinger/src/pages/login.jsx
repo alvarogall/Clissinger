@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import BotonVolverAtras from "../components/common/botonVolverAtras";
 
 const Login = () => {
   const [user, setUser] = useState("");
@@ -81,12 +82,9 @@ const Login = () => {
         {message && <p className="mt-4 text-center text-sm">{message}</p>}
       </div>
 
-      <Link
-        to="/"
-        className="absolute top-5 left-5 text-lg font-semibold hover:underline"
-      >
-        ← Volver
-      </Link>
+      <div className="flex absolute top-5 left-5">
+        <BotonVolverAtras />
+      </div>
     </div>
   );
 };
