@@ -1,4 +1,5 @@
 import { useState } from "react";
+import BotonVolverAtras from "./common/botonVolverAtras";
 
 export default function CrearNivel() {
   const [imagenes, setImagenes] = useState([null, null, null, null]);
@@ -41,7 +42,7 @@ export default function CrearNivel() {
         image4: urls[3],
       };
 
-      const res = await fetch("https://backend-scrpti-scrpts-projects.vercel.app/api/levels", {
+      const res = await fetch("https://backend-woad-chi.vercel.app/api/levels", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -114,6 +115,11 @@ export default function CrearNivel() {
           Crear Nivel
         </button>
       </form>
+
+      <div className="flex absolute top-5 left-5">
+        <BotonVolverAtras />
+      </div>
+      
     </div>
   );
 }

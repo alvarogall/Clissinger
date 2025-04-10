@@ -10,7 +10,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const res = await fetch("https://backend-49jz9ahwr-scrpts-projects.vercel.app/api/login", {
+      const res = await fetch("https://backend-woad-chi.vercel.app/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user, password }),
@@ -27,7 +27,7 @@ const Login = () => {
 
   const handleRegister = async () => {
     try {
-      const res = await fetch("https://backend-49jz9ahwr-scrpts-projects.vercel.app/api/register", {
+      const res = await fetch("https://backend-woad-chi.vercel.app/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user, password }),
