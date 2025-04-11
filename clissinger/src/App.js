@@ -8,6 +8,7 @@ import LoginForm from './pages/login';
 import Themes from './pages/themes';
 import LevelBirth from './pages/levelbirth';
 import Register from './pages/register';
+import Play from './pages/play';
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/ajustes" element={<Settings />} />
       <Route path="/juego" element={<Game />} />
+      <Route path="/jugar" element={<Play />} />
       <Route path="/sobrenosotros" element={<SobreNosotros />} />
       <Route path="/contactanos" element={<Contactanos />} />
       <Route path="/login" element={<LoginForm />} />
