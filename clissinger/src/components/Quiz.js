@@ -1,4 +1,5 @@
 import React from "react";
+import BotonVolverAtras from "./common/botonVolverAtras";
 
 const Quiz = ({
   question = "Pregunta a insertar",
@@ -18,12 +19,13 @@ const Quiz = ({
     <div className="min-h-screen bg-gradient-to-b from-[#172852] to-[#2a5298] text-white flex flex-col items-center p-4 pt-16 pb-10">
       {/* Header section */}
       <div className="absolute top-4 left-4 flex items-center gap-4">
-        <button
+        {/* <button
           onClick={onBackClick}
           className="bg-white hover:bg-gray-200 rounded-full p-2 text-xl text-black"
         >
           ❌
-        </button>
+        </button> */}
+        <BotonVolverAtras onClick={onBackClick} />
         <div className="text-green-400 font-semibold text-lg">Aciertos: {level}/20</div>
       </div>
 
