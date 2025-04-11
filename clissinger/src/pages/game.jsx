@@ -2,7 +2,8 @@ import JuegoSeleccion from '../components/JuegoSeleccion'
 import Quiz from '../components/Quiz'
 
 function Game() {
-    return (
+    
+  return (
       <Quiz />
     );
   }
