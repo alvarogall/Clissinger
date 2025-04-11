@@ -6,8 +6,14 @@ import iconspain from '../images/iconspain.svg'
 import trophy from '../images/trophy.svg'
 import history from '../images/history.svg'
 import point from '../images/point.svg'
+import { useNavigate } from 'react-router-dom';
 
 const Tematicas = () => {
+  const navigate = useNavigate();
+  const handle = () => {
+    navigate('/juego'); // Redirigir a Quiz.js
+  };
+
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-blue-950 to-blue-500 text-white relative">
       
@@ -17,21 +23,27 @@ const Tematicas = () => {
 
       <div className="grid grid-cols-3 gap-y-48 w-[60%] place-items-center mt-24">
         <div className ="flex flex-col items-center">
-            <button className="w-24 h-24 bg-blue-800 hover:bg-blue-700 rounded-xl shadow-lg place-items-center">
+            <button
+              onClick={handle} 
+              className="w-24 h-24 bg-blue-800 hover:bg-blue-700 rounded-xl shadow-lg place-items-center">
             <img src={iconspain} alt="Imagen encima del botón" className="w-16 h-16" />
             </button>
             <p className="text-lg font-bold mt-3">BANDERAS</p>
         </div>
 
         <div className ="flex flex-col items-center">
-            <button className="w-24 h-24 bg-blue-800 hover:bg-blue-700 rounded-xl shadow-lg place-items-center">
+            <button 
+              onClick={handle}
+              className="w-24 h-24 bg-blue-800 hover:bg-blue-700 rounded-xl shadow-lg place-items-center">
             <img src={trophy} alt="Imagen encima del botón" className="w-16 h-16" />
             </button>
             <p className="text-lg font-bold mt-3">DEPORTES</p>
         </div>
 
         <div className ="flex flex-col items-center">
-            <button className="w-24 h-24 bg-blue-800 hover:bg-blue-700 rounded-xl shadow-lg place-items-center">
+            <button 
+              onClick={handle}
+              className="w-24 h-24 bg-blue-800 hover:bg-blue-700 rounded-xl shadow-lg place-items-center">
             <img src={history} alt="Imagen encima del botón" className="w-16 h-16" />
             </button>
             <p className="text-lg font-bold mt-3">HISTORIA</p>

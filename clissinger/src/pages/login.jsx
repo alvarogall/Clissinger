@@ -19,7 +19,7 @@ const Login = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
       setMessage(`✅ ${data.message}`);
-      setTimeout(() => navigate("/juego"), 1000); // redirige si login correcto
+      setTimeout(() => navigate("/jugar"), 1000); // redirige si login correcto
     } catch (error) {
       setMessage(`❌ ${error.message}`);
     }
