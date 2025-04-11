@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BotonVolverAtras from "../components/common/botonVolverAtras";
 
-const Login = () => {
+const Register = () => {
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     try {
-      const res = await fetch("https://backend-woad-chi.vercel.app/api/login", {
+      const res = await fetch("https://backend-woad-chi.vercel.app/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user, password }),
@@ -18,16 +18,17 @@ const Login = () => {
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
-      setMessage(`✅ ${data.message}`);
-      setTimeout(() => navigate("/juego"), 1000); // redirige si login correcto
+      setMessage("✅ Usuario creado correctamente");
+      setTimeout(() => navigate("/login"), 1500); // Redirige después de registrarse
     } catch (error) {
       setMessage(`❌ ${error.message}`);
     }
   };
+
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-blue-950 to-blue-500 text-white relative px-6">
-      <h2 className="text-6xl font-extrabold mb-8 drop-shadow-[3px_3px_0px_black]">
-        Iniciar sesión
+      <h2 className="text-5xl font-extrabold mb-8 drop-shadow-[3px_3px_0px_black]">
+        Crear cuenta
       </h2>
 
       <div className="bg-white/10 backdrop-blur-md p-8 rounded-3xl shadow-lg w-full max-w-md">
@@ -46,22 +47,12 @@ const Login = () => {
           className="w-full p-3 mb-6 text-lg rounded bg-white/80 text-black placeholder-gray-600 focus:outline-none"
         />
 
-        <div className="flex flex-col gap-4">
-          <button
-            onClick={handleLogin}
-            className="w-full bg-yellow-400 text-white text-xl font-bold py-3 rounded-full shadow hover:bg-yellow-300 transition"
-          >
-            Iniciar sesión
-          </button>
-
-          <Link
-            to="/register"
-            className="w-full text-center border-2 border-yellow-400 text-yellow-400 text-xl font-bold py-3 rounded-full hover:bg-yellow-400 hover:text-white transition"
-          >
-            Crear cuenta
-          </Link>
-
-        </div>
+        <button
+          onClick={handleRegister}
+          className="w-full bg-yellow-400 text-white text-xl font-bold py-3 rounded-full shadow hover:bg-yellow-300 transition"
+        >
+          Registrarse
+        </button>
 
         {message && <p className="mt-4 text-center text-sm">{message}</p>}
       </div>
@@ -73,4 +64,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

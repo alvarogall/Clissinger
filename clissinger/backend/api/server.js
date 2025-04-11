@@ -57,6 +57,7 @@ app.get('/api/login', async (req, res) => {
 
 app.post('/api/register', async (req, res) => {
   const nuevo = new Usuario(req.body);
+  console.log(nuevo);
   const foundUser = await Usuario.findOne({ user: nuevo.user });
   if (foundUser) {
     return res.status(400).json({ message: 'Usuario ya existe' });
