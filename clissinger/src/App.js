@@ -9,6 +9,7 @@ import Themes from './pages/themes';
 import LevelBirth from './pages/levelbirth';
 import Register from './pages/register';
 import Play from './pages/play';
+import Score from './pages/score';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/tematicas" element={<Themes />} />
       <Route path="/crear" element={<LevelBirth />} />
+      <Route path="/score" element={<Score />} />
     </Routes>
   );
 }

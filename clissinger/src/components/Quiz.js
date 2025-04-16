@@ -1,6 +1,8 @@
 import React from "react";
 import BotonVolverAtras from "./common/botonVolverAtras";
 import BotonAjustes from "./common/botonAjustes";
+import { useNavigate } from "react-router-dom";
+
 
 const Quiz = ({
   question = "Pregunta a insertar",
@@ -16,6 +18,14 @@ const Quiz = ({
   onHintClick = () => {},
   onBackClick = () => {},
 }) => {
+
+  const navigate = useNavigate();
+  const handle = () => {
+  navigate('/score'); 
+  };
+
+
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#172852] to-[#2a5298] text-white flex flex-col items-center p-4 pt-16 pb-10">
       {/* Header section */}
@@ -88,6 +98,13 @@ const Quiz = ({
       <div>
         <BotonAjustes className = "mt-10"/>
       </div>
+      
+      {/* Acceso Provisional Pantalla Puntuación */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+        <button onClick={handle}  className="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 rounded">
+          Puntuación Exitosa Quiz.js
+        </button>
+        </div>
     </div>
   );
 };
