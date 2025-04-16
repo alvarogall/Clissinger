@@ -1,4 +1,5 @@
 import React from "react";
+import BotonVolverAtras from "../components/common/botonVolverAtras";
 import "tailwindcss/tailwind.css";
 
 const Contactanos = () => {
@@ -11,6 +12,9 @@ const Contactanos = () => {
         ¿Tienes dudas, sugerencias o simplemente quieres saludarnos? ¡Nos encantaría escucharte!
         Puedes escribirnos a <span className="text-yellow-300">contacto@clissinger.com</span> o encontrarnos en nuestras redes sociales.
         </p>
+        <div className="flex absolute top-5 left-5">
+        <BotonVolverAtras />
+      </div>
     </div>
     );
 };

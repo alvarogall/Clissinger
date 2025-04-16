@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import BotonVolverAtras from "../components/common/botonVolverAtras";
+
+
 
 const Ajustes = () => {
   const [volume, setVolume] = useState(50);
@@ -76,6 +79,10 @@ const Ajustes = () => {
             GUARDAR
           </button>
         </div>
+      </div>
+
+      <div className="flex absolute top-5 left-5">
+        <BotonVolverAtras />
       </div>
     </div>
   );

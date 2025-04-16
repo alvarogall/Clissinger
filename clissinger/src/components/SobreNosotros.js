@@ -1,5 +1,6 @@
 // src/SobreNosotros.js
 import React from "react";
+import BotonVolverAtras from "../components/common/botonVolverAtras";
 import "tailwindcss/tailwind.css";
 
 const SobreNosotros = () => {
@@ -11,6 +12,9 @@ const SobreNosotros = () => {
         <p className="max-w-3xl text-xl text-center leading-relaxed">
         Somos un pequeño equipo apasionado por los juegos que combinan lógica e imaginación. Clissinger nace del deseo de mezclar el clásico "4 imágenes 1 palabra" con un estilo visual fresco y moderno. Nuestro objetivo es que cada partida sea un reto divertido y visualmente atractivo. ¡Gracias por jugar!
         </p>
+        <div className="flex absolute top-5 left-5">
+        <BotonVolverAtras />
+      </div>
     </div>
     );
 };

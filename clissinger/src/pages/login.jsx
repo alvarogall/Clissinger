@@ -43,6 +43,9 @@ const Login = () => {
           placeholder="Contraseña"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleLogin();
+          }}
           className="w-full p-3 mb-6 text-lg rounded bg-white/80 text-black placeholder-gray-600 focus:outline-none"
         />
 

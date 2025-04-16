@@ -1,11 +1,12 @@
 import React from 'react';
 import towerIcon from '../images/tower.svg'; // Icono para modo normal
 import cardsIcon from '../images/cards.svg'; // Icono para modo relámpago
+import lightningIcon from '../images/lightning.svg'; // Icono para modo relámpago
 import { useNavigate } from 'react-router-dom';
 
 export default function GameModeDisplay({ selectedMode }) {
   const navigate = useNavigate();
-  const iconSrc = selectedMode === 'normal' ? towerIcon : cardsIcon;
+  const iconSrc = selectedMode === 'normal' ? towerIcon : lightningIcon;
   
   const handlePlayClick = () => {
     navigate('/tematicas'); // Redirigir a Tematicas.js

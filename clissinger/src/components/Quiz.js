@@ -1,5 +1,6 @@
 import React from "react";
 import BotonVolverAtras from "./common/botonVolverAtras";
+import BotonAjustes from "./common/botonAjustes";
 
 const Quiz = ({
   question = "Pregunta a insertar",
@@ -83,6 +84,9 @@ const Quiz = ({
             </button>
           ))}
         </div>
+      </div>
+      <div>
+        <BotonAjustes className = "mt-10"/>
       </div>
     </div>
   );
