@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import BotonVolverAtras from "../components/common/botonVolverAtras";
+import BotonVolverAtrasMenu from "../components/common/botonVolverAtrasMenu";
 
 
 
@@ -82,7 +82,7 @@ const Ajustes = () => {
       </div>
 
       <div className="flex absolute top-5 left-5">
-        <BotonVolverAtras />
+        <BotonVolverAtrasMenu />
       </div>
     </div>
   );

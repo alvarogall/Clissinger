@@ -1,5 +1,5 @@
 import React from "react";
-import BotonVolverAtras from "./common/botonVolverAtras";
+import BotonVolverAtrasMenu from "./common/botonVolverAtrasMenu";
 import BotonAjustes from "./common/botonAjustes";
 import { useNavigate } from "react-router-dom";
 
@@ -36,7 +36,7 @@ const Quiz = ({
         >
           ❌
         </button> */}
-        <BotonVolverAtras onClick={onBackClick} />
+        <BotonVolverAtrasMenu onClick={onBackClick} />
         <div className="text-green-400 font-semibold text-lg">Aciertos: {level}/20</div>
       </div>
 
