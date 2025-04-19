@@ -1,10 +1,14 @@
+
 import completado from "../images/completado.svg";
 import point from "../images/point.svg";
 import { Link } from "react-router-dom";
+import Layout from "../components/common/layout";
+
 
 function Score() {
     
     return (
+      <Layout>
         <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-blue-950 to-green-400 text-white relative">
             <div className="flex flex-col items-center mb-24 pb-24">
             <img src={completado} alt="Felicitaciones" className="w-[500px] h-[340px] translate-y-24" />               
@@ -24,6 +28,7 @@ function Score() {
             </div>
             </div>
         </div>
+      </Layout>
     );
   };
   

@@ -4,6 +4,7 @@ import GameModeDisplay from '../components/GameModeDisplay';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
 import BotonAjustes from '../components/common/botonAjustes'; 
+import Layout from '../components/common/layout';
 
 export default function Play() {
   const [selectedMode, setSelectedMode] = useState('normal'); // Estado del modo seleccionado
@@ -11,6 +12,7 @@ export default function Play() {
  
 
   return (
+    <Layout>
     <div className="relative h-screen bg-[#1C2C54] text-white font-sans">
       {/* Componente de puntos */}
       <PointsDisplay points={50} />
@@ -26,5 +28,6 @@ export default function Play() {
         <BotonAjustes/>
       </div>
     </div>
+    </Layout>
   );
 }

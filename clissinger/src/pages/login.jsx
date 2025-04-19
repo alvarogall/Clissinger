@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import BotonVolverAtras from "../components/common/botonVolverAtras";
+import Layout from "../components/common/layout";
 
 const Login = () => {
   const [user, setUser] = useState("");
@@ -25,6 +26,7 @@ const Login = () => {
     }
   };
   return (
+    <Layout>
     <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-blue-950 to-blue-500 text-white relative px-6">
       <h2 className="text-6xl font-extrabold mb-8 drop-shadow-[3px_3px_0px_black]">
         Iniciar sesión
@@ -73,6 +75,8 @@ const Login = () => {
         <BotonVolverAtras />
       </div>
     </div>
+    </Layout>
+
   );
 };
 
