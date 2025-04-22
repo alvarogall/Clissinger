@@ -27,7 +27,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/tematicas" element={<Themes />} />
         <Route path="/crear" element={<LevelBirth />} />
-        <Route path="/score" element={<Score />} />
+        <Route path="/score/:resultado" element={<Score />} />
       </Routes>
     </SettingsProvider>
   );

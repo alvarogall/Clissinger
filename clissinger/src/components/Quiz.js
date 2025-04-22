@@ -20,10 +20,9 @@ const Quiz = ({
 }) => {
 
   const navigate = useNavigate();
-  const handle = () => {
-  navigate('/score'); 
+  const handleScore = (resultado) => {
+    navigate(`/score/${resultado}`);
   };
-
 
 
   return (
@@ -100,11 +99,18 @@ const Quiz = ({
       </div>
       
       {/* Acceso Provisional Pantalla Puntuación */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
-        <button onClick={handle}  className="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 rounded">
-          Puntuación Exitosa Quiz.js
-        </button>
+        <div className="absolute bottom-4 -translate-x-3/4">
+          <button onClick={() => handleScore("victoria")}  className="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 rounded">
+            Puntuación Exitosa Quiz.js
+          </button>
         </div>
+        <div className="absolute bottom-4 translate-x-3/4">
+          <button onClick={() => handleScore("derrota")}  className="bg-red-500 hover:bg-red-600 text-white font-bold px-4 py-2 rounded">
+            Puntuación Fallida Quiz.js
+          </button>
+        </div>
+
+
     </div>
   );
 };
