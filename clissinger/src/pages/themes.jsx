@@ -10,7 +10,11 @@ import point from '../images/point.svg';
 
 function Themes() {
   const navigate = useNavigate();
-  const handle = () => { navigate('/juego') }; // Redirigir a Quiz.js 
+  const handle = (thematic) => {
+    navigate('/juego', { state: { thematic } });
+  };
+  
+  
 
   return (
     <Layout>
@@ -23,7 +27,7 @@ function Themes() {
         <div className="grid grid-cols-3 gap-y-48 w-[60%] place-items-center mt-24">
           <div className="flex flex-col items-center">
             <button
-              onClick={handle}
+              onClick={() => handle('banderas')}
               className="w-24 h-24 bg-blue-800 hover:bg-blue-700 rounded-xl shadow-lg place-items-center">
               <img src={iconspain} alt="Imagen encima del botón" className="w-16 h-16" />
             </button>
@@ -32,7 +36,7 @@ function Themes() {
 
           <div className="flex flex-col items-center">
             <button
-              onClick={handle}
+              onClick={() => handle('deportes')}
               className="w-24 h-24 bg-blue-800 hover:bg-blue-700 rounded-xl shadow-lg place-items-center">
               <img src={trophy} alt="Imagen encima del botón" className="w-16 h-16" />
             </button>
@@ -41,7 +45,7 @@ function Themes() {
 
           <div className="flex flex-col items-center">
             <button
-              onClick={handle}
+              onClick={() => handle('historia')}
               className="w-24 h-24 bg-blue-800 hover:bg-blue-700 rounded-xl shadow-lg place-items-center">
               <img src={history} alt="Imagen encima del botón" className="w-16 h-16" />
             </button>

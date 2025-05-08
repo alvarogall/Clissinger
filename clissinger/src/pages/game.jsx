@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation} from "react-router-dom";
 import BotonVolverAtrasMenu from "./../components/common/botonVolverAtrasMenu";
 import BotonAjustes from "./../components/common/botonAjustes";
 import lightBulb from "../images/lightbulb.svg";
@@ -27,6 +27,8 @@ function generateLetterOptions(answer, totalLetters = 12) {
 
 function Game(props) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const thematic = location.state?.thematic || "GENERAL"; // ← Por si acaso no viene nada
 
   const [levels, setLevels] = useState([]);
   const [usedLevelIds, setUsedLevelIds] = useState([]);
@@ -38,7 +40,8 @@ function Game(props) {
   useEffect(() => {
     const fetchLevels = async () => {
       try {
-        const response = await axios.get("https://backend-woad-chi.vercel.app/api/levels"); // <-- cambia esto
+        const response = await axios.get(`https://backend-woad-chi.vercel.app/api/levels?thematic=${thematic}`);
+
         setLevels(response.data);
       } catch (error) {
         console.error("Error al cargar niveles:", error);
@@ -74,28 +77,28 @@ function Game(props) {
   }, [letterOptions, disabledIndexes, selectedLetters]);
   
 
-  // // Selecciona un nuevo nivel no repetido
-  // useEffect(() => {
-  //   if (levels.length > 0) {
-  //     const remainingLevels = levels.filter(
-  //       (level) => !usedLevelIds.includes(level._id)
-  //     );
+  // Selecciona un nuevo nivel no repetido
+  useEffect(() => {
+    if (levels.length > 0) {
+      const remainingLevels = levels.filter(
+        (level) => !usedLevelIds.includes(level._id)
+      );
 
-  //     if (remainingLevels.length === 0) {
-  //       alert("🎉 ¡Has completado todos los niveles!");
-  //       return;
-  //     }
+      if (remainingLevels.length === 0) {
+        //alert("🎉 ¡Has completado todos los niveles!");
+        return;
+      }
 
-  //     const randomLevel =
-  //       remainingLevels[Math.floor(Math.random() * remainingLevels.length)];
+      const randomLevel =
+        remainingLevels[Math.floor(Math.random() * remainingLevels.length)];
 
-  //     setLevelData(randomLevel);
-  //     setLetterOptions(generateLetterOptions(randomLevel.word));
-  //     setDisabledIndexes(new Set());
-  //     setSelectedLetters([]);
-  //     setUsedLevelIds([...usedLevelIds, randomLevel._id]);
-  //   }
-  // }, [levels, usedLevelIds]);
+      setLevelData(randomLevel);
+      setLetterOptions(generateLetterOptions(randomLevel.word));
+      setDisabledIndexes(new Set());
+      setSelectedLetters([]);
+      setUsedLevelIds([...usedLevelIds, randomLevel._id]);
+    }
+  }, [levels, usedLevelIds]);
 
   const handleLetterClick = (letter, index) => {
     if (disabledIndexes.has(index)) return;

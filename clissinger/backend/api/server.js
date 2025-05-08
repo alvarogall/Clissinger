@@ -103,7 +103,14 @@ app.post('/api/register', async (req, res) => {
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 app.get('/api/levels', async (req, res) => {
-  const levels = await Level.find();
+  const { thematic } = req.query;
+
+  let query = {};
+  if (thematic) {
+    query.thematic = thematic;
+  }
+
+  const levels = await Level.find(query);
   res.json(levels);
 });
 
