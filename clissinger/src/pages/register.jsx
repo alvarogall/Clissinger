@@ -19,7 +19,7 @@ const Register = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
       setMessage("✅ Usuario creado correctamente");
-      setTimeout(() => navigate("/login"), 1500); // Redirige después de registrarse
+      setTimeout(() => navigate("/jugar"), 1500); // Redirige después de registrarse
     } catch (error) {
       setMessage(`❌ ${error.message}`);
     }
@@ -44,6 +44,9 @@ const Register = () => {
           placeholder="Contraseña"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleRegister();
+          }}
           className="w-full p-3 mb-6 text-lg rounded bg-white/80 text-black placeholder-gray-600 focus:outline-none"
         />
 

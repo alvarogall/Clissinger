@@ -10,6 +10,7 @@ import LevelBirth from './pages/levelbirth';
 import Register from './pages/register';
 import Play from './pages/play';
 import Score from './pages/score';
+import Ruleta from './pages/ruleta';
 import { SettingsProvider } from './context/SettingsContext';
 
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/tematicas" element={<Themes />} />
         <Route path="/crear" element={<LevelBirth />} />
         <Route path="/score/:resultado" element={<Score />} />
+        <Route path="/ruleta" element={<Ruleta />} />
       </Routes>
     </SettingsProvider>
   );
