@@ -5,7 +5,7 @@ const serverless = require('serverless-http');
 
 const app = express();
 app.use(cors({
-  origin: '*', // puedes restringir esto si lo deseas a tu frontend
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -19,7 +19,12 @@ mongoose.connect('mongodb+srv://admin:kissinger@clissinger.5j6ur6r.mongodb.net/d
 }).then(() => console.log('✅ Conectado a MongoDB'))
   .catch(err => console.error('❌ Error al conectar a MongoDB:', err));
 
-// Esquemas y modelos
+
+//------------------------------------------------------------------------------------
+//                      Definición de esquemas y modelos
+//------------------------------------------------------------------------------------
+
+
 const { Schema, model } = require('mongoose');
 
 const usuarioSchema = new Schema({
@@ -34,12 +39,35 @@ const levelSchema = new Schema({
   image1: { type: String, required: true },
   image2: { type: String, required: true },
   image3: { type: String, required: true },
-  image4: { type: String, required: true }
+  image4: { type: String, required: true },
+  thematic: { type: String, required: true }
 });
 
 const Level = model('Level', levelSchema);
 
-// Rutas
+const quizSchema = new Schema({
+  thematic: { type: String, required: true },
+  question : { type: String, required: true },
+  answer1: { type: String, required: true },
+  answer2: { type: String, required: true },
+  answer3: { type: String, required: true },
+  answer4: { type: String, required: true },
+  correctAnswer: { type: String, required: true },
+});
+
+const Quiz = model('Quiz', quizSchema);
+
+
+
+
+//------------------------------------------------------------------------------------
+//                                Definición de rutas
+//------------------------------------------------------------------------------------
+
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//                                  Rutas de Login
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 app.post('/api/login', async (req, res) => {
   const { user, password } = req.body;
   const foundUser = await Usuario.findOne({ user, password });
@@ -55,6 +83,10 @@ app.get('/api/login', async (req, res) => {
   res.json(users);
 });
 
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//                                  Rutas de Register
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 app.post('/api/register', async (req, res) => {
   const nuevo = new Usuario(req.body);
   console.log(nuevo);
@@ -66,6 +98,10 @@ app.post('/api/register', async (req, res) => {
   res.status(201).json(nuevo);
 });
 
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//                                  Rutas de Levels
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 app.get('/api/levels', async (req, res) => {
   const levels = await Level.find();
   res.json(levels);
@@ -76,6 +112,23 @@ app.post('/api/levels', async (req, res) => {
   await nuevo.save();
   res.status(201).json(nuevo);
 });
+
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//                                  Rutas de Quiz
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+app.get('/api/quiz', async (req, res) => {
+  const quiz = await Quiz.find();
+  res.json(quiz);
+}
+);
+
+app.post('/api/quiz', async (req, res) => {
+  const nuevo = new Quiz(req.body);
+  await nuevo.save();
+  res.status(201).json(nuevo);
+}
+);
 
 // Exportar como función serverless
 module.exports = app;
