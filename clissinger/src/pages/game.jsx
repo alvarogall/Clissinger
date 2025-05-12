@@ -81,30 +81,28 @@ function Game(props) {
 
   // Selecciona un nuevo nivel no repetido
   useEffect(() => {
-    if (levels.length > 0) {
-      const remainingLevels = levels.filter(
-        (level) => !usedLevelIds.includes(level._id)
-      );
-
-      if (remainingLevels.length === 0) {
-        //alert("🎉 ¡Has completado todos los niveles!");
-        return;
-      }
-
-      if (levels.length > 0) {
-        setHintUsedForCurrentLevel(false); // Resetea el estado cuando cambia el nivel
-      }
-
-      const randomLevel =
-        remainingLevels[Math.floor(Math.random() * remainingLevels.length)];
-
-      setLevelData(randomLevel);
-      setLetterOptions(generateLetterOptions(randomLevel.word));
-      setDisabledIndexes(new Set());
-      setSelectedLetters([]);
-      setUsedLevelIds([...usedLevelIds, randomLevel._id]);
+    if (levels.length === 0 || levelData !== null) return;
+  
+    const remainingLevels = levels.filter(
+      (level) => !usedLevelIds.includes(level._id)
+    );
+  
+    if (remainingLevels.length === 0) {
+      alert("🎉 ¡Has completado todos los niveles!");
+      navigate("/");
+      return;
     }
-  }, [levels, usedLevelIds]);
+  
+    const randomLevel = remainingLevels[Math.floor(Math.random() * remainingLevels.length)];
+  
+    setLevelData(randomLevel);
+    setLetterOptions(generateLetterOptions(randomLevel.word));
+    setDisabledIndexes(new Set());
+    setSelectedLetters([]);
+    setHintUsedForCurrentLevel(false);
+    setUsedLevelIds((prev) => [...prev, randomLevel._id]);
+  }, [levels, levelData, usedLevelIds]);
+  
 
   const handleLetterClick = (letter, index) => {
     if (disabledIndexes.has(index)) return;
@@ -119,11 +117,31 @@ function Game(props) {
 
       setTimeout(() => {
         if (playerWord === correctWord) {
-          navigate("/score/victoria");
+          // Pasar al siguiente nivel automáticamente
+          const remainingLevels = levels.filter(
+            (level) => !usedLevelIds.includes(level._id)
+          );
+      
+          if (remainingLevels.length === 0) {
+            alert("🎉 ¡Has completado todos los niveles de esta temática!");
+            navigate("/jugar"); // Vuelve al menú
+            return;
+          }
+      
+          const nextLevel =
+            remainingLevels[Math.floor(Math.random() * remainingLevels.length)];
+      
+          setLevelData(nextLevel);
+          setLetterOptions(generateLetterOptions(nextLevel.word));
+          setDisabledIndexes(new Set());
+          setSelectedLetters([]);
+          setUsedLevelIds((prev) => [...prev, nextLevel._id]);
+          setHintUsedForCurrentLevel(false);
         } else {
           navigate("/score/derrota");
         }
       }, 1000);
+      
     }
   };
 
