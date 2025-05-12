@@ -9,6 +9,7 @@ const Login = () => {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
+
   const handleLogin = async () => {
     try {
       const res = await fetch("https://backend-woad-chi.vercel.app/api/login", {
@@ -20,6 +21,10 @@ const Login = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
       setMessage(`✅ ${data.message}`);
+      //Obtenemos el ID del usuario
+      const userID = data.user._id;
+      localStorage.setItem("userID", userID);
+      console.log(userID);
       setTimeout(() => navigate("/jugar"), 1000); // redirige si login correcto
     } catch (error) {
       setMessage(`❌ ${error.message}`);

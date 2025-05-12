@@ -29,7 +29,8 @@ const { Schema, model } = require('mongoose');
 
 const usuarioSchema = new Schema({
   user: { type: String, required: true },
-  password: { type: String, required: true }
+  password: { type: String, required: true },
+  points: { type: Number, default: 0 }
 });
 
 const Usuario = model('Usuario', usuarioSchema);
@@ -137,6 +138,33 @@ app.post('/api/quiz', async (req, res) => {
   res.status(201).json(nuevo);
 }
 );
+
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//                                  Rutas de Puntos
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+app.post('/api/user/add-points', async (req, res) => {
+  const { userId, points } = req.body;
+
+  const user = await Usuario.findById(userId);
+  if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
+
+  user.points += points;
+  await user.save();
+
+  res.json({ message: "Puntos actualizados", newTotal: user.points });
+});
+
+app.get('/api/user/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  const user = await Usuario.findById(userId);
+  if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
+
+  res.json({ user });
+});
+
 
 // Exportar como función serverless
 module.exports = app;

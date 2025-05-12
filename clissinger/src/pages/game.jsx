@@ -39,6 +39,9 @@ function Game(props) {
   const [hintCount, setHintCount] = useState(3); // Comienza con 3 pistas disponibles
   const [hintUsedForCurrentLevel, setHintUsedForCurrentLevel] = useState(false);
 
+  const userId = localStorage.getItem("userID");
+  const points = 50;
+
   useEffect(() => {
     const fetchLevels = async () => {
       try {
@@ -104,7 +107,7 @@ function Game(props) {
   }, [levels, levelData, usedLevelIds]);
   
 
-  const handleLetterClick = (letter, index) => {
+   const handleLetterClick = (letter, index) => {
     if (disabledIndexes.has(index)) return;
 
     const newSelected = [...selectedLetters, letter];
@@ -115,8 +118,15 @@ function Game(props) {
       const playerWord = newSelected.join("").toUpperCase();
       const correctWord = levelData.word.toUpperCase();
 
-      setTimeout(() => {
+      setTimeout(async () => {
         if (playerWord === correctWord) {
+          console.log("Palabra correcta:", userId);
+          console.log("Palabra correcta:", points);
+          await axios.post("https://backend-woad-chi.vercel.app/api/user/add-points", {
+            userId: userId,
+            points: points,
+          });
+          
           // Pasar al siguiente nivel automáticamente
           const remainingLevels = levels.filter(
             (level) => !usedLevelIds.includes(level._id)
