@@ -37,6 +37,7 @@ function Game(props) {
   const [disabledIndexes, setDisabledIndexes] = useState(new Set());
   const [selectedLetters, setSelectedLetters] = useState([]);
   const [hintCount, setHintCount] = useState(3); // Comienza con 3 pistas disponibles
+  const [hintUsedForCurrentLevel, setHintUsedForCurrentLevel] = useState(false);
 
   useEffect(() => {
     const fetchLevels = async () => {
@@ -88,6 +89,10 @@ function Game(props) {
       if (remainingLevels.length === 0) {
         //alert("🎉 ¡Has completado todos los niveles!");
         return;
+      }
+
+      if (levels.length > 0) {
+        setHintUsedForCurrentLevel(false); // Resetea el estado cuando cambia el nivel
       }
 
       const randomLevel =
@@ -169,10 +174,17 @@ function Game(props) {
           <img src={lightBulb} alt="Icono de pista" className="w-[60px] h-[60px]" />
           <button
             onClick={() => {
-              alert(levelData.hint);
-              handleHintUsed();
-            }}
-            className="bg-yellow-200 hover:bg-yellow-300 font-bold px-4 py-2.5 rounded-xl text-xl flex items-center gap-3 shadow-md"
+              if (!hintUsedForCurrentLevel && levelData?.hint) {
+                alert(levelData.hint + "\n\n" + "Como ya has usado la pista no podrás usar más hasta el próximo nivel, ¡Suerte!");
+                handleHintUsed();
+                setHintUsedForCurrentLevel(true);
+              }
+              }
+            }
+            disabled={hintUsedForCurrentLevel}
+            className={`bg-yellow-200 hover:bg-yellow-300 font-bold px-4 py-2.5 rounded-xl text-xl flex items-center gap-3 shadow-md ${
+              hintUsedForCurrentLevel ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
           >
             <span className="uppercase tracking-wide">Pista</span>
             <span className="text-white text-2xl font-bold">
