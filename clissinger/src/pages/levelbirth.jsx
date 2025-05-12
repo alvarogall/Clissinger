@@ -44,6 +44,7 @@ export default function CrearNivel() {
         image3: urls[2],
         image4: urls[3],
         thematic,
+        hint,
       };
 
       const res = await fetch("https://backend-woad-chi.vercel.app/api/levels", {

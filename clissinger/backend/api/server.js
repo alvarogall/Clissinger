@@ -40,7 +40,8 @@ const levelSchema = new Schema({
   image2: { type: String, required: true },
   image3: { type: String, required: true },
   image4: { type: String, required: true },
-  thematic: { type: String, required: true }
+  hint: { type: String, required: true },
+  thematic: { type: String, required: true },
 });
 
 const Level = model('Level', levelSchema);
