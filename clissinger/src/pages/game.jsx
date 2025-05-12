@@ -36,6 +36,7 @@ function Game(props) {
   const [letterOptions, setLetterOptions] = useState([]);
   const [disabledIndexes, setDisabledIndexes] = useState(new Set());
   const [selectedLetters, setSelectedLetters] = useState([]);
+  const [hintCount, setHintCount] = useState(3); // Comienza con 3 pistas disponibles
 
   useEffect(() => {
     const fetchLevels = async () => {
@@ -138,6 +139,12 @@ function Game(props) {
     navigate(`/score/${resultado}`);
   };
 
+  const handleHintUsed = () => {
+    if (hintCount > 0) {
+      setHintCount(prevCount => prevCount - 1);
+    }
+  };
+
   if (!levelData) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-[#172852] to-[#2a5298] text-white flex items-center justify-center">
@@ -156,18 +163,33 @@ function Game(props) {
         </div>
       </div>
 
-      <div className="absolute top-4 right-4">
-        <button
-          onClick={props.onHintClick}
-          className="bg-yellow-200 hover:bg-yellow-300 font-bold px-4 py-2.5 rounded-xl text-xl flex items-center gap-3 shadow-md"
-        >
-          <img src={lightBulb} alt="Icono de pista" className="w-8 h-8" />
-          <span className="uppercase tracking-wide">Pista</span>
-          <span className="text-white text-2xl font-bold">
-            {props.hintCost || 0}
-          </span>
-        </button>
-      </div>
+    <div className="absolute top-4 right-4 flex items-center gap-2">
+      {hintCount > 0 ? (
+        <>
+          <img src={lightBulb} alt="Icono de pista" className="w-[60px] h-[60px]" />
+          <button
+            onClick={() => {
+              alert(levelData.hint);
+              handleHintUsed();
+            }}
+            className="bg-yellow-200 hover:bg-yellow-300 font-bold px-4 py-2.5 rounded-xl text-xl flex items-center gap-3 shadow-md"
+          >
+            <span className="uppercase tracking-wide">Pista</span>
+            <span className="text-white text-2xl font-bold">
+              {hintCount}
+            </span>
+          </button>
+        </>
+      ) : (
+        <>
+          <img src={lightBulb} alt="Icono de pista" className="w-[60px] h-[60px] opacity-50" />
+          <div className="bg-gray-400 font-bold px-4 py-2.5 rounded-xl text-xl flex items-center gap-3 shadow-md cursor-not-allowed">
+            <span className="uppercase tracking-wide opacity-50">Pista</span>
+            <span className="text-white text-2xl font-bold">0</span>
+          </div>
+        </>
+      )}
+    </div>
 
       {/* Main content */}
       <div className="w-full max-w-2xl flex flex-col items-center">
@@ -175,7 +197,7 @@ function Game(props) {
           ¿Qué palabra relaciona estas imágenes?
         </h1>
 
-        <div className="grid grid-cols-2 gap-6 mb-8 w-full max-w-lg">
+        <div className="grid grid-cols-2 gap-2 mb-4 w-full max-w-sm">
           {[levelData.image1, levelData.image2, levelData.image3, levelData.image4].map((img, idx) => (
             <div key={idx} className="aspect-square bg-gray-700 rounded-xl overflow-hidden shadow-lg">
               <img src={img} alt={`Imagen ${idx + 1}`} className="object-cover w-full h-full" />
