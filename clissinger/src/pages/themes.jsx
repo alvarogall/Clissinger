@@ -1,6 +1,6 @@
 import Layout from '../components/common/layout';
 import React from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import lock from '../images/lock.svg';
 import iconspain from '../images/iconspain.svg';
 import trophy from '../images/trophy.svg';
@@ -10,9 +10,15 @@ import BotonVolverAtrasMenu from "./../components/common/botonVolverAtrasMenu";
 
 function Themes() {
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  const mode = location.state?.mode || "normal";
+  console.log("Modo seleccionado:", mode);
+
   const handle = (thematic) => {
-    navigate('/juego', { state: { thematic } });
+    navigate('/juego', { state: { thematic, mode } });
   };
+  
 
   return (
     <Layout>

@@ -12,6 +12,8 @@ app.use(cors({
 
 app.use(express.json());
 
+app.options('*', cors()); // Habilita CORS preflight para todas las rutas
+
 // Conexión a MongoDB Atlas
 mongoose.connect('mongodb+srv://admin:kissinger@clissinger.5j6ur6r.mongodb.net/dbclissinger?retryWrites=true&w=majority', {
   useNewUrlParser: true,

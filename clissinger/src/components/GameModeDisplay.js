@@ -9,7 +9,8 @@ export default function GameModeDisplay({ selectedMode }) {
   const iconSrc = selectedMode === 'normal' ? towerIcon : lightningIcon;
 
   const handlePlayClick = () => {
-    navigate('/tematicas'); // Redirigir a Tematicas.js
+    console.log('Modo seleccionado:', selectedMode);
+    navigate('/tematicas', { state: { mode: selectedMode } }); // Redirigir a Tematicas.js
   };
 
   return (

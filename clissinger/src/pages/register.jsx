@@ -15,11 +15,19 @@ const Register = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user, password }),
       });
-
+      
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
+      
+      const userID = data._id || data.user?._id;
+      if (userID) {
+        localStorage.setItem("userID", userID);
+        console.log("Guardado userID en localStorage:", userID);
+      }
+      
       setMessage("✅ Usuario creado correctamente");
-      setTimeout(() => navigate("/jugar"), 1500); // Redirige después de registrarse
+      setTimeout(() => navigate("/jugar"), 1500);
+      
     } catch (error) {
       setMessage(`❌ ${error.message}`);
     }
