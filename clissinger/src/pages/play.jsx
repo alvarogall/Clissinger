@@ -3,7 +3,6 @@ import PointsDisplay from '../components/PointsDisplay';
 import GameModeDisplay from '../components/GameModeDisplay';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
-import BotonAjustes from '../components/common/botonAjustes'; 
 import Layout from '../components/common/layout';
 import { useEffect } from 'react';
 
@@ -42,10 +41,6 @@ export default function Play() {
       {/* Footer con selección de modo */}
       <Footer selectedMode={selectedMode} setSelectedMode={setSelectedMode} />
 
-      {/* Componente de Boton de Ajustes*/}
-      <div className="flex justify-center my-6 border-4">
-        <BotonAjustes/>
-      </div>
     </div>
     </Layout>
   );
