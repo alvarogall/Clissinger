@@ -31,7 +31,9 @@ function Game(props) {
   console.log("Temática seleccionada:", thematic);
   console.log("Modo seleccionado:", mode);
 
+
   const [levels, setLevels] = useState([]);
+  const [successCount, setSuccessCount] = useState(0);
   const [usedLevelIds, setUsedLevelIds] = useState([]);
   const [levelData, setLevelData] = useState(null);
   const [nextLevelData, setNextLevelData] = useState(null);
@@ -124,6 +126,7 @@ function Game(props) {
 
       setTimeout(() => {
         if (playerWord === correctWord) {
+          setSuccessCount(prev => prev + 1);
           axios.post("https://backend-woad-chi.vercel.app/api/user/add-points", {
             userId,
             points,
@@ -189,7 +192,7 @@ function Game(props) {
       <div className="absolute top-4 left-4 flex items-center gap-4">
         <BotonVolverAtrasMenu onClick={props.onBackClick} />
         <div className="text-green-400 font-semibold text-lg">
-          Aciertos: {props.level || 1}/20
+        Aciertos: {successCount}/{levels.length}
         </div>
       </div>
 
