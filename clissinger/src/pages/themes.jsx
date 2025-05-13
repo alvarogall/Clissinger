@@ -6,6 +6,7 @@ import iconspain from '../images/iconspain.svg';
 import trophy from '../images/trophy.svg';
 import history from '../images/history.svg';
 import point from '../images/point.svg';
+import BotonVolverAtrasMenu from "./../components/common/botonVolverAtrasMenu";
 
 function Themes() {
   const navigate = useNavigate();
@@ -16,6 +17,11 @@ function Themes() {
   return (
     <Layout>
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-950 to-blue-500 text-white relative px-2 sm:px-0">
+        
+        {/* Botón Volver Atrás */}
+        <div className="absolute top-4 left-4 z-30">
+          <BotonVolverAtrasMenu />
+        </div>
 
         <div className="w-full bg-blue-500 min-h-16 sm:min-h-20 absolute top-[7%] sm:top-[11%] text-center text-3xl sm:text-5xl font-bold text-white py-4 sm:py-6">
           SELECCIONA UNA TEMÁTICA

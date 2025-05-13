@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import BotonVolverAtrasMenu from "../components/common/botonVolverAtrasMenu";
+import BotonVolverAtras from "../components/common/botonVolverAtrasMenu";
 import { useSettings } from '../context/SettingsContext'; 
 import Layout from '../components/common/layout';
 import { useNavigate } from 'react-router-dom';
@@ -99,9 +99,9 @@ const Settings = () => {
             </button>
           </div>
         </div>
-
+        
         <div className="flex absolute top-5 left-5">
-          <BotonVolverAtrasMenu />
+          <BotonVolverAtras />
         </div>
       </div>
     </>

@@ -187,7 +187,7 @@ function Game(props) {
     <div className="min-h-screen bg-gradient-to-b from-[#172852] to-[#2a5298] text-white flex flex-col items-center p-2 sm:p-4 pt-16 sm:pt-20 pb-8 sm:pb-10">
       {/* Header */}
       <div className="absolute top-2 sm:top-4 left-2 sm:left-4 flex items-center gap-2 sm:gap-4">
-        <BotonVolverAtrasMenu onClick={props.onBackClick} />
+        <BotonVolverAtrasMenu />
         <div className="text-green-400 font-semibold text-base sm:text-lg">
           Aciertos: {props.level || 1}/20
         </div>
@@ -243,10 +243,11 @@ function Game(props) {
                 0
               </span>
             </div>
-            {/* Ajustes a la derecha de pista SOLO en móvil */}
+            {/* Ajustes a la derecha de pista SOLO en móvil 
             <span className="flex sm:hidden">
               <BotonAjustes />
             </span>
+            */}
           </>
         )}
       </div>
@@ -316,10 +317,11 @@ function Game(props) {
         </div>
       </div>
 
-      {/* Ajustes abajo a la derecha SOLO en escritorio */}
+      {/* Ajustes abajo a la derecha SOLO en escritorio 
       <div className="hidden sm:block fixed bottom-4 right-4 z-30">
         <BotonAjustes />
       </div>
+      */}
     </div>
   );
 }
