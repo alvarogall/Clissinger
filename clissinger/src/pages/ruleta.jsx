@@ -1,165 +1,125 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
-function Ruleta() {
-  const opciones = [
-    "Premio 1",
-    "Premio 2",
-    "Premio 3",
-    "Premio 4",
-    "Premio 5",
-    "Premio 6",
-  ];
-
-  const [rotacion, setRotacion] = useState(0);
+const Ruleta = () => {
+  const opciones = ["Banderas", "Deportes", "Historia", "Categoria 4", "Categoria 5", "Categoria 6"];
+  const ruletaRef = useRef(null);
+  const [girando, setGirando] = useState(false);
   const [resultado, setResultado] = useState(null);
 
   const girarRuleta = () => {
-    const vueltas = 5;
-    const gradosExtra = 360 * vueltas;
-    const anguloAleatorio = Math.floor(Math.random() * 360);
-    const nuevaRotacion = rotacion + gradosExtra + anguloAleatorio;
-    setRotacion(nuevaRotacion);
+    if (girando) return;
 
-    const indice = Math.floor(((nuevaRotacion % 360) / 360) * opciones.length);
-    const indiceReal = opciones.length - indice - 1;
+    setResultado(null); // Oculta resultado anterior al girar
+
+    const gradosPorOpcion = 360 / opciones.length;
+    const indexGanador = Math.floor(Math.random() * opciones.length);
+    const rotacionExtra = 360 * 5; // vueltas extra
+    const rotacionFinal = rotacionExtra + (360 - indexGanador * gradosPorOpcion - gradosPorOpcion / 2);
+
+    // Reseteamos la rotación para evitar acumulaciones
+    ruletaRef.current.style.transition = "none";
+    ruletaRef.current.style.transform = `rotate(0deg)`;
+
+    // Forzamos el repaint antes de aplicar nueva rotación
+    void ruletaRef.current.offsetWidth;
+
+    // Aplicamos la rotación con transición
+    ruletaRef.current.style.transition = "transform 4s ease-out";
+    ruletaRef.current.style.transform = `rotate(${rotacionFinal}deg)`;
+
+    setGirando(true);
     setTimeout(() => {
-      setResultado(opciones[indiceReal]);
+      setResultado(opciones[indexGanador]);
+      setGirando(false);
     }, 4000);
   };
 
-  const contenedorStyle = {
-    minHeight: "100vh",
-    background: "linear-gradient(to bottom, #0d1b2a, #1b263b)",
-    color: "white",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    fontFamily: "sans-serif",
-  };
-
-  const tituloBarraStyle = {
-    backgroundColor: "#1e3a8a",
-    width: "100%",
-    padding: "25px 0",
-    textAlign: "center",
-    marginBottom: "40px",
-    boxShadow: "0 4px 8px rgba(0,0,0,0.4)",
-  };
-
-  const tituloTextoStyle = {
-    fontSize: "36px",
-    fontWeight: "bold",
-  };
-
-  const ruletaContainer = {
-    width: "420px",
-    height: "420px",
-    borderRadius: "50%",
-    border: "10px solid white",
-    overflow: "hidden",
-    position: "relative",
-    marginBottom: "40px",
-  };
-
-  const ruletaStyle = {
-    width: "100%",
-    height: "100%",
-    borderRadius: "50%",
-    position: "absolute",
-    top: 0,
-    left: 0,
-    transform: `rotate(${rotacion}deg)`,
-    transition: "transform 4s cubic-bezier(0.33, 1, 0.68, 1)",
-    background: `conic-gradient(
-      #3b82f6 0% 16.66%,
-      #60a5fa 16.66% 33.33%,
-      #93c5fd 33.33% 50%,
-      #2563eb 50% 66.66%,
-      #1d4ed8 66.66% 83.33%,
-      #1e40af 83.33% 100%
-    )`,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-};
-
-const textoOpcionStyle = (index) => {
-    const angulo = (360 / opciones.length) * index; // Ángulo de cada opción
-    return {
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: `rotate(${angulo}deg) translate(0, -42%) rotate(-${angulo}deg)`,
-        transformOrigin: "center center",
-        fontSize: "16px",
-        fontWeight: "bold",
-        color: "white",
-        textAlign: "center",
-        width: "80px",
-        pointerEvents: "none",
-    };
-};
-  const flechaStyle = {
-    position: "absolute",
-    top: "0", // Ajusta la posición para que quede debajo de la ruleta
-    left: "50%",
-    transform: "translateX(-50%)",
-    width: "0",
-    height: "0",
-    borderLeft: "20px solid transparent",
-    borderRight: "20px solid transparent",
-    borderTop: "30px solid #facc15", // flecha amarilla apuntando hacia abajo
-    zIndex: 10,
-};
-
-  const botonStyle = {
-    backgroundColor: "#facc15",
-    color: "#000",
-    fontWeight: "bold",
-    padding: "20px 40px",
-    borderRadius: "12px",
-    boxShadow: "0 6px 12px rgba(0, 0, 0, 0.3)",
-    cursor: "pointer",
-    fontSize: "24px",
-    marginTop: "60px",
-  };
-
-  const resultadoStyle = {
-    marginTop: "40px",
-    fontSize: "22px",
-    fontWeight: "bold",
-    color: "#facc15",
-  };
-
   return (
-    <div style={contenedorStyle}>
-      <div style={tituloBarraStyle}>
-        <div style={tituloTextoStyle}>🎯 ¡Gira la ruleta!</div>
-      </div>
+    <div className="min-h-screen bg-gradient-to-b from-blue-900 to-blue-400 flex flex-col items-center justify-start py-12 text-white">
+      <h1 className="text-4xl font-bold mb-10">🎉 Gira la Ruleta 🎉</h1>
 
-      <div style={{ position: "relative", marginBottom: "20px" }}>
-        {/* Flecha fija */}
-        <div style={flechaStyle}></div>
+      {/* Flecha */}
+      <div className="relative w-[420px]">
+        <div
+          className="w-0 h-0 border-l-[20px] border-r-[20px] border-b-[30px] border-l-transparent border-r-transparent border-b-yellow-400 absolute top-0 left-1/2 -translate-x-1/2 z-10 rotate-180"
+        ></div>
 
         {/* Ruleta */}
-        <div style={ruletaContainer}>
-          <div style={ruletaStyle}>
+        <div
+          ref={ruletaRef}
+          className="w-[420px] h-[420px] rounded-full border-[10px] border-white relative shadow-xl mx-auto"
+          style={{
+            background: `conic-gradient(
+              #3b82f6 0% 16.666%,
+              #60a5fa 16.666% 33.333%,
+              #93c5fd 33.333% 50%,
+              #2563eb 50% 66.666%,
+              #1d4ed8 66.666% 83.333%,
+              #1e40af 83.333% 100%
+            )`,
+          }}
+        >
+          <svg
+            width="420"
+            height="420"
+            viewBox="0 0 420 420"
+            className="absolute top-0 left-0 z-10"
+          >
+            <defs>
+              {opciones.map((_, index) => {
+                const radio = 170;
+                const anguloInicio = (360 / opciones.length) * index;
+                const anguloFinal = anguloInicio + 360 / opciones.length;
+                const rad = (deg) => (deg * Math.PI) / 180;
+
+                const x1 = 210 + radio * Math.cos(rad(anguloInicio - 90));
+                const y1 = 210 + radio * Math.sin(rad(anguloInicio - 90));
+                const x2 = 210 + radio * Math.cos(rad(anguloFinal - 90));
+                const y2 = 210 + radio * Math.sin(rad(anguloFinal - 90));
+
+                return (
+                  <path
+                    key={`path-${index}`}
+                    id={`textPath-${index}`}
+                    d={`M ${x1},${y1} A ${radio},${radio} 0 0,1 ${x2},${y2}`}
+                    fill="none"
+                  />
+                );
+              })}
+            </defs>
+
             {opciones.map((opcion, index) => (
-              <div key={index} style={textoOpcionStyle(index)}>
-                {opcion}
-              </div>
+              <text key={index} fontSize="16" fill="white" fontWeight="bold">
+                <textPath
+                  href={`#textPath-${index}`}
+                  startOffset="50%"
+                  textAnchor="middle"
+                >
+                  {opcion}
+                </textPath>
+              </text>
             ))}
-          </div>
+          </svg>
         </div>
       </div>
 
-      <button style={botonStyle} onClick={girarRuleta}>
-        GIRAR
+      {/* Botón */}
+      <button
+        onClick={girarRuleta}
+        disabled={girando}
+        className="mt-10 bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-2 px-6 rounded disabled:opacity-50"
+      >
+        {girando ? "Girando..." : "Girar"}
       </button>
 
-      {resultado && <div style={resultadoStyle}>Resultado: {resultado}</div>}
+      {/* Resultado */}
+      {resultado && (
+        <h2 className="mt-6 text-2xl font-semibold">
+          🎁 Te tocará responder una pregunta de: ¡<span className="underline">{resultado}</span>!
+        </h2>
+      )}
     </div>
   );
-}
+};
 
 export default Ruleta;
