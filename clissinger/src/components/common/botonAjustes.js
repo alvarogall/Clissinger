@@ -1,4 +1,3 @@
-import React from "react";
 import screwiron from "../../images/screwiron.svg"; 
 import { useNavigate } from "react-router-dom";
 
@@ -7,13 +6,12 @@ const BotonAjustes = ({ className = "" }) => {
 
   return (
     <button
-      className= {`absolute top-6 left-6 px-6 py-3 font-semibold bg-blue-500 text-white rounded-md shadow-md hover:scale-105 duration-300 ${className}`}
+      className={`flex items-center justify-center bg-blue-500 text-white rounded-full shadow-md hover:scale-105 duration-300 p-3 sm:px-6 sm:py-3 font-semibold ${className}`}
       onClick={() => navigate("/ajustes")}
+      aria-label="Ajustes"
     >
-    <p className="text-lg font-bold flex items-center">
-      <img src={screwiron} alt="Imagen izquierda del botón" className="mr-2 w-8 h-8" />
-      AJUSTES</p>              
-      
+      <img src={screwiron} alt="Ajustes" className="w-7 h-7 sm:w-8 sm:h-8" />
+      <span className="hidden sm:inline ml-2 text-lg font-bold">AJUSTES</span>
     </button>
   );
 };

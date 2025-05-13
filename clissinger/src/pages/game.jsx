@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, useLocation} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import BotonVolverAtrasMenu from "./../components/common/botonVolverAtrasMenu";
 import BotonAjustes from "./../components/common/botonAjustes";
 import lightBulb from "../images/lightbulb.svg";
@@ -28,7 +28,7 @@ function generateLetterOptions(answer, totalLetters = 12) {
 function Game(props) {
   const navigate = useNavigate();
   const location = useLocation();
-  const thematic = location.state?.thematic || "GENERAL"; // ← Por si acaso no viene nada
+  const thematic = location.state?.thematic || "GENERAL";
 
   const [levels, setLevels] = useState([]);
   const [usedLevelIds, setUsedLevelIds] = useState([]);
@@ -36,7 +36,7 @@ function Game(props) {
   const [letterOptions, setLetterOptions] = useState([]);
   const [disabledIndexes, setDisabledIndexes] = useState(new Set());
   const [selectedLetters, setSelectedLetters] = useState([]);
-  const [hintCount, setHintCount] = useState(3); // Comienza con 3 pistas disponibles
+  const [hintCount, setHintCount] = useState(3);
   const [hintUsedForCurrentLevel, setHintUsedForCurrentLevel] = useState(false);
 
   const userId = localStorage.getItem("userID");
@@ -45,7 +45,9 @@ function Game(props) {
   useEffect(() => {
     const fetchLevels = async () => {
       try {
-        const response = await axios.get(`https://backend-woad-chi.vercel.app/api/levels?thematic=${thematic}`);
+        const response = await axios.get(
+          `https://backend-woad-chi.vercel.app/api/levels?thematic=${thematic}`
+        );
 
         setLevels(response.data);
       } catch (error) {
@@ -59,45 +61,44 @@ function Game(props) {
   useEffect(() => {
     const handleKeyDown = (event) => {
       const key = event.key.toUpperCase();
-  
+
       if (key === "BACKSPACE") {
         handleDeleteLastLetter();
         return;
       }
-  
+
       const letterIndex = letterOptions.findIndex(
         (letter, i) => letter === key && !disabledIndexes.has(i)
       );
-  
+
       if (letterIndex !== -1) {
         handleLetterClick(key, letterIndex);
       }
     };
-  
+
     window.addEventListener("keydown", handleKeyDown);
-  
+
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [letterOptions, disabledIndexes, selectedLetters]);
-  
 
-  // Selecciona un nuevo nivel no repetido
   useEffect(() => {
     if (levels.length === 0 || levelData !== null) return;
-  
+
     const remainingLevels = levels.filter(
       (level) => !usedLevelIds.includes(level._id)
     );
-  
+
     if (remainingLevels.length === 0) {
       alert("🎉 ¡Has completado todos los niveles!");
       navigate("/");
       return;
     }
-  
-    const randomLevel = remainingLevels[Math.floor(Math.random() * remainingLevels.length)];
-  
+
+    const randomLevel =
+      remainingLevels[Math.floor(Math.random() * remainingLevels.length)];
+
     setLevelData(randomLevel);
     setLetterOptions(generateLetterOptions(randomLevel.word));
     setDisabledIndexes(new Set());
@@ -105,9 +106,8 @@ function Game(props) {
     setHintUsedForCurrentLevel(false);
     setUsedLevelIds((prev) => [...prev, randomLevel._id]);
   }, [levels, levelData, usedLevelIds]);
-  
 
-   const handleLetterClick = (letter, index) => {
+  const handleLetterClick = (letter, index) => {
     if (disabledIndexes.has(index)) return;
 
     const newSelected = [...selectedLetters, letter];
@@ -122,25 +122,29 @@ function Game(props) {
         if (playerWord === correctWord) {
           console.log("Palabra correcta:", userId);
           console.log("Palabra correcta:", points);
-          await axios.post("https://backend-woad-chi.vercel.app/api/user/add-points", {
-            userId: userId,
-            points: points,
-          });
-          
-          // Pasar al siguiente nivel automáticamente
+          await axios.post(
+            "https://backend-woad-chi.vercel.app/api/user/add-points",
+            {
+              userId: userId,
+              points: points,
+            }
+          );
+
           const remainingLevels = levels.filter(
             (level) => !usedLevelIds.includes(level._id)
           );
-      
+
           if (remainingLevels.length === 0) {
             alert("🎉 ¡Has completado todos los niveles de esta temática!");
-            navigate("/jugar"); // Vuelve al menú
+            navigate("/jugar");
             return;
           }
-      
+
           const nextLevel =
-            remainingLevels[Math.floor(Math.random() * remainingLevels.length)];
-      
+            remainingLevels[
+              Math.floor(Math.random() * remainingLevels.length)
+            ];
+
           setLevelData(nextLevel);
           setLetterOptions(generateLetterOptions(nextLevel.word));
           setDisabledIndexes(new Set());
@@ -151,30 +155,23 @@ function Game(props) {
           navigate("/score/derrota");
         }
       }, 1000);
-      
     }
   };
 
   const handleDeleteLastLetter = () => {
     if (selectedLetters.length === 0) return;
 
-    const lastLetter = selectedLetters[selectedLetters.length - 1];
     const newSelected = selectedLetters.slice(0, -1);
     setSelectedLetters(newSelected);
 
-    // Rehabilitar el último botón deshabilitado (último index usado)
     const updatedIndexes = Array.from(disabledIndexes);
     updatedIndexes.pop();
     setDisabledIndexes(new Set(updatedIndexes));
   };
 
-  const handleScore = (resultado) => {
-    navigate(`/score/${resultado}`);
-  };
-
   const handleHintUsed = () => {
     if (hintCount > 0) {
-      setHintCount(prevCount => prevCount - 1);
+      setHintCount((prevCount) => prevCount - 1);
     }
   };
 
@@ -187,71 +184,102 @@ function Game(props) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#172852] to-[#2a5298] text-white flex flex-col items-center p-4 pt-16 pb-10">
+    <div className="min-h-screen bg-gradient-to-b from-[#172852] to-[#2a5298] text-white flex flex-col items-center p-2 sm:p-4 pt-16 sm:pt-20 pb-8 sm:pb-10">
       {/* Header */}
-      <div className="absolute top-4 left-4 flex items-center gap-4">
+      <div className="absolute top-2 sm:top-4 left-2 sm:left-4 flex items-center gap-2 sm:gap-4">
         <BotonVolverAtrasMenu onClick={props.onBackClick} />
-        <div className="text-green-400 font-semibold text-lg">
+        <div className="text-green-400 font-semibold text-base sm:text-lg">
           Aciertos: {props.level || 1}/20
         </div>
       </div>
 
-    <div className="absolute top-4 right-4 flex items-center gap-2">
-      {hintCount > 0 ? (
-        <>
-          <img src={lightBulb} alt="Icono de pista" className="w-[60px] h-[60px]" />
-          <button
-            onClick={() => {
-              if (!hintUsedForCurrentLevel && levelData?.hint) {
-                alert(levelData.hint + "\n\n" + "Como ya has usado la pista no podrás usar más hasta el próximo nivel, ¡Suerte!");
-                handleHintUsed();
-                setHintUsedForCurrentLevel(true);
-              }
-              }
-            }
-            disabled={hintUsedForCurrentLevel}
-            className={`bg-yellow-200 hover:bg-yellow-300 font-bold px-4 py-2.5 rounded-xl text-xl flex items-center gap-3 shadow-md ${
-              hintUsedForCurrentLevel ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
-          >
-            <span className="uppercase tracking-wide">Pista</span>
-            <span className="text-white text-2xl font-bold">
-              {hintCount}
+      <div className="absolute top-2 sm:top-4 right-2 sm:right-4 flex items-center gap-1 sm:gap-2">
+        {hintCount > 0 ? (
+          <>
+            <img
+              src={lightBulb}
+              alt="Icono de pista"
+              className="w-8 h-8 sm:w-[60px] sm:h-[60px]"
+            />
+            <button
+              onClick={() => {
+                if (!hintUsedForCurrentLevel && levelData?.hint) {
+                  alert(
+                    levelData.hint +
+                      "\n\n" +
+                      "Como ya has usado la pista no podrás usar más hasta el próximo nivel, ¡Suerte!"
+                  );
+                  handleHintUsed();
+                  setHintUsedForCurrentLevel(true);
+                }
+              }}
+              disabled={hintUsedForCurrentLevel}
+              className={`bg-yellow-200 hover:bg-yellow-300 font-bold px-2 sm:px-4 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl text-base sm:text-xl flex items-center gap-2 sm:gap-3 shadow-md ${
+                hintUsedForCurrentLevel
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
+            >
+              <span className="uppercase tracking-wide">Pista</span>
+              <span className="text-white text-xl sm:text-2xl font-bold">
+                {hintCount}
+              </span>
+            </button>
+            {/* Ajustes a la derecha de pista SOLO en móvil */}
+            <span className="flex sm:hidden">
+              <BotonAjustes />
             </span>
-          </button>
-        </>
-      ) : (
-        <>
-          <img src={lightBulb} alt="Icono de pista" className="w-[60px] h-[60px] opacity-50" />
-          <div className="bg-gray-400 font-bold px-4 py-2.5 rounded-xl text-xl flex items-center gap-3 shadow-md cursor-not-allowed">
-            <span className="uppercase tracking-wide opacity-50">Pista</span>
-            <span className="text-white text-2xl font-bold">0</span>
-          </div>
-        </>
-      )}
-    </div>
+          </>
+        ) : (
+          <>
+            <img
+              src={lightBulb}
+              alt="Icono de pista"
+              className="w-8 h-8 sm:w-[60px] sm:h-[60px] opacity-50"
+            />
+            <div className="bg-gray-400 font-bold px-2 sm:px-4 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl text-base sm:text-xl flex items-center gap-2 sm:gap-3 shadow-md cursor-not-allowed">
+              <span className="uppercase tracking-wide opacity-50">Pista</span>
+              <span className="text-white text-xl sm:text-2xl font-bold">
+                0
+              </span>
+            </div>
+            {/* Ajustes a la derecha de pista SOLO en móvil */}
+            <span className="flex sm:hidden">
+              <BotonAjustes />
+            </span>
+          </>
+        )}
+      </div>
 
       {/* Main content */}
-      <div className="w-full max-w-2xl flex flex-col items-center">
-        <h1 className="text-2xl font-bold mb-4 text-center px-4">
+      <div className="w-full max-w-lg sm:max-w-2xl flex flex-col items-center">
+        <h1 className="text-xl sm:text-2xl font-bold mb-4 text-center px-2 sm:px-4">
           ¿Qué palabra relaciona estas imágenes?
         </h1>
 
-        <div className="grid grid-cols-2 gap-2 mb-4 w-full max-w-sm">
-          {[levelData.image1, levelData.image2, levelData.image3, levelData.image4].map((img, idx) => (
-            <div key={idx} className="aspect-square bg-gray-700 rounded-xl overflow-hidden shadow-lg">
-              <img src={img} alt={`Imagen ${idx + 1}`} className="object-cover w-full h-full" />
-            </div>
-          ))}
+        <div className="grid grid-cols-2 gap-2 sm:gap-4 mb-4 w-full max-w-xs sm:max-w-sm">
+          {[levelData.image1, levelData.image2, levelData.image3, levelData.image4].map(
+            (img, idx) => (
+              <div
+                key={idx}
+                className="aspect-square bg-gray-700 rounded-lg sm:rounded-xl overflow-hidden shadow-md sm:shadow-lg"
+              >
+                <img
+                  src={img}
+                  alt={`Imagen ${idx + 1}`}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+            )
+          )}
         </div>
 
-
         {/* Letras seleccionadas */}
-        <div className="text-yellow-400 text-3xl tracking-widest mb-8">
+        <div className="text-yellow-400 text-2xl sm:text-3xl tracking-widest mb-6 sm:mb-8">
           {levelData.word.split("").map((_, idx) => (
             <span
               key={idx}
-              className="inline-block border-b-2 border-yellow-400 w-5 mx-1"
+              className="inline-block border-b-2 border-yellow-400 w-4 sm:w-5 mx-0.5 sm:mx-1"
             >
               {selectedLetters[idx] || "\u00A0"}
             </span>
@@ -259,17 +287,15 @@ function Game(props) {
         </div>
 
         {/* Zona de letras y botón borrar */}
-        <div className="flex justify-center items-center gap-4">
-          
-
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-4 w-full">
           {/* Letras */}
-          <div className="grid grid-cols-6 gap-3 w-full max-w-md">
+          <div className="grid grid-cols-6 gap-1 sm:gap-3 w-full max-w-xs sm:max-w-md">
             {letterOptions.map((letter, i) => (
               <button
                 key={i}
                 onClick={() => handleLetterClick(letter, i)}
                 disabled={disabledIndexes.has(i)}
-                className={`font-bold p-3 rounded-lg text-lg ${
+                className={`font-bold p-2 sm:p-3 rounded text-base sm:text-lg ${
                   disabledIndexes.has(i)
                     ? "bg-gray-400 text-white"
                     : "bg-yellow-400 text-black hover:bg-yellow-500"
@@ -280,39 +306,20 @@ function Game(props) {
             ))}
           </div>
 
-
           {/* Botón borrar */}
           <button
             onClick={handleDeleteLastLetter}
-            className="bg-red-500 hover:bg-red-600 text-white font-bold p-3 rounded-lg text-lg"
+            className="bg-red-500 hover:bg-red-600 text-white font-bold p-2 sm:p-3 rounded text-base sm:text-lg w-full sm:w-auto mt-2 sm:mt-0"
           >
             ⌫ Borrar
           </button>
-
         </div>
       </div>
 
-      <div>
-        <BotonAjustes className="mt-10" />
+      {/* Ajustes abajo a la derecha SOLO en escritorio */}
+      <div className="hidden sm:block fixed bottom-4 right-4 z-30">
+        <BotonAjustes />
       </div>
-
-      {/* Botones debug */}
-      {/* <div className="absolute bottom-4 -translate-x-3/4">
-        <button
-          onClick={() => handleScore("victoria")}
-          className="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 rounded"
-        >
-          Puntuación Exitosa
-        </button>
-      </div>
-      <div className="absolute bottom-4 translate-x-3/4">
-        <button
-          onClick={() => handleScore("derrota")}
-          className="bg-red-500 hover:bg-red-600 text-white font-bold px-4 py-2 rounded"
-        >
-          Puntuación Fallida
-        </button>
-      </div> */}
     </div>
   );
 }

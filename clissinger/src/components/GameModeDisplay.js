@@ -1,16 +1,17 @@
 import React from 'react';
 import towerIcon from '../images/tower.svg'; // Icono para modo normal
-import cardsIcon from '../images/cards.svg'; // Icono para modo relámpago
 import lightningIcon from '../images/lightning.svg'; // Icono para modo relámpago
 import { useNavigate } from 'react-router-dom';
+import BotonAjustes from "./../components/common/botonAjustes";
 
 export default function GameModeDisplay({ selectedMode }) {
   const navigate = useNavigate();
   const iconSrc = selectedMode === 'normal' ? towerIcon : lightningIcon;
-  
+
   const handlePlayClick = () => {
     navigate('/tematicas'); // Redirigir a Tematicas.js
   };
+
   return (
     <div className="flex flex-col items-center justify-center h-full">
       {/* Icono del modo */}
@@ -28,6 +29,18 @@ export default function GameModeDisplay({ selectedMode }) {
       >
         JUGAR
       </button>
+
+      {/* Botón de ajustes */}
+      <div className="fixed top-4 left-4 z-30">
+        <BotonAjustes className="p-2 sm:p-3 sm:px-6 sm:py-3">
+          <img
+            src="../images/screwiron.svg"
+            alt="Ajustes"
+            className="w-6 h-6 sm:w-8 sm:h-8"
+          />
+          <span className="hidden sm:inline ml-2 text-lg font-bold">AJUSTES</span>
+        </BotonAjustes>
+      </div>
     </div>
   );
 }
