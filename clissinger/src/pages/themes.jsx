@@ -41,7 +41,7 @@ function Themes() {
             >
               <img src={iconspain} alt="Banderas" className="w-12 h-12 sm:w-16 sm:h-16" />
             </button>
-            <p className="text-base sm:text-lg font-bold mt-2 sm:mt-3">BANDERAS</p>
+            <p className="text-base sm:text-lg font-bold mt-2 sm:mt-3">PAÍSES</p>
           </div>
 
           <div className="flex flex-col items-center">

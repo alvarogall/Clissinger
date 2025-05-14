@@ -60,6 +60,7 @@ function Game(props) {
   }, []);
 
   useEffect(() => {
+    
     if (levels.length === 0 || levelData !== null) return;
 
     const remainingLevels = levels.filter(
@@ -171,6 +172,32 @@ function Game(props) {
       setHintCount(prev => prev - 1);
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (!levelData) return;
+      const key = event.key.toUpperCase();
+
+      if (key === "BACKSPACE" || key === "DELETE") {
+        handleDeleteLastLetter();
+        return;
+      }
+
+      // Solo letras A-Z
+      if (/^[A-Z]$/.test(key)) {
+        // Busca la primera letra disponible (no deshabilitada)
+        const idx = letterOptions.findIndex(
+          (l, i) => l === key && !disabledIndexes.has(i)
+        );
+        if (idx !== -1) {
+          handleLetterClick(key, idx);
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [levelData, letterOptions, disabledIndexes, selectedLetters]);
 
   if (!levelData) {
     return (
