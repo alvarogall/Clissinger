@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/common/layout';
 import { useEffect } from 'react';
+import TutorialDriver from '../components/TutorialDriverPlay';
 
 export default function Play() {
   const [selectedMode, setSelectedMode] = useState('normal'); // Estado del modo seleccionado
@@ -31,10 +32,19 @@ export default function Play() {
 
   return (
     <Layout>
-    <div className="relative h-screen bg-[#1C2C54] text-white font-sans">
+    <div id="inicio-bienvenida" 
+    className="relative h-screen bg-[#1C2C54] text-white font-sans">
+      
       {/* Componente de puntos */}
       <PointsDisplay points={points} />
 
+      {/* MOVERLO DE SITIO ROMPE MENÚ DE INICIO*/}
+      <div>
+        <p className="text-center">
+          <TutorialDriver/>
+        </p>
+      </div>
+      
       {/* Componente de modo de juego */}
       <GameModeDisplay selectedMode={selectedMode} />
 

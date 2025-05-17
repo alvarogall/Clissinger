@@ -5,7 +5,9 @@ import lockIcon from '../images/lock.svg';           // NUEVO: Icono de candado
 
 export default function Footer({ selectedMode, setSelectedMode }) {
   return (
-    <div className="fixed bottom-0 w-full bg-[#1E3A8A] py-6 flex justify-around items-center gap-6 sm:gap-8">
+    <div id="inicio-seleccion-modo" className='fixed bottom-0 w-full h-[150px]'>{/* DIV INVISIBLE PARA EL TUTORIAL */}
+    <div
+    className="fixed bottom-0 w-full bg-[#1E3A8A] py-6 flex justify-around items-center gap-6 sm:gap-8">
       {/* Modo relámpago */}
       <div
         onClick={() => setSelectedMode('lightning')}
@@ -36,6 +38,7 @@ export default function Footer({ selectedMode, setSelectedMode }) {
         <img src={lockIcon} alt="Modo futuro bloqueado" className="w-8 h-8" />
         <span className="hidden sm:inline text-white font-bold text-lg sm:text-2xl">Modo Futuro</span>
       </div>
+    </div>
     </div>
   );
 }

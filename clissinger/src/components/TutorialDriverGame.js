@@ -1,0 +1,114 @@
+import { driver } from 'driver.js';
+import 'driver.js/dist/driver.css';
+
+function TutorialDriver({ tematicasDesbloqueadas }) {
+  const startTutorial = () => {
+    const steps = [
+      {
+        element: '#juego-imagenes',
+        popover: {
+          title: 'IMÁGENES',
+          description: 'Debes adivinar la palabra oculta a partir de estas imágenes.',
+          position: 'bottom',
+        },
+        position: 'left-center',
+      },
+      {
+        element: '#juego-letras',
+        popover: {
+          title: 'LETRAS',
+          description: 'Tienes disponibles este total de letras.',
+          position: 'bottom',
+        },
+        position: 'left-center',
+      },
+      {
+        element: '#juego-rayas',
+        popover: {
+          title: 'RAYAS',
+          description: 'Estas rayas representan la longitud de la palabra oculta.',
+          position: 'bottom',
+        },
+        position: 'left-center',
+      },
+      {
+        element: '#juego-borrar',
+        popover: {
+          title: 'BORRAR',
+          description: 'Si te equivocas puedes borrar las letras, no te preocupes 😉.',
+          position: 'bottom',
+        },
+        position: 'left-center',
+      },
+      
+      {
+        element: '#juego-aciertos',
+        popover: {
+          title: 'ACIERTOS',
+          description: 'Para pasarte esta temática debes completar el total de aciertos sin fallar 🏆.',
+          position: 'bottom',
+        },
+        position: 'left-center',
+      },
+      
+      {
+        element: '#juego-pista',
+        popover: {
+          title: 'PISTA',
+          description: 'Si se complica mucho, tienes disponible una pista por nivel, hasta un total de 3 por temática 🧠.',
+          position: 'bottom',
+        },
+        position: 'left-center',
+      },
+    ];
+
+
+    const instance = driver({
+      steps,
+      animate: true,
+      opacity: 0.75,
+      padding: 10,
+      doneBtnText: 'Finalizar',
+      nextBtnText: 'Siguiente',
+      prevBtnText: 'Anterior',
+      showProgress: true,
+      onPopoverRender: (popover, { state }) => {
+        const firstButton = document.createElement('button');
+        firstButton.innerText = 'Inicio';
+        Object.assign(firstButton.style, {
+          backgroundColor: '#1e2460',
+          color: 'white',
+          borderRadius: '5px',
+          padding: '8px 16px',
+          marginRight: '10px',
+          fontSize: '14px',
+          cursor: 'pointer',
+          transition: 'background-color 0.3s ease',
+          boxShadow: 'none',
+          textShadow: 'none',
+          outline: 'none',
+          display: 'inline-block',
+        });
+
+        firstButton.addEventListener('click', () => {
+          instance.drive(0);
+        });
+
+        popover.footerButtons.prepend(firstButton);
+      },
+    });
+
+    instance.drive();
+  };
+
+  return (
+    <button
+      onClick={startTutorial}
+      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+    >
+      Iniciar Tutorial
+    </button>
+  );
+}
+
+export default TutorialDriver;

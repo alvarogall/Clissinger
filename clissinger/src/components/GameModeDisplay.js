@@ -15,6 +15,7 @@ export default function GameModeDisplay({ selectedMode }) {
 
   return (
     <div className="flex flex-col items-center justify-center h-full">
+      <div id ="inicio-jugar">
       {/* Icono del modo */}
       <img
         key={iconSrc} // Cambiará cada vez que cambie el modo
@@ -24,20 +25,22 @@ export default function GameModeDisplay({ selectedMode }) {
       />
 
       {/* Botón jugar */}
-      <button
+      <button 
         onClick={handlePlayClick}
         className="mt-6 px-12 py-4 bg-[#FFCF25] rounded-full text-white font-extrabold text-5xl uppercase hover:scale-95 active:scale-90 transition-transform"
       >
         JUGAR
       </button>
-
-      {/* Botón de ajustes */}
-      <div className="fixed top-4 left-4 z-30">
-        <BotonAjustes className="p-2 sm:p-3 sm:px-6 sm:py-3" />
       </div>
-
       {/* Botón de ajustes */}
-      <div className="fixed top-20 left-4 z-30">
+      <div id="inicio-ajustes"
+      className="fixed top-4 left-4 z-30">
+        <BotonAjustes className="p-2 sm:p-3 sm:px-6 sm:py-3 " />
+      </div>
+      
+      {/* Botón de ajustes */}
+      <div id="inicio-cerrar-sesion"
+      className="fixed top-24 left-4 z-30">
         <BotonCerrarSesion className="p-2 sm:p-3 sm:px-6 sm:py-3" />
       </div>
     </div>

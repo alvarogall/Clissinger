@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import BotonVolverAtrasMenu from "./../components/common/botonVolverAtrasMenu";
 import BotonAjustes from "./../components/common/botonAjustes";
 import lightBulb from "../images/lightbulb.svg";
+import TutorialDriver from "../components/TutorialDriverGame";
 
 function generateLetterOptions(answer, totalLetters = 12) {
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -215,19 +216,24 @@ function Game(props) {
         </div>
       )}
 
+      <TutorialDriver/>
+
+
       {/* Header */}
       <div className="absolute top-4 left-4 flex items-center gap-4">
         <BotonVolverAtrasMenu onClick={props.onBackClick} />
-        <div className="text-green-400 font-semibold text-lg">
+        <div id="juego-aciertos"
+        className="text-green-400 font-semibold text-lg">
         Aciertos: {successCount}/{levels.length}
         </div>
       </div>
 
-    <div className="absolute top-4 right-4 flex items-center gap-2">
+    <div id="juego-pista" 
+    className="absolute top-4 right-4 flex items-center gap-2">
       {hintCount > 0 ? (
         <>
           <img src={lightBulb} alt="Icono de pista" className="w-[60px] h-[60px]" />
-          <button
+          <button 
             onClick={() => {
               if (!hintUsedForCurrentLevel && levelData?.hint) {
                 alert(levelData.hint + "\n\n" + "Como ya has usado la pista no podrás usar más hasta el próximo nivel, ¡Suerte!");
@@ -237,7 +243,7 @@ function Game(props) {
               }
             }
             disabled={hintUsedForCurrentLevel}
-            className={`bg-yellow-200 hover:bg-yellow-300 font-bold px-4 py-2.5 rounded-xl text-xl flex items-center gap-3 shadow-md ${
+            className={`bg-yellow-400 hover:bg-yellow-500 font-bold px-4 py-2.5 rounded-xl text-xl flex items-center gap-3 shadow-md ${
               hintUsedForCurrentLevel ? 'opacity-50 cursor-not-allowed' : ''
             }`}
           >
@@ -264,7 +270,8 @@ function Game(props) {
           ¿Qué palabra relaciona estas imágenes?
         </h1>
 
-        <div className="grid grid-cols-2 gap-2 mb-4 w-full max-w-sm">
+        <div id="juego-imagenes"
+        className="grid grid-cols-2 gap-2 mb-4 w-full max-w-sm">
           {[levelData.image1, levelData.image2, levelData.image3, levelData.image4].map((img, idx) => (
             <div key={idx} className="aspect-square bg-gray-700 rounded-xl overflow-hidden shadow-lg">
               <img src={img} alt={`Imagen ${idx + 1}`} className="object-cover w-full h-full" />
@@ -274,7 +281,8 @@ function Game(props) {
 
 
         {/* Letras seleccionadas */}
-        <div className="text-yellow-400 text-3xl tracking-widest mb-8">
+        <div id="juego-rayas" 
+        className="text-yellow-400 text-3xl tracking-widest mb-8">
           {levelData.word.split("").map((_, idx) => (
             <span
               key={idx}
@@ -290,7 +298,8 @@ function Game(props) {
           
 
           {/* Letras */}
-          <div className="grid grid-cols-6 gap-3 w-full max-w-md">
+          <div id ="juego-letras"
+          className="grid grid-cols-6 gap-3 w-full max-w-md">
             {letterOptions.map((letter, i) => (
               <button
                 key={i}
@@ -309,7 +318,7 @@ function Game(props) {
 
 
           {/* Botón borrar */}
-          <button
+          <button id="juego-borrar"
             onClick={handleDeleteLastLetter}
             className="bg-red-500 hover:bg-red-600 text-white font-bold p-3 rounded-lg text-lg"
           >

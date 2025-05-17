@@ -10,7 +10,10 @@ import trophy from '../images/trophy.svg';
 import history from '../images/history.svg';
 import point from '../images/point.svg';
 import BotonVolverAtrasMenu from "./../components/common/botonVolverAtrasMenu";
+import TutorialDriver from '../components/TutorialDriverThemes';
 import { useEffect } from 'react';
+import PointsDisplay from '../components/PointsDisplay'; 
+
 
 function Themes() {
   const navigate = useNavigate();
@@ -22,7 +25,6 @@ function Themes() {
   const userID = localStorage.getItem("userID");
   const [puntos, setPoints] = useState(0);
   const [tematicasDesbloqueadas, setTematicasDesbloqueadas] = useState([]);
-
   const fetchPoints = async () => {
     try {
       const res = await fetch(`https://backend-woad-chi.vercel.app/api/user/${userID}`);
@@ -90,10 +92,9 @@ function Themes() {
         </div>
 
         {/* Puntos */}
-        <div className="absolute top-4 right-4 text-lg sm:text-xl font-semibold flex items-center gap-2 z-30">
-          <img src={point} alt="Puntos" className="w-6 h-6 sm:w-8 sm:h-8" />
-          {puntos}
-        </div>
+        <PointsDisplay points={puntos} />
+
+        <TutorialDriver tematicasDesbloqueadas={tematicasDesbloqueadas} />
 
         <div className="w-full bg-blue-500 min-h-16 sm:min-h-20 absolute top-[7%] sm:top-[11%] text-center text-3xl sm:text-5xl font-bold text-white py-4 sm:py-6">
           SELECCIONA UNA TEMÁTICA
@@ -101,7 +102,7 @@ function Themes() {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-16 sm:gap-y-32 gap-x-4 sm:gap-x-0 w-full sm:w-[60%] place-items-center mt-28 sm:mt-24 px-2">
           <div className="flex flex-col items-center">
-            <button
+            <button id ="tema-paises"
               onClick={() => handle('banderas')}
               className="w-20 h-20 sm:w-24 sm:h-24 bg-blue-800 hover:bg-blue-700 rounded-xl shadow-lg grid place-items-center"
             >
@@ -111,7 +112,7 @@ function Themes() {
           </div>
 
           <div className="flex flex-col items-center">
-            <button
+            <button id ="tema-deportes"
               onClick={() => handle('deportes')}
               className="w-20 h-20 sm:w-24 sm:h-24 bg-blue-800 hover:bg-blue-700 rounded-xl shadow-lg grid place-items-center"
             >
@@ -121,7 +122,7 @@ function Themes() {
           </div>
 
           <div className="flex flex-col items-center">
-            <button
+            <button id ="tema-historia"
               onClick={() => handle('historia')}
               className="w-20 h-20 sm:w-24 sm:h-24 bg-blue-800 hover:bg-blue-700 rounded-xl shadow-lg grid place-items-center"
             >
@@ -133,23 +134,17 @@ function Themes() {
           {/* TEMATICAS BLOQUEADAS */}
 
           <div className="flex flex-col items-center">
-             {tematicasDesbloqueadas.includes("videojuegos") ? (
-                // SI LA TEMATICA ESTA DESBLOQUEADA MUESTRA ICONO
-            <button onClick={() => handle('videojuegos')}
+            {/*SI LA TEMATICA ESTA DESBLOQUEADA CAMBIA ID, ACCIÓN E IMAGEN*/}
+            <button  id={tematicasDesbloqueadas.includes("videojuegos") ? "tema-videojuegos" : "tema-bloqueada"} 
+              onClick={tematicasDesbloqueadas.includes("videojuegos") ? () => handle("videojuegos") : () => desbloquearTematica("videojuegos", 200)}
               className="w-20 h-20 sm:w-24 sm:h-24 bg-blue-700 hover:bg-blue-600 rounded-xl shadow-lg grid place-items-center">
-              <img src={videojuegos} alt="Bloqueado" className="w-12 h-12 sm:w-16 sm:h-16" />
+                <img
+                  src={tematicasDesbloqueadas.includes("videojuegos") ? videojuegos : lock}
+                  alt={tematicasDesbloqueadas.includes("videojuegos") ? "Videojuegos" : "Bloqueado"}
+              className="w-12 h-12 sm:w-16 sm:h-16" />
             </button>
-            ) : (
-              // SI LA TEMATICA NO ESTA DESBLOQUEADA MUESTRA CANDADO
-              <button
-                onClick={() => desbloquearTematica("videojuegos", 200)} //MANDA TEMATICA Y COSTE DE PUNTOS
-                className="w-20 h-20 sm:w-24 sm:h-24 bg-blue-700 hover:bg-blue-600 rounded-xl shadow-lg grid place-items-center"
-              >
-                <img src={lock} alt="Bloqueado" className="w-12 h-12 sm:w-16 sm:h-16" />
-              </button>
-              
-            )}
 
+            {/*SI LA TEMATICA ESTA DESBLOQUEADA CAMBIA TEXTO*/}
             {tematicasDesbloqueadas.includes("videojuegos") ? (
             <p className="text-base sm:text-lg font-bold mt-2 sm:mt-3">VIDEOJUEGOS</p>
             ) : (
@@ -157,27 +152,21 @@ function Themes() {
             <img src={point} alt="Puntos" className="mr-2 w-5 h-5 sm:w-7 sm:h-7" />
             200
             </p>
-          )}
+            )}
           </div>
 
           <div className="flex flex-col items-center">
-             {tematicasDesbloqueadas.includes("series") ? (
-                // SI LA TEMATICA ESTA DESBLOQUEADA MUESTRA ICONO
-            <button onClick={() => handle('series')}
+            {/*SI LA TEMATICA ESTA DESBLOQUEADA CAMBIA ID, ACCIÓN E IMAGEN*/}
+            <button  id={tematicasDesbloqueadas.includes("series") ? "tema-series" : "tema-bloqueada"} 
+              onClick={tematicasDesbloqueadas.includes("series") ? () => handle("series") : () => desbloquearTematica("series", 500)}
               className="w-20 h-20 sm:w-24 sm:h-24 bg-blue-700 hover:bg-blue-600 rounded-xl shadow-lg grid place-items-center">
-              <img src={series} alt="Bloqueado" className="w-12 h-12 sm:w-16 sm:h-16" />
+                <img
+                  src={tematicasDesbloqueadas.includes("series") ? series : lock}
+                  alt={tematicasDesbloqueadas.includes("series") ? "Series" : "Bloqueado"}
+              className="w-12 h-12 sm:w-16 sm:h-16" />
             </button>
-            ) : (
-              // SI LA TEMATICA NO ESTA DESBLOQUEADA MUESTRA CANDADO
-              <button
-                onClick={() => desbloquearTematica("series", 500)} //MANDA TEMATICA Y COSTE DE PUNTOS
-                className="w-20 h-20 sm:w-24 sm:h-24 bg-blue-700 hover:bg-blue-600 rounded-xl shadow-lg grid place-items-center"
-              >
-                <img src={lock} alt="Bloqueado" className="w-12 h-12 sm:w-16 sm:h-16" />
-              </button>
-              
-            )}
-
+            
+             {/*SI LA TEMATICA ESTA DESBLOQUEADA CAMBIA TEXTO*/}
             {tematicasDesbloqueadas.includes("series") ? (
             <p className="text-base sm:text-lg font-bold mt-2 sm:mt-3">SERIES</p>
             ) : (
@@ -189,23 +178,18 @@ function Themes() {
           </div>
 
           <div className="flex flex-col items-center">
-             {tematicasDesbloqueadas.includes("peliculas") ? (
-                // SI LA TEMATICA ESTA DESBLOQUEADA MUESTRA ICONO
-            <button onClick={() => handle('peliculas')}
+             <div className="flex flex-col items-center">
+            {/*SI LA TEMATICA ESTA DESBLOQUEADA CAMBIA ID, ACCIÓN E IMAGEN*/}
+            <button  id={tematicasDesbloqueadas.includes("peliculas") ? "tema-peliculas" : "tema-bloqueada"} 
+              onClick={tematicasDesbloqueadas.includes("peliculas") ? () => handle("peliculas") : () => desbloquearTematica("peliculas", 1000)}
               className="w-20 h-20 sm:w-24 sm:h-24 bg-blue-700 hover:bg-blue-600 rounded-xl shadow-lg grid place-items-center">
-              <img src={peliculas} alt="Bloqueado" className="w-12 h-12 sm:w-16 sm:h-16" />
+                <img
+                  src={tematicasDesbloqueadas.includes("peliculas") ? peliculas : lock}
+                  alt={tematicasDesbloqueadas.includes("peliculas") ? "Peliculas" : "Bloqueado"}
+              className="w-12 h-12 sm:w-16 sm:h-16" />
             </button>
-            ) : (
-              // SI LA TEMATICA NO ESTA DESBLOQUEADA MUESTRA CANDADO
-              <button
-                onClick={() => desbloquearTematica("peliculas", 1000)} //MANDA TEMATICA Y COSTE DE PUNTOS
-                className="w-20 h-20 sm:w-24 sm:h-24 bg-blue-700 hover:bg-blue-600 rounded-xl shadow-lg grid place-items-center"
-              >
-                <img src={lock} alt="Bloqueado" className="w-12 h-12 sm:w-16 sm:h-16" />
-              </button>
-              
-            )}
 
+             {/*SI LA TEMATICA ESTA DESBLOQUEADA CAMBIA TEXTO*/}
             {tematicasDesbloqueadas.includes("peliculas") ? (
             <p className="text-base sm:text-lg font-bold mt-2 sm:mt-3">PELICULAS</p>
             ) : (
@@ -216,6 +200,7 @@ function Themes() {
           )}
           </div>
         </div>
+      </div>
       </div>
     </Layout>
   );
