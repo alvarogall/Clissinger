@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import BotonVolverAtras from "../components/common/botonVolverAtras";
 import Layout from "../components/common/layout";

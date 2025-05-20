@@ -69,12 +69,13 @@ function TutorialDriver({ tematicasDesbloqueadas }) {
     });
     }
 
-     const instance = driver({
+     const stepsCount = steps.length;  
+    const instance = driver({
       steps,
       animate: true,
       opacity: 0.75,
       padding: 10,
-      doneBtnText: 'Finalizar',
+      doneBtnText: 'CERRAR',
       nextBtnText: 'Siguiente',
       prevBtnText: 'Anterior',
       showProgress: true,
@@ -82,27 +83,30 @@ function TutorialDriver({ tematicasDesbloqueadas }) {
       overlayClickNext: false,
 
       onPopoverRender: (popover, { state }) => {
-        const firstButton = document.createElement('button');
-        firstButton.innerText = 'Inicio';
-        firstButton.style.backgroundColor = '#1e2460';
-        firstButton.style.color = 'white';
-        firstButton.style.borderRadius = '5px';
-        firstButton.style.padding = '8px 16px';
-        firstButton.style.marginRight = '10px';
-        firstButton.style.fontSize = '14px';
-        firstButton.style.cursor = 'pointer';
-        firstButton.style.transition = 'background-color 0.3s ease';
-        firstButton.style.boxShadow = 'none';         // <- elimina sombra
-        firstButton.style.textShadow = 'none';        // <- elimina sombra de texto
-        firstButton.style.outline = 'none';           // <- evita bordes al enfocar
-        firstButton.style.display = 'inline-block';
         
-
-        firstButton.addEventListener('click', () => {
-          instance.drive(0);
+        const ultimaDiapositiva = document.createElement('button');
+        ultimaDiapositiva.innerText = 'Finalizar';
+        
+        Object.assign(ultimaDiapositiva.style, {
+          backgroundColor: '#ff3838',
+          color: 'white',
+          borderRadius: '5px',
+          padding: '8px 16px',
+          marginRight: '10px',
+          fontSize: '14px',
+          cursor: 'pointer',
+          transition: 'background-color 0.3s ease',
+          boxShadow: 'none',
+          textShadow: 'none',
+          outline: 'none',
+          display: 'inline-block',
         });
 
-        popover.footerButtons.prepend(firstButton);
+        ultimaDiapositiva.addEventListener('click', () => {
+        instance.drive(stepsCount);
+        });
+
+        popover.footerButtons.prepend(ultimaDiapositiva);
       },
     });
 

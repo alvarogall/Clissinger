@@ -348,7 +348,7 @@ function Game(props) {
             </button>
           </div>
         </div>
-
+        
         <div>
           <BotonAjustes className="mt-10" onClick={() => setShowSettings(true)} />
         </div>

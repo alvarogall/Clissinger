@@ -77,24 +77,25 @@ function TutorialDriver() {
       },
     ];
 
-
+const stepsCount = steps.length;  
     const instance = driver({
       steps,
       animate: true,
       opacity: 0.75,
       padding: 10,
-      doneBtnText: 'Finalizar',
+      doneBtnText: 'CERRAR',
       nextBtnText: 'Siguiente',
       prevBtnText: 'Anterior',
       showProgress: true,
-       allowClose: false,
+      allowClose: false,
       overlayClickNext: false,
-      
+
       onPopoverRender: (popover, { state }) => {
-        const firstButton = document.createElement('button');
-        firstButton.innerText = 'Inicio';
-        Object.assign(firstButton.style, {
-          backgroundColor: '#1e2460',
+        const ultimaDiapositiva = document.createElement('button');
+        ultimaDiapositiva.innerText = 'Finalizar';
+        
+        Object.assign(ultimaDiapositiva.style, {
+          backgroundColor: '#ff3838',
           color: 'white',
           borderRadius: '5px',
           padding: '8px 16px',
@@ -108,11 +109,11 @@ function TutorialDriver() {
           display: 'inline-block',
         });
 
-        firstButton.addEventListener('click', () => {
-          instance.drive(0);
+        ultimaDiapositiva.addEventListener('click', () => {
+        instance.drive(stepsCount);
         });
 
-        popover.footerButtons.prepend(firstButton);
+        popover.footerButtons.prepend(ultimaDiapositiva);
       },
     });
 
