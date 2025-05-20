@@ -4,21 +4,24 @@ import Layout from '../components/common/layout';
 import { useState, useEffect } from "react";
 
 const Settings = () => {
-  // Valores por defecto
-  const DEFAULT_VOLUME = 50;
-  const DEFAULT_FONT_SIZE = 2; // 'M'
-  const DEFAULT_DARK_MODE = false;
-  const DEFAULT_COLOR_BLIND = false;
+  const [volume, setVolume] = useState(50);
+  const { darkMode, setDarkMode, fontSize, setFontSize, saveSettings } = useSettings();
+  const [colorBlind, setColorBlind] = useState(false);
+  const navigate = useNavigate();
 
-  // Obtén los valores actuales del contexto
-  const { darkMode, setDarkMode, fontSize, setFontSize, setColorBlind, saveSettings } = useSettings();
+  const resetTutorials = () => {
+    localStorage.removeItem('tutorial_inicio');
+    localStorage.removeItem('tutorial_tematicas');
+    localStorage.removeItem('tutorial_juego');
+    alert('Tutoriales reiniciados. Se mostrarán nuevamente al navegar.');
+  };
 
-  const [localColorBlind, setLocalColorBlind] = useState(
-    localStorage.getItem('colorBlind') === 'true' ? true : DEFAULT_COLOR_BLIND
-  );
-  const [localVolume, setLocalVolume] = useState(DEFAULT_VOLUME);
-  const [localFontSize, setLocalFontSize] = useState(fontSize);
-  const [localDarkMode, setLocalDarkMode] = useState(darkMode);
+  const resetEstadisticas = () => {
+  localStorage.removeItem('tematicas_desbloqueadas');
+  alert('Estadísticas reiniciadas. Se reiniciarán tus temáticas desbloqueadas.');
+  };
+
+  
 
   const fontLabels = ['XS', 'S', 'M', 'L', 'XL'];
   const getFontSize = () => {
@@ -127,11 +130,14 @@ const Settings = () => {
 
           {/* Botones */}
           <div className="flex justify-between items-center mt-6">
+            <button onClick={resetEstadisticas} className="bg-red-600 text-white font-semibold px-6 py-2 rounded-full shadow-md hover:bg-red-700 transition">
+              Reiniciar Estadísticas
+            </button>
+
             <button
-              onClick={resetSettings}
-              className="bg-red-600 text-white font-semibold px-8 py-2 rounded-full shadow-md hover:bg-red-700 transition"
-            >
-              REESTABLECER AJUSTES
+              onClick={resetTutorials}
+              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">
+              Reiniciar Tutoriales
             </button>
 
             <button

@@ -1,7 +1,20 @@
 import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
+import { TutorialVisto, setTutorialVistoTrue } from './utils/TutorialTracker';
+import { useEffect } from 'react';
 
-function TutorialDriver({ tematicasDesbloqueadas }) {
+
+
+function TutorialDriver() {
+
+  useEffect(() => {
+    const tutorialKey = 'tutorial_inicio';
+
+    if (!TutorialVisto(tutorialKey)) {
+      startTutorial();
+      setTutorialVistoTrue(tutorialKey);
+    }
+  }, []);
   const startTutorial = () => {
     const steps = [
       {
@@ -74,6 +87,9 @@ function TutorialDriver({ tematicasDesbloqueadas }) {
       nextBtnText: 'Siguiente',
       prevBtnText: 'Anterior',
       showProgress: true,
+       allowClose: false,
+      overlayClickNext: false,
+      
       onPopoverRender: (popover, { state }) => {
         const firstButton = document.createElement('button');
         firstButton.innerText = 'Inicio';
@@ -103,14 +119,7 @@ function TutorialDriver({ tematicasDesbloqueadas }) {
     instance.drive();
   };
 
-  return (
-    <button
-      onClick={startTutorial}
-      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-    >
-      Iniciar Tutorial
-    </button>
-  );
+  return null;
 }
 
 export default TutorialDriver;

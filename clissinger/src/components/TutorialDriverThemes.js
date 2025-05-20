@@ -1,7 +1,19 @@
 import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
+import { useEffect } from 'react';
+import { TutorialVisto, setTutorialVistoTrue } from './utils/TutorialTracker';
 
 function TutorialDriver({ tematicasDesbloqueadas }) {
+
+  useEffect(() => {
+    const tutorialKey = 'tutorial_tematicas';
+
+    if (!TutorialVisto(tutorialKey)) {
+      startTutorial();
+      setTutorialVistoTrue(tutorialKey);
+    }
+  }, []);
+
   const startTutorial = () => {
 
     //Temáticas desbloqueadas
@@ -66,6 +78,8 @@ function TutorialDriver({ tematicasDesbloqueadas }) {
       nextBtnText: 'Siguiente',
       prevBtnText: 'Anterior',
       showProgress: true,
+      allowClose: false,
+      overlayClickNext: false,
 
       onPopoverRender: (popover, { state }) => {
         const firstButton = document.createElement('button');
@@ -95,7 +109,7 @@ function TutorialDriver({ tematicasDesbloqueadas }) {
     instance.drive();
   };
 
-  return <button onClick={startTutorial}>Iniciar Tutorial</button>;
+  return null;
 }
 
 export default TutorialDriver
