@@ -128,31 +128,43 @@ function Game(props) {
 
       setTimeout(() => {
         if (playerWord === correctWord) {
-          setSuccessCount(prev => prev + 1);
-          axios.post("https://backend-woad-chi.vercel.app/api/user/add-points", {
-            userId,
-            points,
+          setSuccessCount(prev => {
+            const nuevosAciertos = prev + 1;
+
+            if (mode === "ruleta") {
+              localStorage.setItem("aciertos", nuevosAciertos);
+              navigate("/ruleta");
+            } else {
+              axios.post("https://backend-woad-chi.vercel.app/api/user/add-points", {
+                userId,
+                points,
+              });
+              if (!nextLevelData) {
+                alert("🎉 ¡Has completado todos los niveles de esta temática!");
+                navigate("/jugar");
+                return;
+              }
+              setLevelData(nextLevelData);
+              setDisabledIndexes(new Set());
+              setSelectedLetters([]);
+              setUsedLevelIds((prev) => [...prev, nextLevelData._id]);
+              setHintUsedForCurrentLevel(false);
+              const remainingAfterNext = levels.filter(l => !usedLevelIds.includes(l._id) && l._id !== nextLevelData._id);
+              const preload = remainingAfterNext[Math.floor(Math.random() * remainingAfterNext.length)];
+              setNextLevelData(preload || null);
+            }
+
+            return nuevosAciertos;
           });
-
-          if (!nextLevelData) {
-            alert("🎉 ¡Has completado todos los niveles de esta temática!");
-            navigate("/jugar");
-            return;
-          }
-
-          setLevelData(nextLevelData);
-          setDisabledIndexes(new Set());
-          setSelectedLetters([]);
-          setUsedLevelIds((prev) => [...prev, nextLevelData._id]);
-          setHintUsedForCurrentLevel(false);
-
-          const remainingAfterNext = levels.filter(l => !usedLevelIds.includes(l._id) && l._id !== nextLevelData._id);
-          const preload = remainingAfterNext[Math.floor(Math.random() * remainingAfterNext.length)];
-          setNextLevelData(preload || null);
-
         } else {
-          navigate("/score/derrota");
+          if (mode === "ruleta") {
+            localStorage.setItem("aciertos", 0);
+            navigate("/ruleta");
+          } else {
+            navigate("/score/derrota");
+          }
         }
+
       }, 100);
     }
   };

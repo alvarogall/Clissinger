@@ -1,48 +1,63 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Ruleta = () => {
-  const opciones = ["Banderas", "Deportes", "Historia", "Categoria 4", "Categoria 5", "Categoria 6"];
+  const navigate = useNavigate();
+  const opciones = ["deportes", "historia", "banderas", "videojuegos", "series", "peliculas"];
   const ruletaRef = useRef(null);
   const [girando, setGirando] = useState(false);
   const [resultado, setResultado] = useState(null);
+  const [aciertos, setAciertos] = useState(0);
+
+  useEffect(() => {
+    const aciertosGuardados = parseInt(localStorage.getItem("aciertos") || "0", 10);
+    setAciertos(aciertosGuardados);
+  }, []);
 
   const girarRuleta = () => {
     if (girando) return;
 
-    setResultado(null); // Oculta resultado anterior al girar
+    setResultado(null);
 
     const gradosPorOpcion = 360 / opciones.length;
     const indexGanador = Math.floor(Math.random() * opciones.length);
-    const rotacionExtra = 360 * 5; // vueltas extra
+    const rotacionExtra = 360 * 5;
     const rotacionFinal = rotacionExtra + (360 - indexGanador * gradosPorOpcion - gradosPorOpcion / 2);
 
-    // Reseteamos la rotación para evitar acumulaciones
     ruletaRef.current.style.transition = "none";
     ruletaRef.current.style.transform = `rotate(0deg)`;
-
-    // Forzamos el repaint antes de aplicar nueva rotación
     void ruletaRef.current.offsetWidth;
 
-    // Aplicamos la rotación con transición
-    ruletaRef.current.style.transition = "transform 4s ease-out";
+    ruletaRef.current.style.transition = "transform 1s ease-out";
     ruletaRef.current.style.transform = `rotate(${rotacionFinal}deg)`;
 
     setGirando(true);
     setTimeout(() => {
-      setResultado(opciones[indexGanador]);
+      const resultadoFinal = opciones[indexGanador];
+      setResultado(resultadoFinal);
       setGirando(false);
+
+      // Navegar al juego
+      const aciertosActuales = parseInt(localStorage.getItem("aciertos") || "0", 10);
+      navigate("/juego", {
+        state: {
+          thematic: resultadoFinal,
+          aciertos: aciertosActuales,
+          mode: "ruleta"
+        }
+      });
+
     }, 4000);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-blue-400 flex flex-col items-center justify-start py-12 text-white">
-      <h1 className="text-4xl font-bold mb-10">🎉 Gira la Ruleta 🎉</h1>
+      <h1 className="text-4xl font-bold mb-4">🎉 Gira la Ruleta 🎉</h1>
+      <p className="text-xl font-semibold mb-6">🔥 Aciertos seguidos: {aciertos}</p>
 
       {/* Flecha */}
       <div className="relative w-[420px]">
-        <div
-          className="w-0 h-0 border-l-[20px] border-r-[20px] border-b-[30px] border-l-transparent border-r-transparent border-b-yellow-400 absolute top-0 left-1/2 -translate-x-1/2 z-10 rotate-180"
-        ></div>
+        <div className="w-0 h-0 border-l-[20px] border-r-[20px] border-b-[30px] border-l-transparent border-r-transparent border-b-yellow-400 absolute top-0 left-1/2 -translate-x-1/2 z-10 rotate-180"></div>
 
         {/* Ruleta */}
         <div
@@ -59,47 +74,31 @@ const Ruleta = () => {
             )`,
           }}
         >
-          <svg
-            width="420"
-            height="420"
-            viewBox="0 0 420 420"
-            className="absolute top-0 left-0 z-10"
-          >
-            <defs>
-              {opciones.map((_, index) => {
-                const radio = 170;
-                const anguloInicio = (360 / opciones.length) * index;
-                const anguloFinal = anguloInicio + 360 / opciones.length;
-                const rad = (deg) => (deg * Math.PI) / 180;
+        {opciones.map((opcion, index) => {
+          const anglePerSector = 360 / opciones.length;
+          const angle = anglePerSector * index + anglePerSector / 2;
 
-                const x1 = 210 + radio * Math.cos(rad(anguloInicio - 90));
-                const y1 = 210 + radio * Math.sin(rad(anguloInicio - 90));
-                const x2 = 210 + radio * Math.cos(rad(anguloFinal - 90));
-                const y2 = 210 + radio * Math.sin(rad(anguloFinal - 90));
+          return (
+            <div
+              key={index}
+              className="absolute left-1/2 top-1/2 text-white font-bold text-[14px] text-center"
+              style={{
+                transform: `rotate(${angle}deg) translateY(-50%) translateY(-155px) rotate(-${angle}deg)`,
+                transformOrigin: "center",
+                width: "100px",
+                marginLeft: "-50px",
+                pointerEvents: "none",
+              }}
+            >
+              {opcion}
+            </div>
+          );
+        })}
 
-                return (
-                  <path
-                    key={`path-${index}`}
-                    id={`textPath-${index}`}
-                    d={`M ${x1},${y1} A ${radio},${radio} 0 0,1 ${x2},${y2}`}
-                    fill="none"
-                  />
-                );
-              })}
-            </defs>
 
-            {opciones.map((opcion, index) => (
-              <text key={index} fontSize="16" fill="white" fontWeight="bold">
-                <textPath
-                  href={`#textPath-${index}`}
-                  startOffset="50%"
-                  textAnchor="middle"
-                >
-                  {opcion}
-                </textPath>
-              </text>
-            ))}
-          </svg>
+
+
+          {/* Aquí puedes mantener los textPath si lo deseas */}
         </div>
       </div>
 
@@ -111,13 +110,6 @@ const Ruleta = () => {
       >
         {girando ? "Girando..." : "Girar"}
       </button>
-
-      {/* Resultado */}
-      {resultado && (
-        <h2 className="mt-6 text-2xl font-semibold">
-          🎁 Te tocará responder una pregunta de: ¡<span className="underline">{resultado}</span>!
-        </h2>
-      )}
     </div>
   );
 };
