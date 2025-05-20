@@ -38,7 +38,7 @@ function TutorialDriver({ tematicasDesbloqueadas }) {
             Puedes elegir entre 3 modos de juego distintos:<br />
             <strong>Relámpago</strong><br />Es un modo contrarreloj con elección de temática.<br />
             <strong>Normal</strong><br />Es un modo clásico tranquilo con temáticas aleatorias.<br />
-            <strong>Ruleta</strong><br />No tengo claro que vamos a hacer 3=D.
+            <strong>Ruleta</strong><br />Gira la ruleta para responder un nivel de una categoría aleatoria.
           `,
           position: 'bottom',
         },

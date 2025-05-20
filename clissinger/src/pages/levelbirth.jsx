@@ -8,6 +8,7 @@ export default function CrearNivel() {
   const [word, setWord] = useState("");
   const [hint, setHint] = useState("");
   const [thematic, setThematic] = useState("");
+  const [loading,setLoading] = useState(false);
 
   const handleImageChange = (index, file) => {
     const nuevasImagenes = [...imagenes];
@@ -31,7 +32,8 @@ export default function CrearNivel() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true)
+    
     try {
       const urls = await Promise.all(
         imagenes.map((img) => (img ? uploadImageToCloudinary(img) : null))
@@ -63,6 +65,8 @@ export default function CrearNivel() {
     } catch (error) {
       console.error("Error creando el nivel:", error);
       alert("Error al crear el nivel: " + error.message);
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -71,6 +75,14 @@ export default function CrearNivel() {
       <h2 className="text-5xl font-extrabold mb-8 drop-shadow-[3px_3px_0px_black] text-center">
         Crear Nivel
       </h2>
+
+      {loading && (
+        <div className="mb-4 text-lg font-bold text-yellow-300 bg-black/60 px-6 py-3 rounded-xl shadow-lg">
+          Creando Nivel, por favor espere...
+        </div>
+      )}
+
+
 
       <form
         onSubmit={handleSubmit}

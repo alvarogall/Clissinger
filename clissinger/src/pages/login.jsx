@@ -11,6 +11,8 @@ const Login = () => {
 
 
   const handleLogin = async () => {
+    
+    setMessage('Iniciando Sesión, por favor espere...')
     try {
       const res = await fetch("https://backend-woad-chi.vercel.app/api/login", {
         method: "POST",
@@ -20,7 +22,7 @@ const Login = () => {
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
-      setMessage(`✅ ${data.message}`);
+      setMessage(`✅ ${data.message}, redirigiendo a la página principal`);
       //Obtenemos el ID del usuario
       const userID = data.user._id;
       localStorage.setItem("userID", userID);
