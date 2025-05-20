@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import "tailwindcss/tailwind.css";
+import Layout from "../components/common/layout";
 
 function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
+    <Layout>
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-950 to-blue-500 text-white relative px-4 py-6">
       <nav className="absolute top-4 sm:top-5 left-0 right-0 px-4 sm:px-5 flex justify-between items-center text-base sm:text-lg font-semibold opacity-90 z-20">
         {/* Menú hamburguesa en móvil y enlaces en escritorio a la IZQUIERDA */}
@@ -68,6 +70,7 @@ function Home() {
         JUGAR
       </Link>
     </div>
+    </Layout>
   );
 }
 

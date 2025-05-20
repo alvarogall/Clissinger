@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import BotonVolverAtrasMenu from "./../components/common/botonVolverAtrasMenu";
 import BotonAjustes from "./../components/common/botonAjustes";
 import lightBulb from "../images/lightbulb.svg";
 import TutorialDriver from "../components/TutorialDriverGame";
+import Layout from "../components/common/layout";
 
 function generateLetterOptions(answer, totalLetters = 12) {
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -214,154 +215,133 @@ function Game(props) {
 
   if (!levelData) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-[#172852] to-[#2a5298] text-white flex items-center justify-center">
-        <div>Cargando nivel...</div>
-      </div>
+      <Layout>
+        <div className="min-h-screen flex items-center justify-center">
+          <div>Cargando nivel...</div>
+        </div>
+      </Layout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#172852] to-[#2a5298] text-white flex flex-col items-center p-4 pt-16 pb-10">
-      {mode === "lightning" && timer !== null && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 bg-red-600 text-white px-4 py-2 rounded-lg text-lg font-bold shadow-lg z-50">
-          ⏱️ Tiempo restante: {timer}s
-        </div>
-      )}
-
-      <TutorialDriver/>
-
-
-      {/* Header */}
-      <div className="absolute top-4 left-4 flex items-center gap-4">
-        <BotonVolverAtrasMenu onClick={props.onBackClick} />
-        <div id="juego-aciertos"
-        className="text-green-400 font-semibold text-lg">
-        Aciertos: {successCount}/{levels.length}
-        </div>
-      </div>
-
-    <div id="juego-pista" 
-    className="absolute top-4 right-4 flex items-center gap-2">
-      {hintCount > 0 ? (
-        <>
-          <img src={lightBulb} alt="Icono de pista" className="w-[60px] h-[60px]" />
-          <button 
-            onClick={() => {
-              if (!hintUsedForCurrentLevel && levelData?.hint) {
-                alert(levelData.hint + "\n\n" + "Como ya has usado la pista no podrás usar más hasta el próximo nivel, ¡Suerte!");
-                handleHintUsed();
-                setHintUsedForCurrentLevel(true);
-              }
-              }
-            }
-            disabled={hintUsedForCurrentLevel}
-            className={`bg-yellow-400 hover:bg-yellow-500 font-bold px-4 py-2.5 rounded-xl text-xl flex items-center gap-3 shadow-md ${
-              hintUsedForCurrentLevel ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
-          >
-            <span className="uppercase tracking-wide">Pista</span>
-            <span className="text-white text-2xl font-bold">
-              {hintCount}
-            </span>
-          </button>
-        </>
-      ) : (
-        <>
-          <img src={lightBulb} alt="Icono de pista" className="w-[60px] h-[60px] opacity-50" />
-          <div className="bg-gray-400 font-bold px-4 py-2.5 rounded-xl text-xl flex items-center gap-3 shadow-md cursor-not-allowed">
-            <span className="uppercase tracking-wide opacity-50">Pista</span>
-            <span className="text-white text-2xl font-bold">0</span>
+    <Layout>
+      <div className="min-h-screen flex flex-col items-center p-4 pt-16 pb-10">
+        {mode === "lightning" && timer !== null && (
+          <div className="fixed top-4 left-1/2 -translate-x-1/2 bg-red-600 text-white px-4 py-2 rounded-lg text-lg font-bold shadow-lg z-50">
+            ⏱️ Tiempo restante: {timer}s
           </div>
-        </>
-      )}
-    </div>
+        )}
 
-      {/* Main content */}
-      <div className="w-full max-w-2xl flex flex-col items-center">
-        <h1 className="text-2xl font-bold mb-4 text-center px-4">
-          ¿Qué palabra relaciona estas imágenes?
-        </h1>
+        <TutorialDriver />
 
-        <div id="juego-imagenes"
-        className="grid grid-cols-2 gap-2 mb-4 w-full max-w-sm">
-          {[levelData.image1, levelData.image2, levelData.image3, levelData.image4].map((img, idx) => (
-            <div key={idx} className="aspect-square bg-gray-700 rounded-xl overflow-hidden shadow-lg">
-              <img src={img} alt={`Imagen ${idx + 1}`} className="object-cover w-full h-full" />
-            </div>
-          ))}
+        {/* Header */}
+        <div className="absolute top-4 left-4 flex items-center gap-4">
+          <BotonVolverAtrasMenu onClick={props.onBackClick} />
+          <div id="juego-aciertos"
+            className="text-green-400 font-semibold text-lg">
+            Aciertos: {successCount}/{levels.length}
+          </div>
         </div>
 
-
-        {/* Letras seleccionadas */}
-        <div id="juego-rayas" 
-        className="text-yellow-400 text-3xl tracking-widest mb-8">
-          {levelData.word.split("").map((_, idx) => (
-            <span
-              key={idx}
-              className="inline-block border-b-2 border-yellow-400 w-5 mx-1"
-            >
-              {selectedLetters[idx] || "\u00A0"}
-            </span>
-          ))}
-        </div>
-
-        {/* Zona de letras y botón borrar */}
-        <div className="flex justify-center items-center gap-4">
-          
-
-          {/* Letras */}
-          <div id ="juego-letras"
-          className="grid grid-cols-6 gap-3 w-full max-w-md">
-            {letterOptions.map((letter, i) => (
+        <div id="juego-pista"
+          className="absolute top-4 right-4 flex items-center gap-2">
+          {hintCount > 0 ? (
+            <>
+              <img src={lightBulb} alt="Icono de pista" className="w-[60px] h-[60px]" />
               <button
-                key={i}
-                onClick={() => handleLetterClick(letter, i)}
-                disabled={disabledIndexes.has(i)}
-                className={`font-bold p-3 rounded-lg text-lg ${
-                  disabledIndexes.has(i)
-                    ? "bg-gray-400 text-white"
-                    : "bg-yellow-400 text-black hover:bg-yellow-500"
+                onClick={() => {
+                  if (!hintUsedForCurrentLevel && levelData?.hint) {
+                    alert(levelData.hint + "\n\n" + "Como ya has usado la pista no podrás usar más hasta el próximo nivel, ¡Suerte!");
+                    handleHintUsed();
+                    setHintUsedForCurrentLevel(true);
+                  }
+                }}
+                disabled={hintUsedForCurrentLevel}
+                className={`bg-yellow-400 hover:bg-yellow-500 font-bold px-4 py-2.5 rounded-xl text-xl flex items-center gap-3 shadow-md ${
+                  hintUsedForCurrentLevel ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               >
-                {letter}
+                <span className="uppercase tracking-wide">Pista</span>
+                <span className="text-white text-2xl font-bold">
+                  {hintCount}
+                </span>
               </button>
+            </>
+          ) : (
+            <>
+              <img src={lightBulb} alt="Icono de pista" className="w-[60px] h-[60px] opacity-50" />
+              <div className="bg-gray-400 font-bold px-4 py-2.5 rounded-xl text-xl flex items-center gap-3 shadow-md cursor-not-allowed">
+                <span className="uppercase tracking-wide opacity-50">Pista</span>
+                <span className="text-white text-2xl font-bold">0</span>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Main content */}
+        <div className="w-full max-w-2xl flex flex-col items-center">
+          <h1 className="text-2xl font-bold mb-4 text-center px-4">
+            ¿Qué palabra relaciona estas imágenes?
+          </h1>
+
+          <div id="juego-imagenes"
+            className="grid grid-cols-2 gap-2 mb-4 w-full max-w-sm">
+            {[levelData.image1, levelData.image2, levelData.image3, levelData.image4].map((img, idx) => (
+              <div key={idx} className="aspect-square bg-gray-700 rounded-xl overflow-hidden shadow-lg">
+                <img src={img} alt={`Imagen ${idx + 1}`} className="object-cover w-full h-full" />
+              </div>
             ))}
           </div>
 
+          {/* Letras seleccionadas */}
+          <div id="juego-rayas"
+            className="text-yellow-400 text-3xl tracking-widest mb-8">
+            {levelData.word.split("").map((_, idx) => (
+              <span
+                key={idx}
+                className="inline-block border-b-2 border-yellow-400 w-5 mx-1"
+              >
+                {selectedLetters[idx] || "\u00A0"}
+              </span>
+            ))}
+          </div>
 
-          {/* Botón borrar */}
-          <button id="juego-borrar"
-            onClick={handleDeleteLastLetter}
-            className="bg-red-500 hover:bg-red-600 text-white font-bold p-3 rounded-lg text-lg"
-          >
-            ⌫ Borrar
-          </button>
+          {/* Zona de letras y botón borrar */}
+          <div className="flex justify-center items-center gap-4">
+            {/* Letras */}
+            <div id="juego-letras"
+              className="grid grid-cols-6 gap-3 w-full max-w-md">
+              {letterOptions.map((letter, i) => (
+                <button
+                  key={i}
+                  onClick={() => handleLetterClick(letter, i)}
+                  disabled={disabledIndexes.has(i)}
+                  className={`font-bold p-3 rounded-lg text-lg ${
+                    disabledIndexes.has(i)
+                      ? "bg-gray-400 text-white"
+                      : "bg-yellow-400 text-black hover:bg-yellow-500"
+                  }`}
+                >
+                  {letter}
+                </button>
+              ))}
+            </div>
 
+            {/* Botón borrar */}
+            <button id="juego-borrar"
+              onClick={handleDeleteLastLetter}
+              className="bg-red-500 hover:bg-red-600 text-white font-bold p-3 rounded-lg text-lg"
+            >
+              ⌫ Borrar
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <BotonAjustes className="mt-10" />
         </div>
       </div>
-
-      <div>
-        <BotonAjustes className="mt-10" />
-      </div>
-
-      {/* Botones debug */}
-      {/* <div className="absolute bottom-4 -translate-x-3/4">
-        <button
-          onClick={() => handleScore("victoria")}
-          className="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 rounded"
-        >
-          Puntuación Exitosa
-        </button>
-      </div>
-      <div className="absolute bottom-4 translate-x-3/4">
-        <button
-          onClick={() => handleScore("derrota")}
-          className="bg-red-500 hover:bg-red-600 text-white font-bold px-4 py-2 rounded"
-        >
-          Puntuación Fallida
-        </button>
-      </div> */}
-    </div>
+    </Layout>
   );
 }
 

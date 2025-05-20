@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PointsDisplay from '../components/PointsDisplay';
 import GameModeDisplay from '../components/GameModeDisplay';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/common/layout';
-import { useEffect } from 'react';
 import TutorialDriver from '../components/TutorialDriverPlay';
 
 export default function Play() {
@@ -31,27 +30,26 @@ export default function Play() {
   }, []);
 
   return (
-    <Layout>
-    <div id="inicio-bienvenida" 
-    className="relative h-screen bg-[#1C2C54] text-white font-sans">
-      
+  <Layout>
+    <div id="inicio-bienvenida" className="relative min-h-screen pb-[60px] font-sans flex flex-col">
       {/* Componente de puntos */}
       <PointsDisplay points={points} />
 
-      {/* MOVERLO DE SITIO ROMPE MENÚ DE INICIO*/}
-      <div>
+      {/* Tutorial */}
+      <div className="mt-6">
         <p className="text-center">
           <TutorialDriver/>
         </p>
       </div>
       
-      {/* Componente de modo de juego */}
-      <GameModeDisplay selectedMode={selectedMode} />
+      {/* Contenido principal centrado */}
+      <div className="flex-1 flex flex-col items-center justify-center">
+        <GameModeDisplay selectedMode={selectedMode} />
+      </div>
 
       {/* Footer con selección de modo */}
       <Footer selectedMode={selectedMode} setSelectedMode={setSelectedMode} />
-
     </div>
-    </Layout>
+  </Layout>
   );
 }

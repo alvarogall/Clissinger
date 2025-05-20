@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
 import BotonVolverAtras from "../components/common/botonVolverAtrasMenu";
 import { useSettings } from '../context/SettingsContext'; 
 import Layout from '../components/common/layout';
 import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
 
 const Settings = () => {
   const [volume, setVolume] = useState(50);

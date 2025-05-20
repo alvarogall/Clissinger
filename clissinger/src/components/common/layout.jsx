@@ -1,5 +1,4 @@
 // src/components/common/Layout.jsx
-import React from 'react';
 import { useSettings } from '../../context/SettingsContext';
 
 const Layout = ({ children }) => {
@@ -16,9 +15,9 @@ const Layout = ({ children }) => {
       style={{
         background: darkMode
           ? 'linear-gradient(to bottom, #1e1e1e, #2e2e2e)'
-          : 'linear-gradient(to bottom, #1e3a8a, #34d399)',
+          : 'linear-gradient(to bottom, #172554, #3b82f6)',
         fontSize: getFontSize(),
-        color: darkMode ? '#fff' : '#000'
+        color: '#fff'
       }}
     >
       {children}
