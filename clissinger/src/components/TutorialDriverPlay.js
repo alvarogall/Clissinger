@@ -49,8 +49,8 @@ function TutorialDriver() {
           title: 'MODO DE JUEGO',
           description: `
             Puedes elegir entre 3 modos de juego distintos:<br />
-            <strong>Relámpago</strong><br />Es un modo contrarreloj con elección de temática.<br />
-            <strong>Normal</strong><br />Es un modo clásico tranquilo con temáticas aleatorias.<br />
+            <strong>Relámpago</strong><br />Es un modo contrarreloj en el que la rapidez es clave.<br />
+            <strong>Normal</strong><br />Es el modo clásico y tranquilo de Clissinger.<br />
             <strong>Ruleta</strong><br />Gira la ruleta para responder un nivel de una categoría aleatoria.
           `,
           position: 'bottom',

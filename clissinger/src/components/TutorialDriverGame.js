@@ -31,7 +31,7 @@ function TutorialDriver() {
         element: '#juego-letras',
         popover: {
           title: 'LETRAS',
-          description: 'Tienes disponibles este total de letras.',
+          description: 'Tienes disponibles este total de letras. Si dispones de teclado puedes usarlo.',
           position: 'bottom',
         },
         position: 'left-center',

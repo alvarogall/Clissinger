@@ -20,7 +20,7 @@ export default function Footer({ selectedMode, setSelectedMode }) {
         {/* Modo relámpago */}
         <div
           onClick={() => setSelectedMode('lightning')}
-          className={`flex flex-col sm:flex-row items-center justify-center gap-2 w-24 h-20 sm:w-60 sm:h-20 bg-blue-500 rounded-md cursor-pointer transition-transform ${
+          className={`flex flex-col sm:flex-row items-center justify-center gap-2 w-24 h-20 sm:w-60 sm:h-20 bg-blue-600 rounded-md cursor-pointer transition-transform ${
             selectedMode === 'lightning' ? 'translate-y-[-50%] scale-110' : ''
           } hover:scale-105`}
         >
@@ -31,7 +31,7 @@ export default function Footer({ selectedMode, setSelectedMode }) {
         {/* Modo normal */}
         <div
           onClick={() => setSelectedMode('normal')}
-          className={`flex flex-col sm:flex-row items-center justify-center gap-2 w-24 h-20 sm:w-60 sm:h-20 bg-blue-500 rounded-md cursor-pointer transition-transform ${
+          className={`flex flex-col sm:flex-row items-center justify-center gap-2 w-24 h-20 sm:w-60 sm:h-20 bg-blue-600 rounded-md cursor-pointer transition-transform ${
             selectedMode === 'normal' ? 'translate-y-[-50%] scale-110' : ''
           } hover:scale-105`}
         >
@@ -42,7 +42,7 @@ export default function Footer({ selectedMode, setSelectedMode }) {
         {/* Modo Ruleta */}
         <div
           onClick={() => setSelectedMode('ruleta')}
-          className={`flex flex-col sm:flex-row items-center justify-center gap-2 w-24 h-20 sm:w-60 sm:h-20 bg-blue-500 rounded-md cursor-pointer transition-transform ${
+          className={`flex flex-col sm:flex-row items-center justify-center gap-2 w-24 h-20 sm:w-60 sm:h-20 bg-blue-600 rounded-md cursor-pointer transition-transform ${
             selectedMode === 'ruleta' ? 'translate-y-[-50%] scale-110' : ''
           } hover:scale-105`}
         >

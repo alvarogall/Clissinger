@@ -3,7 +3,7 @@ import completado from "../images/completado.svg";
 import fracaso from "../images/fracaso.svg";
 import gameover from "../images/gameover.png";
 import point from "../images/point.svg";
-import { Link, useParams } from "react-router-dom";
+import { useLocation, useParams, Link } from "react-router-dom";
 import Layout from "../components/common/layout";
 
 
@@ -11,6 +11,8 @@ function Score() {
 
   const {resultado} = useParams();
   const victoria = resultado === "victoria";
+  const location = useLocation();
+  const score = location.state?.score ?? 0; 
     
     return (
       <Layout>
@@ -23,7 +25,7 @@ function Score() {
                 <p className="text-center text-2xl text-white">Recompensa</p><br/>
                  <div className="flex items-center gap-2">
                       <img src={point} alt="Icono de puntos" className="w-8 h-8" />
-                      <span className="text-3xl font-bold">100</span>
+                      <span className="text-3xl font-bold">{score}</span>
                     </div>
                 <Link
                         to="/jugar"

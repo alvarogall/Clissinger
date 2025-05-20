@@ -74,8 +74,7 @@ function Game(props) {
     );
 
     if (remainingLevels.length === 0) {
-      alert("🎉 ¡Has completado todos los niveles!");
-      navigate("/");
+      navigate("/score/victoria", { state: { score: (successCount + 1) * points } });
       return;
     }
 
@@ -145,8 +144,7 @@ function Game(props) {
                 points,
               });
               if (!nextLevelData) {
-                alert("🎉 ¡Has completado todos los niveles de esta temática!");
-                navigate("/jugar");
+                navigate("/score/victoria", { state: { score: (successCount + 1) * points } });
                 return;
               }
               setLevelData(nextLevelData);
