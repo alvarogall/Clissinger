@@ -75,7 +75,11 @@ export default function CrearNivel() {
         <h2 className="text-5xl font-extrabold mb-8 drop-shadow-[3px_3px_0px_black] text-center">
           Crear Nivel
         </h2>
-
+      {loading && (
+        <div className="mb-4 text-lg font-bold text-yellow-300 bg-black/60 px-6 py-3 rounded-xl shadow-lg">
+          Creando Nivel, por favor espere...
+        </div>
+      )}
         <form
           onSubmit={handleSubmit}
           className="bg-white/10 backdrop-blur-md p-8 rounded-3xl shadow-lg w-full max-w-md"
