@@ -337,10 +337,12 @@ function Game(props) {
             </button>
           </div>
         </div>
-
+        
+        {/* BOTÓN AJUSTES
         <div>
           <BotonAjustes className="mt-10" />
         </div>
+        */}
       </div>
     </Layout>
   );

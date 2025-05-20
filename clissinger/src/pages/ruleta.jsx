@@ -1,6 +1,7 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from '../components/common/layout';
+import BotonVolverAtrasMenu from "../components/common/botonVolverAtrasMenu";
 
 const Ruleta = () => {
   const navigate = useNavigate();
@@ -53,6 +54,10 @@ const Ruleta = () => {
 
   return (
     <Layout>
+      <div className="flex absolute top-5 left-5">
+        <BotonVolverAtrasMenu />
+      </div>
+
       <div className="min-h-screen flex flex-col items-center justify-start py-12">
         <h1 className="text-4xl font-bold mb-4">🎉 Gira la Ruleta 🎉</h1>
         <p className="text-xl font-semibold mb-6">🔥 Aciertos seguidos: {aciertos}</p>
