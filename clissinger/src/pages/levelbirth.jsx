@@ -7,6 +7,7 @@ export default function CrearNivel() {
   const [word, setWord] = useState("");
   const [hint, setHint] = useState("");
   const [thematic, setThematic] = useState("");
+  const [loading,setLoading] = useState(false);
 
   const handleImageChange = (index, file) => {
     const nuevasImagenes = [...imagenes];
@@ -30,7 +31,8 @@ export default function CrearNivel() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true)
+    
     try {
       const urls = await Promise.all(
         imagenes.map((img) => (img ? uploadImageToCloudinary(img) : null))
@@ -62,13 +64,85 @@ export default function CrearNivel() {
     } catch (error) {
       console.error("Error creando el nivel:", error);
       alert("Error al crear el nivel: " + error.message);
+    } finally {
+      setLoading(false)
     }
   };
 
   return (
+<<<<<<< HEAD
     <Layout>
       <div className="flex flex-col items-center justify-center min-h-screen px-6">
         <h2 className="text-5xl font-extrabold mb-8 drop-shadow-[3px_3px_0px_black] text-center">
+=======
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-950 to-blue-500 text-white px-6">
+      <h2 className="text-5xl font-extrabold mb-8 drop-shadow-[3px_3px_0px_black] text-center">
+        Crear Nivel
+      </h2>
+
+      {loading && (
+        <div className="mb-4 text-lg font-bold text-yellow-300 bg-black/60 px-6 py-3 rounded-xl shadow-lg">
+          Creando Nivel, por favor espere...
+        </div>
+      )}
+
+
+
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white/10 backdrop-blur-md p-8 rounded-3xl shadow-lg w-full max-w-md"
+      >
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          {imagenes.map((img, i) => (
+            <div key={i} className="flex flex-col items-center">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleImageChange(i, e.target.files[0])}
+                className="w-full text-sm text-white"
+              />
+              {img && (
+                <img
+                  src={URL.createObjectURL(img)}
+                  alt={`Preview ${i + 1}`}
+                  className="w-24 h-24 mt-2 object-cover rounded border-2 border-white"
+                />
+              )}
+            </div>
+          ))}
+        </div>
+
+        <input
+          type="text"
+          placeholder="Palabra clave"
+          className="w-full p-3 mb-4 text-lg rounded bg-white/80 text-black placeholder-gray-600 focus:outline-none"
+          value={word}
+          onChange={(e) => setWord(e.target.value)}
+          required
+        />
+
+        <input
+          type="text"
+          placeholder="Pista (opcional)"
+          className="w-full p-3 mb-6 text-lg rounded bg-white/80 text-black placeholder-gray-600 focus:outline-none"
+          value={hint}
+          onChange={(e) => setHint(e.target.value)}
+        />
+        
+        <input
+          type="text"
+          placeholder="Tematica"
+          className="w-full p-3 mb-6 text-lg rounded bg-white/80 text-black placeholder-gray-600 focus:outline-none"
+          value={thematic}
+          onChange={(e) => setThematic(e.target.value)}
+        />
+        
+
+        <button
+          type="submit"
+          className="w-full bg-yellow-400 text-white text-xl font-bold py-3 rounded-full shadow hover:bg-yellow-300 transition"
+        >
+>>>>>>> 611b748dabee5c05d44c6cf81d2ed1279fb7a3eb
           Crear Nivel
         </h2>
 

@@ -9,6 +9,7 @@ const Register = () => {
   const navigate = useNavigate();
 
   const handleRegister = async () => {
+    setMessage('Creando cuenta, por favor espere...')
     try {
       const res = await fetch("https://backend-woad-chi.vercel.app/api/register", {
         method: "POST",
@@ -25,7 +26,7 @@ const Register = () => {
         console.log("Guardado userID en localStorage:", userID);
       }
       
-      setMessage("✅ Usuario creado correctamente");
+      setMessage("✅ Usuario creado correctamente, redirigiendo a la página principal...");
       setTimeout(() => navigate("/jugar"), 1500);
       
     } catch (error) {
