@@ -10,8 +10,11 @@ import trophy from '../images/trophy.svg';
 import history from '../images/history.svg';
 import point from '../images/point.svg';
 import BotonVolverAtrasMenu from "./../components/common/botonVolverAtrasMenu";
+import PointsDisplay from '../components/PointsDisplay';
+
+import { agregarTematicaDesbloqueada, getTematicasDesbloqueadas } from '../components/utils/TematicasCompradas';
 import TutorialDriver from '../components/TutorialDriverThemes';
-import PointsDisplay from '../components/PointsDisplay'; 
+
 
 function Themes() {
   const navigate = useNavigate();
@@ -21,7 +24,9 @@ function Themes() {
   //PRUEBA DESBLOQUEO TEMATICAS
   const userID = localStorage.getItem("userID");
   const [puntos, setPoints] = useState(0);
-  const [tematicasDesbloqueadas, setTematicasDesbloqueadas] = useState([]);
+  const [tematicasDesbloqueadas, setTematicasDesbloqueadas] = useState(() => {
+  const stored = localStorage.getItem("tematicas_desbloqueadas");
+  return stored ? JSON.parse(stored) : [];}); 
   const fetchPoints = async () => {
     try {
       const res = await fetch(`https://backend-woad-chi.vercel.app/api/user/${userID}`);
@@ -59,7 +64,10 @@ function Themes() {
         const nuevosPuntos = puntos - coste;
         setPoints(nuevosPuntos);
 
-        setTematicasDesbloqueadas(prev => [...prev, nombre]);
+        const nuevasTematicas = agregarTematicaDesbloqueada(nombre);
+        setTematicasDesbloqueadas(nuevasTematicas); //GUARDA TEMATICAS LOCALMENTE-APAÑO TEMPORAL
+        localStorage.setItem("tematicas_desbloqueadas", JSON.stringify(nuevasTematicas));
+
         alert(`¡"${nombre.toUpperCase()}" desbloqueado!`);
       } catch (error) {
         console.error("Error restando puntos:", error);

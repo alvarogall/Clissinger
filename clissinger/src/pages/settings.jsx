@@ -9,6 +9,19 @@ const Settings = () => {
   const { darkMode, setDarkMode, fontSize, setFontSize, saveSettings } = useSettings();
   const [colorBlind, setColorBlind] = useState(false);
   const navigate = useNavigate();
+
+  const resetTutorials = () => {
+    localStorage.removeItem('tutorial_inicio');
+    localStorage.removeItem('tutorial_tematicas');
+    localStorage.removeItem('tutorial_juego');
+    alert('Tutoriales reiniciados. Se mostrarán nuevamente al navegar.');
+  };
+
+  const resetEstadisticas = () => {
+  localStorage.removeItem('tematicas_desbloqueadas');
+  alert('Estadísticas reiniciadas. Se reiniciarán tus temáticas desbloqueadas.');
+  };
+
   
 
   const fontLabels = ['XS', 'S', 'M', 'L', 'XL'];
@@ -90,8 +103,14 @@ const Settings = () => {
 
           {/* Botones */}
           <div className="flex justify-between items-center mt-6">
-            <button onClick={() => navigate("/jugar")} className="bg-red-600 text-white font-semibold px-6 py-2 rounded-full shadow-md hover:bg-red-700 transition">
-              Reiniciar estadísticas
+            <button onClick={resetEstadisticas} className="bg-red-600 text-white font-semibold px-6 py-2 rounded-full shadow-md hover:bg-red-700 transition">
+              Reiniciar Estadísticas
+            </button>
+
+            <button
+              onClick={resetTutorials}
+              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">
+              Reiniciar Tutoriales
             </button>
 
             <button onClick={() => saveSettings(darkMode, fontSize)} className="bg-yellow-400 text-white font-bold px-8 py-2 rounded-full shadow-md hover:bg-yellow-500 transition">
