@@ -1,16 +1,21 @@
 import towerIcon from '../images/tower.svg'; // Icono para modo normal
 import lightningIcon from '../images/lightning.svg'; // Icono para modo relámpago
+import ruletaIcon from '../images/ruleta.svg';       // NUEVO: Icono para modo ruleta
 import { useNavigate } from 'react-router-dom';
 import BotonAjustes from "./../components/common/botonAjustes";
 import BotonCerrarSesion from "./../components/common/botonCerrarSesion";
 
 export default function GameModeDisplay({ selectedMode }) {
   const navigate = useNavigate();
-  const iconSrc = selectedMode === 'normal' ? towerIcon : lightningIcon;
+  const iconSrc = selectedMode === 'normal' ? towerIcon : (selectedMode == 'ruleta' ? ruletaIcon : lightningIcon);
 
   const handlePlayClick = () => {
     console.log('Modo seleccionado:', selectedMode);
-    navigate('/tematicas', { state: { mode: selectedMode } }); // Redirigir a Tematicas.js
+    if(selectedMode == 'ruleta'){
+      navigate('/ruleta'); // Redirigir a Tematicas.js
+    }else{
+      navigate('/tematicas', { state: { mode: selectedMode } }); // Redirigir a Tematicas.js
+    }
   };
 
   return (
