@@ -1,22 +1,57 @@
 import BotonVolverAtras from "../components/common/botonVolverAtrasMenu";
 import { useSettings } from '../context/SettingsContext'; 
 import Layout from '../components/common/layout';
-import { useNavigate } from 'react-router-dom';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Settings = () => {
-  const [volume, setVolume] = useState(50);
-  const { darkMode, setDarkMode, fontSize, setFontSize, saveSettings } = useSettings();
-  const [colorBlind, setColorBlind] = useState(false);
-  const navigate = useNavigate();
-  
+  // Valores por defecto
+  const DEFAULT_VOLUME = 50;
+  const DEFAULT_FONT_SIZE = 2; // 'M'
+  const DEFAULT_DARK_MODE = false;
+  const DEFAULT_COLOR_BLIND = false;
+
+  // Obtén los valores actuales del contexto
+  const { darkMode, setDarkMode, fontSize, setFontSize, setColorBlind, saveSettings } = useSettings();
+
+  const [localColorBlind, setLocalColorBlind] = useState(
+    localStorage.getItem('colorBlind') === 'true' ? true : DEFAULT_COLOR_BLIND
+  );
+  const [localVolume, setLocalVolume] = useState(DEFAULT_VOLUME);
+  const [localFontSize, setLocalFontSize] = useState(fontSize);
+  const [localDarkMode, setLocalDarkMode] = useState(darkMode);
 
   const fontLabels = ['XS', 'S', 'M', 'L', 'XL'];
   const getFontSize = () => {
-    const sizes = ['0.75rem', '0.875rem', '1rem', '1.25rem', '1.5rem']; // XS a XL
-    return sizes[fontSize];
+    const sizes = ['0.75rem', '0.875rem', '1rem', '1.25rem', '1.5rem'];
+    return sizes[localFontSize];
   };
-  
+
+  // Efecto para aplicar el modo daltónico al body
+  useEffect(() => {
+    if (localColorBlind) {
+      document.body.classList.add('daltonic');
+    } else {
+      document.body.classList.remove('daltonic');
+    }
+    // Limpieza al desmontar
+    return () => document.body.classList.remove('daltonic');
+  }, [localColorBlind]);
+
+  // Reestablecer ajustes a valores por defecto
+  const resetSettings = () => {
+    setLocalVolume(DEFAULT_VOLUME);
+    setLocalFontSize(DEFAULT_FONT_SIZE);
+    setLocalDarkMode(DEFAULT_DARK_MODE);
+    setLocalColorBlind(DEFAULT_COLOR_BLIND);
+  };
+
+  // Guardar cambios en el contexto global y localStorage
+  const handleSave = () => {
+    setDarkMode(localDarkMode);
+    setFontSize(localFontSize);
+    setColorBlind(localColorBlind);
+    saveSettings(localDarkMode, localFontSize, localColorBlind);
+  };
 
   return (
     <Layout>
@@ -24,10 +59,12 @@ const Settings = () => {
       <div
         className={`min-h-screen flex flex-col items-center py-10 px-4 transition-all duration-300`}
         style={{
-          background: darkMode
+          background: localDarkMode
             ? 'linear-gradient(to bottom, #1e1e1e, #3a3a3a)'
-            : 'linear-gradient(to bottom, #1e3a8a, #2563eb)',
-          color: darkMode ? '#fff' : '#fff',
+            : localColorBlind
+              ? 'linear-gradient(to bottom, #f7e600, #00a2e8)' // Ejemplo de fondo daltónico
+              : 'linear-gradient(to bottom, #1e3a8a, #2563eb)',
+          color: localDarkMode ? '#fff' : '#fff',
           fontSize: getFontSize(),
         }}
       >
@@ -42,8 +79,8 @@ const Settings = () => {
               type="range"
               min="0"
               max="100"
-              value={volume}
-              onChange={(e) => setVolume(e.target.value)}
+              value={localVolume}
+              onChange={(e) => setLocalVolume(Number(e.target.value))}
               className="w-full accent-gray-500"
             />
           </div>
@@ -60,8 +97,8 @@ const Settings = () => {
               type="range"
               min="0"
               max="4"
-              value={fontSize}
-              onChange={(e) => setFontSize(e.target.value)}
+              value={localFontSize}
+              onChange={(e) => setLocalFontSize(Number(e.target.value))}
               className="w-full accent-gray-500"
             />
           </div>
@@ -71,8 +108,8 @@ const Settings = () => {
             <label className="font-semibold">Modo oscuro</label>
             <input
               type="checkbox"
-              checked={darkMode}
-              onChange={() => setDarkMode(!darkMode)}
+              checked={localDarkMode}
+              onChange={() => setLocalDarkMode(!localDarkMode)}
               className="w-6 h-6 accent-blue-600"
             />
           </div>
@@ -82,19 +119,25 @@ const Settings = () => {
             <label className="font-semibold">Modo daltónico</label>
             <input
               type="checkbox"
-              checked={colorBlind}
-              onChange={() => setColorBlind(!colorBlind)}
+              checked={localColorBlind}
+              onChange={() => setLocalColorBlind(!localColorBlind)}
               className="w-6 h-6 accent-blue-600"
             />
           </div>
 
           {/* Botones */}
           <div className="flex justify-between items-center mt-6">
-            <button onClick={() => navigate("/jugar")} className="bg-red-600 text-white font-semibold px-6 py-2 rounded-full shadow-md hover:bg-red-700 transition">
-              Reiniciar estadísticas
+            <button
+              onClick={resetSettings}
+              className="bg-red-600 text-white font-semibold px-8 py-2 rounded-full shadow-md hover:bg-red-700 transition"
+            >
+              REESTABLECER AJUSTES
             </button>
 
-            <button onClick={() => saveSettings(darkMode, fontSize)} className="bg-yellow-400 text-white font-bold px-8 py-2 rounded-full shadow-md hover:bg-yellow-500 transition">
+            <button
+              onClick={handleSave}
+              className="bg-yellow-400 text-white font-bold px-8 py-2 rounded-full shadow-md hover:bg-yellow-500 transition"
+            >
               GUARDAR
             </button>
           </div>
