@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BotonVolverAtras from "../components/common/botonVolverAtras";
+import BotonVolverAtrasInicio from "../components/common/botonVolverAtrasInicio";
 
 const Register = () => {
   const [user, setUser] = useState("");
@@ -70,7 +70,7 @@ const Register = () => {
       </div>
 
       <div className="flex absolute top-5 left-5">
-        <BotonVolverAtras />
+        <BotonVolverAtrasInicio />
       </div>
     </div>
   );

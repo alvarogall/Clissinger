@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 
-const BotonVolverAtrasMenu = () => {
+const BotonVolverAtrasInicio = () => {
 
   return (
     <Link
-        to="/jugar"
+        to="/"
         className="text-lg font-semibold hover:underline"
       >
         ← Volver
@@ -12,4 +12,4 @@ const BotonVolverAtrasMenu = () => {
   );
 };
 
-export default BotonVolverAtrasMenu;
+export default BotonVolverAtrasInicio;
