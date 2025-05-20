@@ -6,6 +6,7 @@ import BotonAjustes from "./../components/common/botonAjustes";
 import lightBulb from "../images/lightbulb.svg";
 import TutorialDriver from "../components/TutorialDriverGame";
 import Layout from "../components/common/layout";
+import Settings from "./settings";
 
 function generateLetterOptions(answer, totalLetters = 12) {
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -30,12 +31,15 @@ function Game(props) {
   const location = useLocation();
   const thematic = location.state?.thematic || "GENERAL";
   const mode = location.state?.mode || "normal";
-  console.log("Temática seleccionada:", thematic);
-  console.log("Modo seleccionado:", mode);
 
+  // Inicializa successCount correctamente para ruleta
+  const initialAciertos =
+    mode === "ruleta"
+      ? Number(location.state?.aciertos ?? localStorage.getItem("aciertos") ?? 0)
+      : 0;
+  const [successCount, setSuccessCount] = useState(initialAciertos);
 
   const [levels, setLevels] = useState([]);
-  const [successCount, setSuccessCount] = useState(0);
   const [usedLevelIds, setUsedLevelIds] = useState([]);
   const [levelData, setLevelData] = useState(null);
   const [nextLevelData, setNextLevelData] = useState(null);
@@ -44,6 +48,7 @@ function Game(props) {
   const [hintCount, setHintCount] = useState(3);
   const [hintUsedForCurrentLevel, setHintUsedForCurrentLevel] = useState(false);
   const [timer, setTimer] = useState(null);
+  const [showSettings, setShowSettings] = useState(false);
 
   const userId = localStorage.getItem("userID");
   const points = 50;
@@ -62,7 +67,6 @@ function Game(props) {
   }, []);
 
   useEffect(() => {
-    
     if (levels.length === 0 || levelData !== null) return;
 
     const remainingLevels = levels.filter(
@@ -190,21 +194,26 @@ function Game(props) {
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (!levelData) return;
-      const key = event.key.toUpperCase();
+      let key = event.key;
 
+      // Normaliza a mayúsculas y convierte ñ minúscula a Ñ
+      if (key === "ñ") key = "Ñ";
+      key = key.toUpperCase();
+
+      // Backspace o Delete: borrar letra
       if (key === "BACKSPACE" || key === "DELETE") {
         event.preventDefault();
         handleDeleteLastLetter();
         return;
       }
 
-      // Solo letras A-Z y espacio
-      if (/^[A-Z ]$/.test(key)) {
+      // Letras A-Z, Ñ y espacio
+      if (/^[A-ZÑ ]$/.test(key)) {
         const idx = letterOptions.findIndex(
           (l, i) => l === key && !disabledIndexes.has(i)
         );
         if (idx !== -1) {
-          event.preventDefault(); // <-- Añade esto aquí
+          event.preventDefault(); // Evita scroll con espacio
           handleLetterClick(key, idx);
         }
       }
@@ -240,7 +249,9 @@ function Game(props) {
           <BotonVolverAtrasMenu onClick={props.onBackClick} />
           <div id="juego-aciertos"
             className="text-green-400 font-semibold text-lg">
-            Aciertos: {successCount}/{levels.length}
+            {mode === "ruleta"
+              ? `Aciertos: ${successCount}`
+              : `Aciertos: ${successCount}/${levels.length}`}
           </div>
         </div>
 
@@ -339,8 +350,12 @@ function Game(props) {
         </div>
 
         <div>
-          <BotonAjustes className="mt-10" />
+          <BotonAjustes className="mt-10" onClick={() => setShowSettings(true)} />
         </div>
+
+        {showSettings && (
+          <Settings onClose={() => setShowSettings(false)} />
+        )}
       </div>
     </Layout>
   );

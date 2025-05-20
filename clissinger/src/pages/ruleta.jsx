@@ -1,54 +1,68 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Layout from '../components/common/layout';
 
 const Ruleta = () => {
   const navigate = useNavigate();
-  const opciones = ["deportes", "historia", "banderas", "videojuegos", "series", "peliculas"];
+  const location = useLocation();
+  const opciones = [
+    "banderas",    // PAÍSES
+    "deportes",
+    "historia",
+    "videojuegos",
+    "series",
+    "peliculas"
+  ];
+
+  const nombresVisuales = {
+    banderas: "PAÍSES",
+    deportes: "DEPORTES",
+    historia: "HISTORIA",
+    videojuegos: "VIDEOJUEGOS",
+    series: "SERIES",
+    peliculas: "PELICULAS"
+  };
+
   const ruletaRef = useRef(null);
   const [girando, setGirando] = useState(false);
   const [resultado, setResultado] = useState(null);
   const [aciertos, setAciertos] = useState(0);
 
+  // Actualiza aciertos cada vez que vuelvas a la ruleta
   useEffect(() => {
     const aciertosGuardados = parseInt(localStorage.getItem("aciertos") || "0", 10);
     setAciertos(aciertosGuardados);
-  }, []);
+  }, [location]);
 
   const girarRuleta = () => {
     if (girando) return;
-
     setResultado(null);
-
-    const gradosPorOpcion = 360 / opciones.length;
-    const indexGanador = Math.floor(Math.random() * opciones.length);
-    const rotacionExtra = 360 * 5;
-    const rotacionFinal = rotacionExtra + (360 - indexGanador * gradosPorOpcion - gradosPorOpcion / 2);
-
-    ruletaRef.current.style.transition = "none";
-    ruletaRef.current.style.transform = `rotate(0deg)`;
-    void ruletaRef.current.offsetWidth;
-
-    ruletaRef.current.style.transition = "transform 1s ease-out";
-    ruletaRef.current.style.transform = `rotate(${rotacionFinal}deg)`;
-
     setGirando(true);
+
+    const grados = 360 * 5 + Math.floor(Math.random() * 360);
+    if (ruletaRef.current) {
+      ruletaRef.current.style.transition = "transform 3s cubic-bezier(0.33, 1, 0.68, 1)";
+      ruletaRef.current.style.transform = `rotate(${grados}deg)`;
+    }
+
     setTimeout(() => {
-      const resultadoFinal = opciones[indexGanador];
+      const gradosFinal = grados % 360;
+      const anglePerSector = 360 / opciones.length;
+      let sector = Math.floor(((360 - gradosFinal) % 360) / anglePerSector);
+      if (sector < 0) sector += opciones.length;
+      const resultadoFinal = opciones[sector];
       setResultado(resultadoFinal);
       setGirando(false);
 
-      // Navegar al juego
-      const aciertosActuales = parseInt(localStorage.getItem("aciertos") || "0", 10);
+      // Navega al juego pasando la racha de aciertos
       navigate("/juego", {
         state: {
           thematic: resultadoFinal,
-          aciertos: aciertosActuales,
+          aciertos: aciertos,
           mode: "ruleta"
         }
       });
-
-    }, 4000);
+    }, 3200);
   };
 
   return (
@@ -92,7 +106,7 @@ const Ruleta = () => {
                     pointerEvents: "none",
                   }}
                 >
-                  {opcion}
+                  {nombresVisuales[opcion]}
                 </div>
               );
             })}
@@ -107,6 +121,13 @@ const Ruleta = () => {
         >
           {girando ? "Girando..." : "Girar"}
         </button>
+
+        {/* Resultado (opcional, si quieres mostrarlo antes de navegar) */}
+        {resultado && (
+          <div className="mt-8 text-2xl font-bold text-blue-700">
+            ¡Te ha tocado: <span className="underline">{nombresVisuales[resultado]}</span>!
+          </div>
+        )}
       </div>
     </Layout>
   );

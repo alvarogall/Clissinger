@@ -1,5 +1,5 @@
-import BotonVolverAtras from "../components/common/botonVolverAtrasMenu";
-import { useSettings } from '../context/SettingsContext'; 
+import BotonVolverAtras from "../components/common/botonVolverAtras";
+import { useSettings } from '../context/SettingsContext';
 import Layout from '../components/common/layout';
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ const DEFAULT_COLOR_BLIND = false;
 
 const fontLabels = ['XS', 'S', 'M', 'L', 'XL'];
 
-const Settings = () => {
+const Settings = ({ onClose }) => {
   // Obtén los valores actuales del contexto
   const { darkMode, fontSize, colorBlind, setDarkMode, setFontSize, setColorBlind, saveSettings } = useSettings();
 
@@ -174,9 +174,18 @@ const Settings = () => {
               </button>
             </div>
           </div>
-          
+
           <div className="flex absolute top-5 left-5">
-            <BotonVolverAtras />
+            {onClose ? (
+              <button
+                onClick={onClose}
+                className="text-lg font-semibold hover:underline"
+              >
+                ← Volver
+              </button>
+            ) : (
+              <BotonVolverAtras />
+            )}
           </div>
         </div>
       </>
