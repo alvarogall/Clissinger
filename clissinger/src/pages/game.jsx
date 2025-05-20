@@ -193,17 +193,18 @@ function Game(props) {
       const key = event.key.toUpperCase();
 
       if (key === "BACKSPACE" || key === "DELETE") {
+        event.preventDefault();
         handleDeleteLastLetter();
         return;
       }
 
-      // Solo letras A-Z
-      if (/^[A-Z]$/.test(key)) {
-        // Busca la primera letra disponible (no deshabilitada)
+      // Solo letras A-Z y espacio
+      if (/^[A-Z ]$/.test(key)) {
         const idx = letterOptions.findIndex(
           (l, i) => l === key && !disabledIndexes.has(i)
         );
         if (idx !== -1) {
+          event.preventDefault(); // <-- Añade esto aquí
           handleLetterClick(key, idx);
         }
       }
