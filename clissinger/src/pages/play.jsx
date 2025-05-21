@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PointsDisplay from '../components/PointsDisplay';
 import GameModeDisplay from '../components/GameModeDisplay';
 import Footer from '../components/Footer';
-import { useNavigate } from 'react-router-dom';
 import Layout from '../components/common/layout';
 import TutorialDriver from '../components/TutorialDriverPlay';
 
@@ -12,7 +11,6 @@ export default function Play() {
   //Obtener los puntos del usuario
   const userID = localStorage.getItem("userID");
   const [points, setPoints] = useState(0);
-  const navigate = useNavigate();
   const fetchPoints = async () => {
     try {
       const res = await fetch(`https://backend-woad-chi.vercel.app/api/user/${userID}`);
@@ -27,29 +25,39 @@ export default function Play() {
   
   useEffect(() => {
     fetchPoints();
-  }, []);
+  });
 
   return (
   <Layout>
-    <div id="inicio-bienvenida" className="relative min-h-screen pb-[60px] font-sans flex flex-col">
-      {/* Componente de puntos */}
-      <PointsDisplay points={points} />
-
-      {/* Tutorial */}
-      <div className="mt-6">
-        <p className="text-center">
-          <TutorialDriver/>
-        </p>
-      </div>
+    <div className="relative min-h-screen pb-[60px] font-sans flex flex-col">
       
-      {/* Contenido principal centrado */}
-      <div className="flex-1 flex flex-col items-center justify-center">
-        <GameModeDisplay selectedMode={selectedMode} />
-      </div>
+      {/* Header opcional */}
+      <header className="sr-only">
+        <h1>Modo de Juego</h1> 
+      </header>
 
-      {/* Footer con selección de modo */}
-      <Footer selectedMode={selectedMode} setSelectedMode={setSelectedMode} />
+      {/* Región principal */}
+      <main id="inicio-bienvenida" className="flex-1 flex flex-col">
+        {/* Componente de puntos */}
+        <PointsDisplay points={points} />
+
+        {/* Tutorial */}
+        <div className="mt-6 text-center">
+          <TutorialDriver />
+        </div>
+        
+        {/* Contenido principal centrado */}
+        <div className="flex-1 flex flex-col items-center justify-center">
+          <GameModeDisplay selectedMode={selectedMode} />
+        </div>
+      </main>
+
+      {/* Footer con landmark */}
+      <footer>
+        <Footer selectedMode={selectedMode} setSelectedMode={setSelectedMode} />
+      </footer>
     </div>
   </Layout>
+
   );
 }
