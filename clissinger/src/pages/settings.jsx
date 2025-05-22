@@ -1,8 +1,8 @@
 import BotonVolverAtras from "../components/common/botonVolverAtras";
-import { useSettings } from '../context/SettingsContext';
 import Layout from '../components/common/layout';
-import { useState, useEffect } from "react";
+import { useSettings } from '../context/SettingsContext';
 import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
 
 // Valores por defecto para los ajustes
 const DEFAULT_VOLUME = 50;
@@ -13,21 +13,24 @@ const DEFAULT_COLOR_BLIND = false;
 const fontLabels = ['XS', 'S', 'M', 'L', 'XL'];
 
 const Settings = ({ onClose }) => {
+
   // Obtén los valores actuales del contexto
-  const { darkMode, fontSize, colorBlind, setDarkMode, setFontSize, setColorBlind, saveSettings } = useSettings();
+  const {volume, darkMode, fontSize, colorBlind, setVolume, setDarkMode, setFontSize, setColorBlind, saveSettings } = useSettings();
 
   // Estados locales para los ajustes
-  const [localVolume, setLocalVolume] = useState(DEFAULT_VOLUME);
+  
+  const [localVolume, setLocalVolume] = useState(volume);
   const [localFontSize, setLocalFontSize] = useState(fontSize);
   const [localDarkMode, setLocalDarkMode] = useState(darkMode);
   const [localColorBlind, setLocalColorBlind] = useState(colorBlind);
-
+  
   // Sincroniza los estados locales con el contexto al entrar/cambiar
   useEffect(() => {
+    setLocalVolume(volume);
     setLocalFontSize(fontSize);
     setLocalDarkMode(darkMode);
     setLocalColorBlind(colorBlind);
-  }, [fontSize, darkMode, colorBlind]);
+  }, [volume, fontSize, darkMode, colorBlind]);
 
   const navigate = useNavigate();
 
@@ -69,16 +72,18 @@ const Settings = ({ onClose }) => {
 
   // Guardar cambios en el contexto global y localStorage
   const handleSave = () => {
+    setVolume(localVolume);
     setDarkMode(localDarkMode);
     setFontSize(localFontSize);
     setColorBlind(localColorBlind);
-    saveSettings(localDarkMode, localFontSize, localColorBlind);
+    saveSettings(localVolume, localDarkMode, localFontSize, localColorBlind);
   };
+
+ 
 
   return (
     <Layout>
-      <>
-        <div
+        <main
           className={`min-h-screen flex flex-col items-center py-10 px-4 transition-all duration-300`}
           style={{
             background: localDarkMode
@@ -90,14 +95,13 @@ const Settings = ({ onClose }) => {
             fontSize: getFontSize(),
           }}
         >
-
           <h1 className="text-5xl font-extrabold mb-10">AJUSTES</h1>
 
           <div className="w-full max-w-xl space-y-6">
             {/* Volumen */}
             <div className="bg-white text-black p-4 rounded-2xl shadow-md">
-              <label className="block font-semibold mb-2">Volumen general</label>
-              <input
+              <label for="volume" className="block font-semibold mb-2">Volumen general</label>
+              <input id="volume"
                 type="range"
                 min="0"
                 max="100"
@@ -109,13 +113,13 @@ const Settings = ({ onClose }) => {
 
             {/* Tamaño de fuente */}
             <div className="bg-white text-black p-4 rounded-2xl shadow-md">
-              <label className="block font-semibold mb-2">Tamaño de fuente</label>
+              <label for="font-size" className="block font-semibold mb-2">Tamaño de fuente</label>
               <div className="flex justify-between text-xs px-1 mb-1">
                 {fontLabels.map((label, idx) => (
                   <span key={idx}>{label}</span>
                 ))}
               </div>
-              <input
+              <input id="font-size"
                 type="range"
                 min="0"
                 max="4"
@@ -127,8 +131,8 @@ const Settings = ({ onClose }) => {
 
             {/* Modo oscuro */}
             <div className="bg-white text-black p-4 rounded-2xl shadow-md flex justify-between items-center">
-              <label className="font-semibold">Modo oscuro</label>
-              <input
+              <label for="dark-mode" className="font-semibold">Modo oscuro</label>
+              <input id="dark-mode"
                 type="checkbox"
                 checked={localDarkMode}
                 onChange={() => setLocalDarkMode(!localDarkMode)}
@@ -138,8 +142,8 @@ const Settings = ({ onClose }) => {
 
             {/* Modo daltónico */}
             <div className="bg-white text-black p-4 rounded-2xl shadow-md flex justify-between items-center">
-              <label className="font-semibold">Modo daltónico</label>
-              <input
+              <label for="color-blind" className="font-semibold">Modo daltónico</label>
+              <input id="color-blind"
                 type="checkbox"
                 checked={localColorBlind}
                 onChange={() => setLocalColorBlind(!localColorBlind)}
@@ -148,27 +152,28 @@ const Settings = ({ onClose }) => {
             </div>
 
             {/* Botones */}
-            <div className="flex flex-wrap gap-2 justify-between items-center mt-6">
-              <button onClick={resetEstadisticas} className="bg-red-600 text-white font-semibold px-6 py-2 rounded-full shadow-md hover:bg-red-700 transition">
+            <div className="flex flex-wrap gap-2 justify-between items-center mt-10">
+              <button onClick={resetEstadisticas} className="bg-red-600 text-white font-semibold px-4 py-2 rounded shadow-lg hover:bg-red-700 transition">
                 Reiniciar Estadísticas
               </button>
 
               <button
                 onClick={resetTutorials}
-                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">
+                className="bg-red-600 text-white font-semibold px-4 py-2 rounded shadow-lg hover:bg-red-700 transition">
                 Reiniciar Tutoriales
               </button>
 
               <button
                 onClick={resetSettings}
-                className="bg-gray-400 text-white font-semibold px-6 py-2 rounded-full shadow-md hover:bg-gray-500 transition"
+                className="bg-red-600 text-white font-semibold px-4 py-2 rounded shadow-lg hover:bg-red-700 transition"
               >
                 Reestablecer Ajustes
-              </button>
-
+              </button> 
+            </div>
+            <div>
               <button
                 onClick={handleSave}
-                className="bg-yellow-400 text-white font-bold px-8 py-2 rounded-full shadow-md hover:bg-yellow-500 transition"
+                className="bg-[#1E3A8A] text-white font-bold px-8 py-2 rounded-full shadow-md hover:bg-[#1B347C] transition mt-4"
               >
                 GUARDAR
               </button>
@@ -187,8 +192,7 @@ const Settings = ({ onClose }) => {
               <BotonVolverAtras />
             )}
           </div>
-        </div>
-      </>
+        </main>
     </Layout>
   );
 };
