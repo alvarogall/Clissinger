@@ -88,7 +88,7 @@ function TutorialDriver({ tematicasDesbloqueadas }) {
         ultimaDiapositiva.innerText = 'Finalizar';
         
         Object.assign(ultimaDiapositiva.style, {
-          backgroundColor: '#ff3838',
+          backgroundColor: '#c62828',
           color: 'white',
           borderRadius: '5px',
           padding: '8px 16px',

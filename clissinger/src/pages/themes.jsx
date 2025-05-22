@@ -84,7 +84,7 @@ function Themes() {
 
   return (
     <Layout>
-      <div className="flex flex-col items-center justify-center min-h-screen relative px-2 sm:px-0">
+      <main className="flex flex-col items-center justify-center min-h-screen relative px-2 sm:px-0">
         {/* Botón Volver Atrás */}
         <div className="absolute top-4 left-4 z-30">
           <BotonVolverAtrasMenu />
@@ -96,7 +96,7 @@ function Themes() {
         <TutorialDriver tematicasDesbloqueadas={tematicasDesbloqueadas} />
 
         <div className="w-full bg-blue-500 min-h-16 sm:min-h-20 absolute top-[7%] sm:top-[11%] text-center text-3xl sm:text-5xl font-bold text-white py-4 sm:py-6">
-          SELECCIONA UNA TEMÁTICA
+          <h1>SELECCIONA UNA TEMÁTICA</h1>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-16 sm:gap-y-32 gap-x-4 sm:gap-x-0 w-full sm:w-[60%] place-items-center mt-28 sm:mt-24 px-2">
@@ -105,9 +105,9 @@ function Themes() {
               onClick={() => handle('banderas')}
               className="w-20 h-20 sm:w-24 sm:h-24 bg-blue-800 hover:bg-blue-700 rounded-xl shadow-lg grid place-items-center"
             >
-              <img src={iconspain} alt="Banderas" className="w-12 h-12 sm:w-16 sm:h-16" />
+              <img src={iconspain} alt="Imagen de Bandera Española" className="w-12 h-12 sm:w-16 sm:h-16" />
             </button>
-            <p className="text-base sm:text-lg font-bold mt-2 sm:mt-3">PAÍSES</p>
+            <h2 className="text-base sm:text-lg font-bold mt-2 sm:mt-3">PAÍSES</h2>
           </div>
 
           <div className="flex flex-col items-center">
@@ -115,9 +115,9 @@ function Themes() {
               onClick={() => handle('deportes')}
               className="w-20 h-20 sm:w-24 sm:h-24 bg-blue-800 hover:bg-blue-700 rounded-xl shadow-lg grid place-items-center"
             >
-              <img src={trophy} alt="Deportes" className="w-12 h-12 sm:w-16 sm:h-16" />
+              <img src={trophy} alt="Trofeo de campeonato" className="w-12 h-12 sm:w-16 sm:h-16" />
             </button>
-            <p className="text-base sm:text-lg font-bold mt-2 sm:mt-3">DEPORTES</p>
+            <h2 className="text-base sm:text-lg font-bold mt-2 sm:mt-3">DEPORTES</h2>
           </div>
 
           <div className="flex flex-col items-center">
@@ -125,9 +125,9 @@ function Themes() {
               onClick={() => handle('historia')}
               className="w-20 h-20 sm:w-24 sm:h-24 bg-blue-800 hover:bg-blue-700 rounded-xl shadow-lg grid place-items-center"
             >
-              <img src={history} alt="Historia" className="w-12 h-12 sm:w-16 sm:h-16" />
+              <img src={history} alt="Papiros y jarrones antiguos" className="w-12 h-12 sm:w-16 sm:h-16" />
             </button>
-            <p className="text-base sm:text-lg font-bold mt-2 sm:mt-3">HISTORIA</p>
+            <h2 className="text-base sm:text-lg font-bold mt-2 sm:mt-3">HISTORIA</h2>
           </div>
 
           {/* TEMATICAS BLOQUEADAS */}
@@ -137,16 +137,16 @@ function Themes() {
               className="w-20 h-20 sm:w-24 sm:h-24 bg-blue-700 hover:bg-blue-600 rounded-xl shadow-lg grid place-items-center">
               <img
                 src={tematicasDesbloqueadas.includes("videojuegos") ? videojuegos : lock}
-                alt={tematicasDesbloqueadas.includes("videojuegos") ? "Videojuegos" : "Bloqueado"}
+                alt={tematicasDesbloqueadas.includes("videojuegos") ? "Mando de consola" : "Bloqueado"}
                 className="w-12 h-12 sm:w-16 sm:h-16" />
             </button>
             {tematicasDesbloqueadas.includes("videojuegos") ? (
-              <p className="text-base sm:text-lg font-bold mt-2 sm:mt-3">VIDEOJUEGOS</p>
+              <h2 className="text-base sm:text-lg font-bold mt-2 sm:mt-3">VIDEOJUEGOS</h2>
             ) : (
-              <p className="text-base sm:text-xl font-bold mt-2 sm:mt-3 flex items-center">
+              <h2 className="text-base sm:text-xl font-bold mt-2 sm:mt-3 flex items-center">
                 <img src={point} alt="Puntos" className="mr-2 w-5 h-5 sm:w-7 sm:h-7" />
                 200
-              </p>
+              </h2>
             )}
           </div>
 
@@ -156,16 +156,16 @@ function Themes() {
               className="w-20 h-20 sm:w-24 sm:h-24 bg-blue-700 hover:bg-blue-600 rounded-xl shadow-lg grid place-items-center">
               <img
                 src={tematicasDesbloqueadas.includes("series") ? series : lock}
-                alt={tematicasDesbloqueadas.includes("series") ? "Series" : "Bloqueado"}
+                alt={tematicasDesbloqueadas.includes("series") ? "Icono de la casa Stark de Juego de Tronos" : "Bloqueado"}
                 className="w-12 h-12 sm:w-16 sm:h-16" />
             </button>
             {tematicasDesbloqueadas.includes("series") ? (
-              <p className="text-base sm:text-lg font-bold mt-2 sm:mt-3">SERIES</p>
+              <h2 className="text-base sm:text-lg font-bold mt-2 sm:mt-3">SERIES</h2>
             ) : (
-              <p className="text-base sm:text-xl font-bold mt-2 sm:mt-3 flex items-center">
+              <h2 className="text-base sm:text-xl font-bold mt-2 sm:mt-3 flex items-center">
                 <img src={point} alt="Puntos" className="mr-2 w-5 h-5 sm:w-7 sm:h-7" />
                 500
-              </p>
+              </h2>
             )}
           </div>
 
@@ -175,20 +175,20 @@ function Themes() {
               className="w-20 h-20 sm:w-24 sm:h-24 bg-blue-700 hover:bg-blue-600 rounded-xl shadow-lg grid place-items-center">
               <img
                 src={tematicasDesbloqueadas.includes("peliculas") ? peliculas : lock}
-                alt={tematicasDesbloqueadas.includes("peliculas") ? "Peliculas" : "Bloqueado"}
+                alt={tematicasDesbloqueadas.includes("peliculas") ? "Palomitas y gafas 3D de cine" : "Bloqueado"}
                 className="w-12 h-12 sm:w-16 sm:h-16" />
             </button>
             {tematicasDesbloqueadas.includes("peliculas") ? (
-              <p className="text-base sm:text-lg font-bold mt-2 sm:mt-3">PELICULAS</p>
+              <h2 className="text-base sm:text-lg font-bold mt-2 sm:mt-3">PELICULAS</h2>
             ) : (
-              <p className="text-base sm:text-xl font-bold mt-2 sm:mt-3 flex items-center">
+              <h2 className="text-base sm:text-xl font-bold mt-2 sm:mt-3 flex items-center">
                 <img src={point} alt="Puntos" className="mr-2 w-5 h-5 sm:w-7 sm:h-7" />
                 1000
-              </p>
+              </h2>
             )}
           </div>
         </div>
-      </div>
+      </main>
     </Layout>
   );
 }
