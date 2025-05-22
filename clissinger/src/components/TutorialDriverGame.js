@@ -64,6 +64,15 @@ function TutorialDriver() {
         },
         position: 'left-center',
       },
+      {
+        element: '#juego-fallos',
+        popover: {
+          title: 'INTENTOS',
+          description: 'Tienes hasta 3 intentos a lo largo de la temática.',
+          position: 'bottom',
+        },
+        position: 'left-center',
+      },
       
       {
         element: '#juego-pista',

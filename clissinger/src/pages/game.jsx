@@ -49,6 +49,7 @@ function Game(props) {
   const [hintUsedForCurrentLevel, setHintUsedForCurrentLevel] = useState(false);
   const [timer, setTimer] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
+  const [failCount, setFailCount] = useState(0);
 
   const userId = localStorage.getItem("userID");
   const points = 50;
@@ -164,7 +165,16 @@ function Game(props) {
             localStorage.setItem("aciertos", 0);
             navigate("/ruleta");
           } else {
-            navigate("/score/derrota");
+             setFailCount(prevFailCount => {
+                const nuevosFallos = prevFailCount + 1;
+                if (nuevosFallos >= 3) {
+                  navigate("/score/derrota");
+                }else{
+                  setSelectedLetters([]);
+                  setDisabledIndexes(new Set());
+                  }
+                return nuevosFallos;
+              });
           }
         }
 
@@ -250,6 +260,9 @@ function Game(props) {
             {mode === "ruleta"
               ? `Aciertos: ${successCount}`
               : `Aciertos: ${successCount}/${levels.length}`}
+          </div>
+          <div id="juego-fallos" className="text-red-500 font-semibold text-lg">
+            {mode !== "ruleta" && `Intentos: ${failCount} / 3`}
           </div>
         </div>
 
