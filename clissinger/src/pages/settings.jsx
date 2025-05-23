@@ -1,8 +1,7 @@
 import BotonVolverAtras from "../components/common/botonVolverAtras";
 import Layout from '../components/common/layout';
 import { useSettings } from '../context/SettingsContext';
-import { useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 // Valores por defecto para los ajustes
 const DEFAULT_VOLUME = 50;
@@ -31,8 +30,6 @@ const Settings = ({ onClose }) => {
     setLocalDarkMode(darkMode);
     setLocalColorBlind(colorBlind);
   }, [volume, fontSize, darkMode, colorBlind]);
-
-  const navigate = useNavigate();
 
   const resetTutorials = () => {
     localStorage.removeItem('tutorial_inicio');
