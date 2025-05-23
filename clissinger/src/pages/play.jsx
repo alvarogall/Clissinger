@@ -13,7 +13,7 @@ export default function Play() {
 
   //Obtener los puntos del usuario
   const userID = localStorage.getItem("userID");
-  const { mode, setMode, setSoundEvent } = useSettings()
+  const { mode, setMode } = useSettings()
   const [points, setPoints] = useState(0);
   const fetchPoints = async () => {
     try {
@@ -29,11 +29,7 @@ export default function Play() {
   
   useEffect(() => {
     fetchPoints();
-    setSoundEvent(mode);
-
-    return () => {
-      setSoundEvent(null);
-    };
+   
   }, []);
 
   return (

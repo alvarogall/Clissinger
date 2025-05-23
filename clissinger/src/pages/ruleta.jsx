@@ -88,7 +88,7 @@ const Ruleta = () => {
         <BotonVolverAtrasMenu />
       </div>
 
-      <div className="min-h-screen flex flex-col items-center justify-start py-12">
+      <main className="min-h-screen flex flex-col items-center justify-start py-12">
         <h1 className="text-4xl font-bold mb-4">🎉 Gira la Ruleta 🎉</h1>
         <p className="text-xl font-semibold mb-6">🔥 Aciertos seguidos: {aciertos}</p>
 
@@ -149,7 +149,7 @@ const Ruleta = () => {
             ¡Te ha tocado: <span className="underline">{nombresVisuales[resultado]}</span>!
           </div>
         )}
-      </div>
+      </main>
     </Layout>
   );
 };
