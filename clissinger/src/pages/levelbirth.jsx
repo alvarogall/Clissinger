@@ -131,7 +131,7 @@ export default function CrearNivel() {
 
           <button
             type="submit"
-            className="w-full bg-yellow-400 text-white text-xl font-bold py-3 rounded-full shadow hover:bg-yellow-300 transition"
+            className="w-full bg-yellow-400 text-white text-xl font-bold py-3 rounded-full drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] hover:bg-yellow-300 transition"
           >
             Crear Nivel
           </button>

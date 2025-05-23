@@ -65,7 +65,7 @@ function Home() {
 
       <Link
         to="/login"
-        className="mt-8 sm:mt-12 px-8 sm:px-12 py-4 sm:py-6 text-3xl sm:text-5xl font-bold bg-yellow-400 text-white rounded-full shadow-lg relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-white/20 before:to-transparent before:w-full before:h-full before:scale-150 before:-translate-x-full before:transition-transform before:duration-700 hover:before:translate-x-0"
+        className="mt-8 sm:mt-12 px-8 sm:px-12 py-4 sm:py-6 text-3xl sm:text-5xl font-bold bg-yellow-500 text-white rounded-full shadow-lg relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-white/20 before:to-transparent before:w-full before:h-full before:scale-150 before:-translate-x-full before:transition-transform before:duration-700 hover:before:translate-x-0 hover:bg-yellow-550 transition-colors drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]"
       >
         JUGAR
       </Link>
