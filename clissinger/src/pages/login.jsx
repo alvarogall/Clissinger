@@ -36,7 +36,7 @@ const Login = () => {
   return (
     <Layout>
     <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-blue-950 to-blue-500 text-white relative px-6">
-      <h2 className="text-6xl font-extrabold mb-8 drop-shadow-[3px_3px_0px_black]">
+      <h2 className="text-5xl sm:text-6xl font-extrabold mb-8 drop-shadow-[3px_3px_0px_black]">
         Iniciar sesión
       </h2>
 

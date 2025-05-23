@@ -243,7 +243,7 @@ function Game(props) {
 
   return (
     <Layout>
-      <div className="min-h-screen flex flex-col items-center p-4 pt-16 pb-10">
+      <main className="min-h-screen flex flex-col items-center p-4 pt-16 pb-10">
         {mode === "lightning" && timer !== null && (
           <div className="fixed top-4 left-1/2 -translate-x-1/2 bg-red-600 text-white px-4 py-2 rounded-lg text-lg font-bold shadow-lg z-50">
             ⏱️ Tiempo restante: {timer}s
@@ -253,24 +253,34 @@ function Game(props) {
         <TutorialDriver />
 
         {/* Header */}
-        <div className="absolute top-4 left-4 flex items-center gap-4">
+        <div className="absolute top-4 left-4 flex sm:flex-row items-start sm:items-center gap-2 sm:gap-4 max-w-full p-2 bg-opacity-50 rounded-md">
           <BotonVolverAtrasMenu onClick={props.onBackClick} />
-          <div id="juego-aciertos"
-            className="text-green-400 font-semibold text-lg">
-            {mode === "ruleta"
-              ? `Aciertos: ${successCount}`
-              : `Aciertos: ${successCount}/${levels.length}`}
-          </div>
-          <div id="juego-fallos" className="text-red-500 font-semibold text-lg">
-            {mode !== "ruleta" && `Intentos: ${failCount} / 3`}
-          </div>
+          <div id="juego-aciertos" className="text-green-400 font-semibold text-lg">
+         
+          <span className="hidden sm:inline">
+          {mode === "ruleta"
+          ? `Aciertos: ${successCount}`
+          : `Aciertos: ${successCount}/${levels.length}`}
+        </span>
+       
+        <span className="inline sm:hidden">
+        {mode === "ruleta"
+          ? successCount
+          : `${successCount}/${levels.length}`}
+        </span>
+        </div>
+        <div id="juego-fallos" className="text-red-500 font-semibold text-lg">
+            {mode !== "ruleta" && (
+              <><span className="hidden sm:inline">{`Intentos: ${failCount}/3`}</span>
+                <span className="inline sm:hidden">{`${failCount}/3`}</span></>)}
+        </div>
         </div>
 
         <div id="juego-pista"
           className="absolute top-4 right-4 flex items-center gap-2">
           {hintCount > 0 ? (
             <>
-              <img src={lightBulb} alt="Icono de pista" className="w-[60px] h-[60px]" />
+              <img src={lightBulb} alt="Icono de pista" className="w-8 h-8 sm:w-[60px] sm:h-[60px]" />
               <button
                 onClick={() => {
                   if (!hintUsedForCurrentLevel && levelData?.hint) {
@@ -280,22 +290,22 @@ function Game(props) {
                   }
                 }}
                 disabled={hintUsedForCurrentLevel}
-                className={`bg-yellow-400 hover:bg-yellow-500 font-bold px-4 py-2.5 rounded-xl text-xl flex items-center gap-3 shadow-md ${
+                className={`bg-[#1E3A8A] hover:bg-[#1B347C] font-bold  px-2 py-1 text-sm sm:px-4 sm:py-2.5 sm:text-xl rounded-xl flex items-center gap-3 shadow-md ${
                   hintUsedForCurrentLevel ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               >
                 <span className="uppercase tracking-wide">Pista</span>
-                <span className="text-white text-2xl font-bold">
+                <span className="text-white text-lg sm:text-2xl font-bold">
                   {hintCount}
                 </span>
               </button>
             </>
           ) : (
             <>
-              <img src={lightBulb} alt="Icono de pista" className="w-[60px] h-[60px] opacity-50" />
-              <div className="bg-gray-400 font-bold px-4 py-2.5 rounded-xl text-xl flex items-center gap-3 shadow-md cursor-not-allowed">
+              <img src={lightBulb} alt="Icono de pista" className="sm:w-[60px] sm:h-[60px] opacity-50" />
+              <div className="bg-gray-400 font-bold px-2 py-1 text-sm sm:px-4 sm:py-2.5 sm:text-xl rounded-xl flex items-center gap-3 shadow-md cursor-not-allowed">
                 <span className="uppercase tracking-wide opacity-50">Pista</span>
-                <span className="text-white text-2xl font-bold">0</span>
+                <span className="text-white text-lg sm:text-2xl font-bold">0</span>
               </div>
             </>
           )}
@@ -335,7 +345,7 @@ function Game(props) {
             <div id="juego-letras"
               className="grid grid-cols-6 gap-3 w-full max-w-md">
               {letterOptions.map((letter, i) => (
-                <button
+                <button aria-label={letter === " " ? "Espacio" : letter}
                   key={i}
                   onClick={() => handleLetterClick(letter, i)}
                   disabled={disabledIndexes.has(i)}
@@ -345,7 +355,8 @@ function Game(props) {
                       : "bg-yellow-400 text-black hover:bg-yellow-500"
                   }`}
                 >
-                  {letter}
+                  
+                {letter === " " ? "\u00A0" : letter}
                 </button>
               ))}
             </div>
@@ -353,7 +364,7 @@ function Game(props) {
             {/* Botón borrar */}
             <button id="juego-borrar"
               onClick={handleDeleteLastLetter}
-              className="bg-red-500 hover:bg-red-600 text-white font-bold p-3 rounded-lg text-lg"
+              className="bg-red-600 hover:bg-red-600 text-white font-bold p-3 rounded-lg text-lg"
             >
               ⌫ Borrar
             </button>
@@ -367,7 +378,7 @@ function Game(props) {
         {showSettings && (
           <Settings onClose={() => setShowSettings(false)} />
         )}
-      </div>
+      </main>
     </Layout>
   );
 }

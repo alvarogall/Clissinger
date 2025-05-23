@@ -28,12 +28,28 @@ const Ruleta = () => {
   const [girando, setGirando] = useState(false);
   const [resultado, setResultado] = useState(null);
   const [aciertos, setAciertos] = useState(0);
+  const [translateYValue, setTranslateYValue] = useState(-155);
 
   // Actualiza aciertos cada vez que vuelvas a la ruleta
   useEffect(() => {
     const aciertosGuardados = parseInt(localStorage.getItem("aciertos") || "0", 10);
     setAciertos(aciertosGuardados);
   }, [location]);
+
+  // Cambia la posición de las temáticas para que sea responsive
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 640) {
+        setTranslateYValue(-95); 
+      } else {
+        setTranslateYValue(-135);
+      }
+    }
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const girarRuleta = () => {
     if (girando) return;
@@ -83,7 +99,7 @@ const Ruleta = () => {
           {/* Ruleta */}
           <div
             ref={ruletaRef}
-            className="w-[420px] h-[420px] rounded-full border-[10px] border-white relative shadow-xl mx-auto"
+            className="w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] rounded-full border-[10px] border-white relative shadow-xl mx-auto"
             style={{
               background: `conic-gradient(
                 #3b82f6 0% 16.666%,
@@ -104,7 +120,7 @@ const Ruleta = () => {
                   key={index}
                   className="absolute left-1/2 top-1/2 text-white font-bold text-[14px] text-center"
                   style={{
-                    transform: `rotate(${angle}deg) translateY(-50%) translateY(-155px) rotate(-${angle}deg)`,
+                    transform: `rotate(${angle}deg) translateY(-50%) translateY(${translateYValue}px) rotate(-${angle}deg)`,
                     transformOrigin: "center",
                     width: "100px",
                     marginLeft: "-50px",

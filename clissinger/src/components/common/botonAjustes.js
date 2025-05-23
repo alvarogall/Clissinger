@@ -6,11 +6,11 @@ const BotonAjustes = ({ className = "" }) => {
 
   return (
     <button 
-      className={`flex items-center justify-center bg-blue-500 text-white rounded-full shadow-md hover:scale-105 duration-300 p-3 sm:px-6 sm:py-3 font-semibold ${className}`}
+      className={`flex items-center justify-center bg-[#2445a6] text-white rounded-full shadow-md hover:scale-105 duration-300 p-3 sm:px-6 sm:py-3 font-semibold ${className}`}
       onClick={() => navigate("/ajustes")}
       aria-label="Ajustes"
     >
-      <img src={screwiron} alt="Ajustes" className="w-7 h-7 sm:w-8 sm:h-8" />
+      <img src={screwiron} alt="Imagen de una tuerca" className="w-7 h-7 sm:w-8 sm:h-8" />
       <span className="hidden sm:inline ml-2 text-lg font-bold">AJUSTES</span>
     </button>
     
