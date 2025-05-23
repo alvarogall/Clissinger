@@ -1,10 +1,14 @@
 import ButtonOFF from "../../images/buttonOFF.svg"; 
 import { useNavigate } from "react-router-dom";
+import { useSettings } from "../../context/SettingsContext"; 
 
 const BotonCerrarSesion = ({ className = "" }) => {
   const navigate = useNavigate();
+  const { stopAudio } = useSettings();
 
   const handleLogout = () => {
+
+     stopAudio();
     // Limpia el almacenamiento local o cualquier dato relacionado con la sesión
     localStorage.removeItem("userID");
     localStorage.removeItem("authToken");

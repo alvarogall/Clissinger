@@ -5,14 +5,30 @@ import gameover from "../images/gameover.png";
 import point from "../images/point.svg";
 import { useLocation, useParams, Link } from "react-router-dom";
 import Layout from "../components/common/layout";
-
+import { useSettings } from '../context/SettingsContext';
+import { useEffect } from "react";
 
 function Score() {
 
+  const { setSoundEvent } = useSettings();
   const {resultado} = useParams();
   const victoria = resultado === "victoria";
   const location = useLocation();
   const score = location.state?.score ?? 0; 
+
+   useEffect(() => {
+    return () => {
+      setSoundEvent(null); 
+    };
+  }, [setSoundEvent]);
+
+  useEffect(() => {
+    if (victoria) {
+      setSoundEvent('victoria');
+    } else {
+      setSoundEvent('derrota');
+    }
+  }, [victoria, setSoundEvent]);
     
     return (
       <Layout>
