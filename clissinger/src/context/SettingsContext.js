@@ -119,14 +119,6 @@ export const SettingsProvider = ({ children }) => {
     
     audioRef.current = audio;
     
-    // Limpiar evento después de 3 segundos si no se ha limpiado ya
-    setTimeout(() => {
-      if (soundEvent === 'victoria' || soundEvent === 'derrota') {
-        setSoundEvent(null);
-        eventTriggeredRef.current = false;
-      }
-    }, 3000);
-    
   }, [soundEvent, volume]);
 
   // Este efecto determina qué audio debe reproducirse para música de fondo
