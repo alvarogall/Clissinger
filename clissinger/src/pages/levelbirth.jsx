@@ -72,74 +72,102 @@ export default function CrearNivel() {
   return (
     <Layout>
       <div className="flex flex-col items-center justify-center min-h-screen px-6">
-        <h2 className="text-5xl font-extrabold mb-8 drop-shadow-[3px_3px_0px_black] text-center">
-          Crear Nivel
-        </h2>
-      {loading && (
-        <div className="mb-4 text-lg font-bold text-yellow-300 bg-black/60 px-6 py-3 rounded-xl shadow-lg">
-          Creando Nivel, por favor espere...
-        </div>
-      )}
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white/10 backdrop-blur-md p-8 rounded-3xl shadow-lg w-full max-w-md"
-        >
-          <div className="grid grid-cols-2 gap-4 mb-6">
-            {imagenes.map((img, i) => (
-              <div key={i} className="flex flex-col items-center">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleImageChange(i, e.target.files[0])}
-                  className="w-full text-sm text-white"
-                />
-                {img && (
-                  <img
-                    src={URL.createObjectURL(img)}
-                    alt={`Preview ${i + 1}`}
-                    className="w-24 h-24 mt-2 object-cover rounded border-2 border-white"
-                  />
-                )}
-              </div>
-            ))}
-          </div>
-
-          <input
-            type="text"
-            placeholder="Palabra clave"
-            className="w-full p-3 mb-4 text-lg rounded bg-white/80 text-black placeholder-gray-600 focus:outline-none"
-            value={word}
-            onChange={(e) => setWord(e.target.value)}
-            required
-          />
-
-          <input
-            type="text"
-            placeholder="Pista (opcional)"
-            className="w-full p-3 mb-6 text-lg rounded bg-white/80 text-black placeholder-gray-600 focus:outline-none"
-            value={hint}
-            onChange={(e) => setHint(e.target.value)}
-          />
-          
-          <input
-            type="text"
-            placeholder="Tematica"
-            className="w-full p-3 mb-6 text-lg rounded bg-white/80 text-black placeholder-gray-600 focus:outline-none"
-            value={thematic}
-            onChange={(e) => setThematic(e.target.value)}
-          />
-
-          <button
-            type="submit"
-            className="w-full bg-yellow-400 text-white text-xl font-bold py-3 rounded-full drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] hover:bg-yellow-300 transition"
-          >
+        {/* Header region */}
+        <header>
+          <h1 className="text-5xl font-extrabold mb-8 drop-shadow-[3px_3px_0px_black] text-center">
             Crear Nivel
-          </button>
-        </form>
+          </h1>
+        </header>
+        
+        {/* Main content region */}
+        <main>
+          {loading && (
+            <div className="mb-4 text-lg font-bold text-yellow-300 bg-black/60 px-6 py-3 rounded-xl shadow-lg" 
+                  role="status" 
+                  aria-live="polite">
+              Creando Nivel, por favor espere...
+            </div>
+          )}
 
-        <div className="flex absolute top-5 left-5">
+          <form
+            onSubmit={handleSubmit}
+            className="bg-white/10 backdrop-blur-md p-8 rounded-3xl shadow-lg w-full max-w-md"
+          >
+            <fieldset>
+              <legend className="sr-only">Imágenes para el nivel</legend>
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                {imagenes.map((img, i) => (
+                  <div key={i} className="flex flex-col items-center">
+                    <label htmlFor={`image-${i}`} className="text-white text-sm mb-1">Imagen {i+1}</label>
+                    <input
+                      id={`image-${i}`}
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleImageChange(i, e.target.files[0])}
+                      className="w-full text-sm text-white"
+                    />
+                    {img && (
+                      <img
+                        src={URL.createObjectURL(img)}
+                        alt={`Vista previa de imagen ${i + 1}`}
+                        className="w-24 h-24 mt-2 object-cover rounded border-2 border-white"
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </fieldset>
+
+            <div className="mb-4">
+              <label htmlFor="word-input" className="block text-white text-sm mb-1">Palabra clave</label>
+              <input
+                id="word-input"
+                type="text"
+                placeholder="Palabra clave"
+                className="w-full p-3 text-lg rounded bg-white/80 text-black placeholder-gray-600 focus:outline-none"
+                value={word}
+                onChange={(e) => setWord(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="mb-6">
+              <label htmlFor="hint-input" className="block text-white text-sm mb-1">Pista (opcional)</label>
+              <input
+                id="hint-input"
+                type="text"
+                placeholder="Pista (opcional)"
+                className="w-full p-3 text-lg rounded bg-white/80 text-black placeholder-gray-600 focus:outline-none"
+                value={hint}
+                onChange={(e) => setHint(e.target.value)}
+              />
+            </div>
+            
+            <div className="mb-6">
+              <label htmlFor="thematic-input" className="block text-white text-sm mb-1">Temática</label>
+              <input
+                id="thematic-input"
+                type="text"
+                placeholder="Temática"
+                className="w-full p-3 text-lg rounded bg-white/80 text-black placeholder-gray-600 focus:outline-none"
+                value={thematic}
+                onChange={(e) => setThematic(e.target.value)}
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-yellow-400 text-white text-xl font-bold py-3 rounded-full drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] hover:bg-yellow-300 transition"
+            >
+              Crear Nivel
+            </button>
+          </form>
+        </main>
+        
+        {/* Navigation region */}
+        <nav className="flex absolute top-5 left-5">
           <BotonVolverAtras />
-        </div>
+        </nav>
       </div>
     </Layout>
   );

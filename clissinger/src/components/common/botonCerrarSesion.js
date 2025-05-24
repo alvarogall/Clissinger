@@ -22,8 +22,8 @@ const BotonCerrarSesion = ({ className = "" }) => {
       onClick={handleLogout}
       className={`flex items-center justify-center bg-red-500 text-white rounded-full shadow-md hover:scale-105 duration-300 p-3 sm:px-6 sm:py-3 font-semibold ${className}`}
     >
-      <img src={ButtonOFF} alt="Ajustes" className="w-7 h-7 sm:w-8 sm:h-8" />
-      <span className="hidden sm:inline ml-2 text-lg font-bold">CERRAR SESIÓN</span>
+      <img src={ButtonOFF} alt="Ajustes" className="w-7 h-7 sm:w-8 sm:h-8 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]" />
+      <span className="hidden sm:inline ml-2 text-lg font-bold drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">CERRAR SESIÓN</span>
     </button>
   );
 };

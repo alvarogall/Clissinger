@@ -8,6 +8,7 @@ import BotonCerrarSesion from "./../components/common/botonCerrarSesion";
 export default function GameModeDisplay({ selectedMode }) {
   const navigate = useNavigate();
   const iconSrc = selectedMode === 'normal' ? towerIcon : (selectedMode == 'ruleta' ? ruletaIcon : lightningIcon);
+  const altImg = selectedMode === 'normal' ? "Icono del modo normal" : (selectedMode == 'ruleta' ? "Icono del modo ruleta" : "Icono del modo lightning");
 
   const handlePlayClick = () => {
     console.log('Modo seleccionado:', selectedMode);
@@ -25,7 +26,7 @@ export default function GameModeDisplay({ selectedMode }) {
         <img
           key={iconSrc}
           src={iconSrc}
-          alt="Icono del modo"
+          alt={altImg}
           className="w-44 h-44 mb-4 animate-fade-in-down"
         />
 
@@ -40,12 +41,12 @@ export default function GameModeDisplay({ selectedMode }) {
       {/* Botón de ajustes */}
       <div id="inicio-ajustes"
         className="fixed top-4 left-4 z-30">
-        <BotonAjustes className="p-2 sm:p-3 sm:px-6 sm:py-3 " />
+        <BotonAjustes />
       </div>
       {/* Botón de cerrar sesión */}
       <div id="inicio-cerrar-sesion"
         className="fixed top-24 left-4 z-30">
-        <BotonCerrarSesion className="p-2 sm:p-3 sm:px-6 sm:py-3" />
+        <BotonCerrarSesion />
       </div>
     </div>
   );

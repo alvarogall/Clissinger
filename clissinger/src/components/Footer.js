@@ -24,7 +24,7 @@ export default function Footer({ selectedMode, setSelectedMode }) {
             selectedMode === 'lightning' ? 'translate-y-[-50%] scale-110' : ''
           } hover:scale-105`}
         >
-          <img src={lightningIcon} alt="Modo relámpago" className="w-8 h-8" />
+          <img src={lightningIcon} alt="Modo de juego relámpago" className="w-8 h-8" />
           <span className="hidden sm:inline text-white font-bold text-lg sm:text-xl">Modo Relámpago</span>
         </div>
 
@@ -35,7 +35,7 @@ export default function Footer({ selectedMode, setSelectedMode }) {
             selectedMode === 'normal' ? 'translate-y-[-50%] scale-110' : ''
           } hover:scale-105`}
         >
-          <img src={towerIcon} alt="Modo normal" className="w-8 h-8" />
+          <img src={towerIcon} alt="Modo de juego normal" className="w-8 h-8" />
           <span className="hidden sm:inline text-white font-bold text-lg sm:text-2xl">Modo Normal</span>
         </div>
 
@@ -46,7 +46,7 @@ export default function Footer({ selectedMode, setSelectedMode }) {
             selectedMode === 'ruleta' ? 'translate-y-[-50%] scale-110' : ''
           } hover:scale-105`}
         >
-          <img src={ruletaIcon} alt="Modo ruleta" className="w-8 h-8" />
+          <img src={ruletaIcon} alt="Modo de juego ruleta" className="w-8 h-8" />
           <span className="hidden sm:inline text-white font-bold text-lg sm:text-2xl">Modo Ruleta</span>
         </div>
       </div>

@@ -167,10 +167,10 @@ const Settings = ({ onClose }) => {
                 Reestablecer Ajustes
               </button> 
             </div>
-            <div>
+            <div className="flex justify-center">
               <button
                 onClick={handleSave}
-                className="bg-[#1E3A8A] text-white font-bold px-8 py-2 rounded-full shadow-md hover:bg-[#1B347C] transition mt-4"
+                className="px-6 py-3 bg-[#FFCF25] rounded-full text-white font-extrabold text-2xl uppercase hover:scale-95 active:scale-90 transition-transform drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]"
               >
                 GUARDAR
               </button>
