@@ -33,10 +33,10 @@ function Score() {
     return (
       <Layout>
       {victoria ? (
-        <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-950 to-green-400 text-white relative py-6">
-            <div className="flex flex-col items-center">
-            <img src={completado} alt="Felicitaciones" className="w-[300px] h-[200px] translate-y-12 z-10" />               
-            <div className="bg-blue-500 shadow-md rounded-md p-24 w-[310px] h-[400px] sm:w-[400px] sm:h-[500px] flex flex-col items-center  ">
+        <main className="flex flex-col items-center justify-center  min-h-screen bg-gradient-to-b from-blue-950 to-green-400 text-white relative">
+            <div className="flex flex-col items-center -translate-y-24">
+            <img src={completado} alt="Felicitaciones" className="w-[500px] h-[340px] translate-y-24" />               
+            <div className="bg-blue-500 shadow-md rounded-md p-24 w-[310px] h-[400px] sm:w-[400px] sm:h-[450px] flex flex-col items-center">
                 <h1 className="text-center text-4xl font-bold text-white mb-10">¡Felicidades! </h1>
                 <h2 className="text-center text-2xl text-white">Recompensa</h2><br/>
                  <div className="flex items-center gap-2">
@@ -45,7 +45,7 @@ function Score() {
                     </div>
                     <Link
                         to="/jugar"
-                        className="mt-10 sm:mt-24 px-1 sm:px-6 py-3 text-sm sm:text-xl font-bold bg-yellow-500 text-white rounded-xl sm:rounded-full shadow-lg drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]"
+                        className="mt-8 sm:mt-11 px-1 sm:px-6 py-3 text-sm sm:text-xl font-bold bg-yellow-500 text-white rounded-xl sm:rounded-full shadow-lg drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]"
                       >
                         Volver al menú
                       </Link>
@@ -56,16 +56,15 @@ function Score() {
       ) : (
           
         <main className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-blue-950 to-red-400 text-white relative">
-          <div className="flex flex-col items-center mb-24 pb-24">
+          <div className="flex flex-col items-center -translate-y-24">
             <img src={fracaso} alt="Fracaso" className="w-[500px] h-[340px] translate-y-24" />               
-            <div className="bg-blue-500 shadow-md rounded-md p-20 sm:p-24 w-[310px] h-[400px] sm:w-[400px] sm:h-[500px] flex flex-col items-center  ">
-                <h1 className="text-center text-lg sm:text-3xl font-bold text-white mb-4 ">¡No te rindas!</h1>
-                
+            <div className="bg-blue-500 shadow-md rounded-md p-20 sm:p-24 w-[310px] h-[400px] sm:w-[400px] sm:h-[450px] flex flex-col items-center  ">
+                <h1 className="text-center text-lg sm:text-3xl font-bold text-white mb-4 sm:-translate-y-2">¡No te rindas!</h1>
                 <div className="flex flex-col items-center h-[200px] ">
-                  <h2 className="text-center mb-5 text-lg sm:text-3xl font-bold text-white w-[400px]">Sigue intentándolo</h2>
-                  <img src={gameover} alt="FinJuego" className="w-[190px] h-[120px] sm:w-[300px] sm:h-[230px] object-cover"  />
+                  <h2 className="text-center mb-5 text-lg sm:text-3xl font-bold text-white w-[400px] -translate-y-4">Sigue intentándolo</h2>
+                  <img src={gameover} alt="FinJuego" className="w-[190px] h-[120px] sm:w-[260px] sm:h-[230px] object-cover sm:-translate-y-14"  />
                 </div>
-              <Link to="/jugar" className="mt-10 sm:mt-24 px-1 sm:px-6 py-3 text-sm sm:text-xl font-bold bg-yellow-500 text-white rounded-xl sm:rounded-full shadow-lg drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">Volver al menú</Link>
+              <Link to="/jugar" className="mt-2 sm:mt-10 px-1 sm:px-6 py-3 text-sm sm:text-xl font-bold bg-yellow-500 text-white rounded-xl sm:rounded-full shadow-lg drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] sm:-translate-y-20">Volver al menú</Link>
             </div> 
           </div>
         </main>
