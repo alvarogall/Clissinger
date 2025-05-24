@@ -32,7 +32,7 @@ export default function GameModeDisplay({ selectedMode }) {
         {/* Botón jugar */}
         <button 
           onClick={handlePlayClick}
-          className="px-10 py-5 bg-[#FFCF25] rounded-full text-white font-extrabold text-4xl uppercase hover:scale-95 active:scale-90 transition-transform"
+          className="px-10 py-5 bg-[#FFCF25] rounded-full text-white font-extrabold text-4xl uppercase hover:scale-95 active:scale-90 transition-transform drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]"
         >
           JUGAR
         </button>
