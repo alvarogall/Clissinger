@@ -19,6 +19,8 @@ export const SettingsProvider = ({ children }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState(null);
   const lastModeRef = useRef(mode);
+  // Nuevo: para asegurar que solo se reproduce una vez
+  const eventTriggeredRef = useRef(false);
 
   const navigate = useNavigate();
   const audioRef = useRef(null);
@@ -26,6 +28,7 @@ export const SettingsProvider = ({ children }) => {
 
   // Función para verificar si estamos en una página donde debe sonar música
   const shouldPlayMusic = useCallback(() => {
+    // Añadí las rutas de victoria y derrota explícitamente
     const musicRoutes = ['/ajustes', '/jugar', '/tematicas', '/juego', '/ruleta', '/score/victoria', '/score/derrota'];
     return musicRoutes.some(route => location.pathname.startsWith(route));
   }, [location.pathname]);
@@ -46,22 +49,95 @@ export const SettingsProvider = ({ children }) => {
     }
   }, [mode, shouldPlayMusic]);
 
+  // NUEVO: Efecto específico para eventos especiales (victoria/derrota)
   useEffect(() => {
-    const storedDarkMode = localStorage.getItem('darkMode');
-    const storedFontSize = localStorage.getItem('fontSize');
-    const storedColorBlind = localStorage.getItem('colorBlind');
-    const storedVolume = localStorage.getItem('volume'); 
+    // Solo manejar eventos especiales aquí
+    if (soundEvent !== 'victoria' && soundEvent !== 'derrota') {
+      return;
+    }
+    
+    console.log(`Detectado evento especial: ${soundEvent}`);
+    
+    // Asegurar que solo se dispare una vez
+    if (eventTriggeredRef.current) {
+      return;
+    }
+    
+    eventTriggeredRef.current = true;
+    
+    // Detener cualquier audio en reproducción
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.src = "";
+      audioRef.current = null;
+    }
+    
+    let src;
+    if (soundEvent === 'victoria') {
+      const opciones = [victoria1, victoria2];
+      const newIndex = Math.floor(Math.random() * opciones.length);
+      src = opciones[newIndex];
+      console.log("Reproduciendo sonido de victoria", src);
+    } else {
+      src = derrota;
+      console.log("Reproduciendo sonido de derrota", src);
+    }
+    
+    // Crear nuevo audio con máxima prioridad
+    const audio = new Audio(src);
+    audio.volume = volume / 100;
+    audio.loop = false;
+    
+    // Usar preload para asegurar carga
+    audio.preload = 'auto';
+    
+    // Manejar finalización
+    audio.onended = () => {
+      console.log(`Sonido de ${soundEvent} finalizado`);
+      setSoundEvent(null);
+      setCurrentTrack(null);
+      setIsPlaying(false);
+      eventTriggeredRef.current = false;
+      audioRef.current = null;
+    };
+    
+    // Método alternativo: usar setTimeout para dar tiempo al navegador
+    setTimeout(() => {
+      console.log("Intentando reproducir después del timeout");
+      audio.play()
+        .then(() => {
+          console.log(`Reproducción de ${soundEvent} exitosa`);
+          setIsPlaying(true);
+          setCurrentTrack(soundEvent);
+        })
+        .catch(err => {
+          console.error(`Error al reproducir ${soundEvent}:`, err);
+          // Reintentar con interacción del usuario si es necesario
+          eventTriggeredRef.current = false;
+        });
+    }, 100);
+    
+    audioRef.current = audio;
+    
+    // Limpiar evento después de 3 segundos si no se ha limpiado ya
+    setTimeout(() => {
+      if (soundEvent === 'victoria' || soundEvent === 'derrota') {
+        setSoundEvent(null);
+        eventTriggeredRef.current = false;
+      }
+    }, 3000);
+    
+  }, [soundEvent, volume]);
 
-    if (storedDarkMode !== null) setDarkMode(storedDarkMode === 'true');
-    if (storedFontSize !== null) setFontSize(Number(storedFontSize));
-    if (storedColorBlind !== null) setColorBlind(storedColorBlind === 'true');
-    if (storedVolume !== null) setVolume(Number(storedVolume)); 
-  }, []);
-
-  // En el efecto principal que reproduce los sonidos
+  // Este efecto determina qué audio debe reproducirse para música de fondo
   useEffect(() => {
-    // Si no estamos en una página de música y no hay evento de sonido, pausamos
-    if (!shouldPlayMusic() && !soundEvent) {
+    // Ignorar eventos especiales, son manejados por otro efecto
+    if (soundEvent === 'victoria' || soundEvent === 'derrota') {
+      return;
+    }
+    
+    // Si no estamos en una página de música, pausamos
+    if (!shouldPlayMusic()) {
       if (audioRef.current) {
         audioRef.current.pause();
       }
@@ -69,102 +145,69 @@ export const SettingsProvider = ({ children }) => {
     }
 
     let src = null;
-    let loop = true;
     let newTrack = null;
     
-    // CORRECCIÓN: Los eventos de victoria y derrota SIEMPRE deben reproducirse,
-    // independientemente de la página donde estemos
-    if (soundEvent === 'victoria') {
-      const opciones = [victoria1, victoria2];
-      let newIndex = Math.floor(Math.random() * opciones.length);
-      
-      src = opciones[newIndex];
-      newTrack = `victoria_${newIndex}`;
-      loop = false;
-      console.log("Intentando reproducir sonido de victoria"); // Agregar log para depuración
-    } else if (soundEvent === 'derrota') {
-      src = derrota;
-      newTrack = 'derrota';
-      loop = false;
-      console.log("Intentando reproducir sonido de derrota"); // Agregar log para depuración
-    } else if (shouldPlayMusic()) {
-      // Música del modo actual solo si estamos en una página de música
-      switch (mode) {
-        case 'lightning':
-          src = modoRayo;
-          newTrack = 'lightning';
-          break;
-        case 'ruleta': 
-          src = modoRuleta;
-          newTrack = 'ruleta';
-          break;
-        case 'normal':
-        default:
-          src = modoNormal;
-          newTrack = 'normal';
-          break;
-      }
+    // Música del modo actual
+    switch (mode) {
+      case 'lightning':
+        src = modoRayo;
+        newTrack = 'lightning';
+        break;
+      case 'ruleta': 
+        src = modoRuleta;
+        newTrack = 'ruleta';
+        break;
+      case 'normal':
+      default:
+        src = modoNormal;
+        newTrack = 'normal';
+        break;
     }
     
-    // IMPORTANTE: Siempre definir una fuente para eventos especiales
-    if (src) {
-      // Siempre detener el audio anterior para eventos especiales
+    // Si el evento era un cambio de modo, limpiar el evento
+    if (soundEvent === mode) {
+      setTimeout(() => {
+        setSoundEvent(null);
+      }, 0);
+    }
+
+    // Verificamos si necesitamos cambiar la pista
+    const needToChangeTrack = newTrack !== currentTrack || !audioRef.current;
+
+    if (needToChangeTrack) {
+      // IMPORTANTE: Siempre detenemos cualquier audio anterior
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.src = "";  // Liberar recursos
         audioRef.current = null;
       }
-      
-      // Crear un nuevo elemento de audio
-      const audio = new Audio(src);
-      audio.volume = volume / 100;
-      audio.loop = loop;
-      
-      // Configurar eventos antes de reproducir
-      if (!loop) {
-        audio.onended = () => {
-          setSoundEvent(null);
-          setIsPlaying(false);
-          setCurrentTrack(null);
-          audioRef.current = null;
-        };
-      }
-      
-      // CRÍTICO: Asegurar que los eventos de victoria/derrota se reproduzcan
-      console.log("Reproduciendo audio con src:", src);
-      audio.play()
-        .then(() => {
-          setIsPlaying(true);
-          setCurrentTrack(newTrack);
-          console.log("Audio reproducido correctamente");
-        })
-        .catch((err) => {
-          console.warn("Error al reproducir audio:", err);
-          
-          // Posible solución alternativa si falla la reproducción automática
-          if (soundEvent === 'victoria' || soundEvent === 'derrota') {
-            // Intentar reproducir después de interacción del usuario
-            console.log("Reintentando reproducción después de interacción");
-            const playPromise = () => {
-              audio.play()
-                .then(() => {
-                  setIsPlaying(true);
-                  setCurrentTrack(newTrack);
-                })
-                .catch(e => console.error("Error en segundo intento:", e));
-            };
-            
-            // Alternativa: Mostrar botón para reproducir manualmente
-            document.addEventListener('click', function playOnce() {
-              playPromise();
-              document.removeEventListener('click', playOnce);
-            }, {once: true});
-          }
-        });
-      
-      audioRef.current = audio;
-    }
 
+      // Solo crear nuevo audio si tenemos una fuente
+      if (src) {
+        // Crear un nuevo elemento de audio
+        const audio = new Audio(src);
+        audio.volume = volume / 100;
+        audio.loop = true;
+        
+        // Reproducir audio
+        audio.play()
+          .then(() => {
+            setIsPlaying(true);
+            setCurrentTrack(newTrack);
+          })
+          .catch((err) => console.warn('Error al reproducir audio de fondo', err));
+        
+        audioRef.current = audio;
+      }
+    } else if (audioRef.current && audioRef.current.paused && shouldPlayMusic()) {
+      // Si el audio está pausado y debería sonar, reanudarlo
+      audioRef.current.play()
+        .then(() => setIsPlaying(true))
+        .catch(err => console.warn('Error al reanudar audio', err));
+    } else if (audioRef.current) {
+      // Si ya está sonando, actualizar el volumen
+      audioRef.current.volume = volume / 100;
+    }
   }, [mode, soundEvent, volume, shouldPlayMusic, currentTrack]);
 
   // Actualizar el volumen si cambia mientras se está reproduciendo
@@ -184,6 +227,8 @@ export const SettingsProvider = ({ children }) => {
       setIsPlaying(false);
       setCurrentTrack(null);
     }
+    // Resetear el detector de eventos
+    eventTriggeredRef.current = false;
   };
 
   const saveSettings = (newVolume, newDarkMode, newFontSize, newColorBlind) => {
