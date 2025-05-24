@@ -65,7 +65,7 @@ function Score() {
                   <h2 className="text-center mb-5 text-lg sm:text-3xl font-bold text-white w-[400px]">Sigue intentándolo</h2>
                   <img src={gameover} alt="FinJuego" className="w-[190px] h-[120px] sm:w-[300px] sm:h-[230px] object-cover"  />
                 </div>
-              <Link to="/jugar" className="sm:mt-10 px-1 sm:px-6 py-3 text-sm sm:text-xl font-bold bg-blue-800 text-white rounded-xl sm:rounded-full shadow-lg">Volver al menú</Link>
+              <Link to="/jugar" className="mt-10 sm:mt-24 px-1 sm:px-6 py-3 text-sm sm:text-xl font-bold bg-yellow-500 text-white rounded-xl sm:rounded-full shadow-lg drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">Volver al menú</Link>
             </div> 
           </div>
         </main>
