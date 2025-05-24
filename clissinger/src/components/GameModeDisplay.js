@@ -7,12 +7,12 @@ import BotonCerrarSesion from "./../components/common/botonCerrarSesion";
 
 export default function GameModeDisplay({ selectedMode }) {
   const navigate = useNavigate();
-  const iconSrc = selectedMode === 'normal' ? towerIcon : (selectedMode == 'ruleta' ? ruletaIcon : lightningIcon);
-  const altImg = selectedMode === 'normal' ? "Icono del modo normal" : (selectedMode == 'ruleta' ? "Icono del modo ruleta" : "Icono del modo lightning");
+  const iconSrc = selectedMode === 'normal' ? towerIcon : (selectedMode === 'ruleta' ? ruletaIcon : lightningIcon);
+  const altImg = selectedMode === 'normal' ? "Icono del modo normal" : (selectedMode === 'ruleta' ? "Icono del modo ruleta" : "Icono del modo lightning");
 
   const handlePlayClick = () => {
     console.log('Modo seleccionado:', selectedMode);
-    if(selectedMode == 'ruleta'){
+    if(selectedMode === 'ruleta'){
       navigate('/ruleta');
     }else{
       navigate('/tematicas', { state: { mode: selectedMode } });

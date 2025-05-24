@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import PointsDisplay from '../components/PointsDisplay';
 import GameModeDisplay from '../components/GameModeDisplay';
 import Footer from '../components/Footer';
@@ -8,14 +8,13 @@ import { useSettings } from '../context/SettingsContext';
 
 
 export default function Play() {
-  
-
-
   //Obtener los puntos del usuario
   const userID = localStorage.getItem("userID");
-  const { mode, setMode } = useSettings()
+  const { mode, setMode, setSoundEvent} = useSettings()
   const [points, setPoints] = useState(0);
-  const fetchPoints = async () => {
+  const [initialLoad, setInitialLoad] = useState(true);
+
+  const fetchPoints = useCallback(async () => {
     try {
       const res = await fetch(`https://backend-woad-chi.vercel.app/api/user/${userID}`);
       const data = await res.json();
@@ -25,12 +24,33 @@ export default function Play() {
     } catch (error) {
       console.error("Error fetching points:", error);
     }
-  };
+  }, [userID]);
   
   useEffect(() => {
-    fetchPoints();
-   
-  }, []);
+    let isMounted = true;
+    
+    const init = async () => {
+      await fetchPoints();
+      
+      if (isMounted && initialLoad) {
+        setSoundEvent(mode);
+        setInitialLoad(false);
+      }
+    };
+    
+    init();
+    
+    return () => {
+      isMounted = false;
+      setSoundEvent(null);
+    };
+  }, [fetchPoints, initialLoad, mode, setSoundEvent]);
+
+  useEffect(() => {
+    if (!initialLoad) {
+      setSoundEvent(mode);
+    }
+  }, [mode, initialLoad, setSoundEvent]);
 
   return (
   <Layout>
